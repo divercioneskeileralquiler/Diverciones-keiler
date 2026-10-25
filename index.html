@@ -92,20 +92,21 @@
         <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-2">
             <!-- Brand Identity -->
             <div class="flex items-center gap-2.5 cursor-pointer min-w-0 group" onclick="window.app.handleSecretBrandTap()">
-                <div class="relative w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-brand-600 via-brand-700 to-indigo-800 flex items-center justify-center text-white shadow-md shadow-brand-600/25 shrink-0">
-                    <i class="fa-solid fa-tent text-base sm:text-lg"></i>
+                <div id="clientBrandLogoContainer" class="relative w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-brand-600 via-brand-700 to-indigo-800 flex items-center justify-center text-white shadow-md shadow-brand-600/25 shrink-0 overflow-hidden">
+                    <img id="clientBrandLogoImg" src="" alt="Logo" class="hidden w-full h-full object-cover">
+                    <i id="clientBrandDefaultIcon" class="fa-solid fa-tent text-base sm:text-lg"></i>
                     <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center text-[7px]">
                         <i class="fa-solid fa-check"></i>
                     </span>
                 </div>
                 <div class="min-w-0">
                     <div class="flex items-center gap-1.5">
-                        <span class="font-black text-base sm:text-xl tracking-tight text-slate-900 truncate">Fiesta<span class="text-brand-600">Control</span></span>
-                        <span class="px-1.5 py-0.5 rounded text-[9px] font-extrabold uppercase bg-brand-50 text-brand-700 border border-brand-200 shrink-0">
+                        <span class="font-black text-base sm:text-xl tracking-tight text-slate-900 truncate"><span id="clientBrandPart1">Fiesta</span><span id="clientBrandPart2" class="text-brand-600">Control</span></span>
+                        <span id="clientBrandBadge" class="px-1.5 py-0.5 rounded text-[9px] font-extrabold uppercase bg-brand-50 text-brand-700 border border-brand-200 shrink-0">
                             PRO
                         </span>
                     </div>
-                    <p class="text-[10px] sm:text-xs text-slate-500 truncate">Alquiler de Mobiliario, Inflables y Sonido</p>
+                    <p id="clientBrandSubtitle" class="text-[10px] sm:text-xs text-slate-500 truncate">Alquiler de Mobiliario, Inflables y Sonido</p>
                 </div>
             </div>
 
@@ -173,12 +174,13 @@
         <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 flex flex-wrap items-center justify-between gap-2">
             <!-- Left: Admin Brand & Live Telemetry Badges -->
             <div class="flex items-center gap-2.5 min-w-0">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-600 to-orange-600 flex items-center justify-center text-white shadow-md shrink-0">
-                    <i class="fa-solid fa-truck-ramp-box text-base"></i>
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-600 to-orange-600 flex items-center justify-center text-white shadow-md shrink-0 overflow-hidden">
+                    <img id="adminBrandLogoImg" src="" alt="Logo" class="hidden w-full h-full object-cover">
+                    <i id="adminBrandDefaultIcon" class="fa-solid fa-truck-ramp-box text-base"></i>
                 </div>
                 <div class="min-w-0">
                     <div class="flex flex-wrap items-center gap-1.5">
-                        <span class="font-black text-sm sm:text-base tracking-tight text-white">FiestaControl <span class="text-rose-400">ERP</span></span>
+                        <span class="font-black text-sm sm:text-base tracking-tight text-white"><span id="adminBrandNameText">FiestaControl</span> <span class="text-rose-400">ERP</span></span>
                         <span id="cloudStatusBadge" onclick="window.app.switchAdminTab('settings')" class="cursor-pointer inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30" title="Toca para ir a las credenciales de Firebase">
                             <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span> Conectando...
                         </span>
@@ -237,12 +239,13 @@
     <header id="deliveriesHeader" class="hidden sticky top-0 z-40 bg-emerald-950 text-white border-b border-emerald-800 shadow-xl w-full overflow-hidden">
         <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 flex flex-wrap items-center justify-between gap-2">
             <div class="flex items-center gap-2.5 min-w-0">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white shadow-md shrink-0">
-                    <i class="fa-solid fa-truck-fast text-base"></i>
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white shadow-md shrink-0 overflow-hidden">
+                    <img id="deliveriesBrandLogoImg" src="" alt="Logo" class="hidden w-full h-full object-cover">
+                    <i id="deliveriesBrandDefaultIcon" class="fa-solid fa-truck-fast text-base"></i>
                 </div>
                 <div class="min-w-0">
                     <div class="flex flex-wrap items-center gap-1.5">
-                        <span class="font-black text-sm sm:text-base tracking-tight text-white">FiestaControl <span class="text-amber-300">ENTREGAS Y CALLE</span></span>
+                        <span class="font-black text-sm sm:text-base tracking-tight text-white"><span id="deliveriesBrandNameText">FiestaControl</span> <span class="text-amber-300">ENTREGAS Y CALLE</span></span>
                         <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
                             📍 GPS + Cámara + Facturación Activa
                         </span>
@@ -1470,13 +1473,72 @@
                         <div class="flex items-center gap-3">
                             <span class="w-8 h-8 rounded-xl bg-brand-600 text-white flex items-center justify-center text-xs font-black">1</span>
                             <div>
-                                <h4 class="font-extrabold text-sm text-slate-900">🎨 Visibilidad del Catálogo (Las 4 Opciones) y Textos del Banner</h4>
-                                <p class="text-[11px] text-slate-500">Elige cómo ven los clientes el catálogo al entrar y edita el cuadro morado</p>
+                                <h4 class="font-extrabold text-sm text-slate-900">🏢 Identidad de la Empresa (Logo y Nombre), Visibilidad del Catálogo y Banner</h4>
+                                <p class="text-[11px] text-slate-500">Cambia el nombre y logo de tu empresa para cotizaciones, facturas y App, y ajusta el catálogo</p>
                             </div>
                         </div>
                         <i id="icon-acc-visibilidad" class="fa-solid fa-chevron-up text-slate-400 text-xs"></i>
                     </button>
                     <div id="acc-visibilidad" class="p-4 space-y-4 border-t border-slate-200">
+                        <!-- BLOQUE NUEVO: PERSONALIZAR NOMBRE DE LA EMPRESA Y LOGO (MANTIENE EL MISMO DISEÑO A 2 TONOS) -->
+                        <div class="bg-gradient-to-r from-indigo-50 via-brand-50 to-amber-50/60 border-2 border-brand-300 p-4 rounded-2xl space-y-3.5">
+                            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-brand-200/80 pb-2.5">
+                                <div>
+                                    <span class="px-2 py-0.5 rounded-md bg-brand-600 text-white font-black text-[10px] uppercase">🏢 Marca y Logo Oficial</span>
+                                    <h5 class="font-extrabold text-xs sm:text-sm text-slate-900 mt-1">Personaliza el Nombre y Logo de tu Empresa</h5>
+                                    <p class="text-[11px] text-slate-600">Se actualiza automáticamente en la tienda, cotizaciones de WhatsApp, facturas PDF/PNG, tickets térmicos e icono de instalar App.</p>
+                                </div>
+                                <!-- Vista Previa en Vivo con el Mismo Diseño -->
+                                <div class="flex items-center gap-2.5 bg-white px-3 py-2 rounded-2xl border border-slate-200 shadow-2xs">
+                                    <div class="relative w-10 h-10 rounded-2xl bg-gradient-to-br from-brand-600 via-brand-700 to-indigo-800 flex items-center justify-center text-white shadow-sm shrink-0 overflow-hidden">
+                                        <img id="cfgBrandLogoPreviewImg" src="" alt="Logo Preview" class="hidden w-full h-full object-cover">
+                                        <i id="cfgBrandLogoDefaultIcon" class="fa-solid fa-tent text-base"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <div class="flex items-center gap-1">
+                                            <span class="font-black text-sm sm:text-base tracking-tight text-slate-900"><span id="cfgPreviewPart1">Fiesta</span><span id="cfgPreviewPart2" class="text-brand-600">Control</span></span>
+                                            <span id="cfgPreviewBadge" class="px-1.5 py-0.5 rounded text-[9px] font-extrabold uppercase bg-brand-50 text-brand-700 border border-brand-200">PRO</span>
+                                        </div>
+                                        <p id="cfgPreviewSubtitle" class="text-[10px] text-slate-500 truncate max-w-[180px]">Alquiler de Mobiliario, Inflables y Sonido</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-4 gap-2.5 text-xs">
+                                <div>
+                                    <label class="block text-[11px] font-extrabold text-slate-700 mb-1">Nombre 1ra Parte (Negro)</label>
+                                    <input id="cfgBrandPart1" type="text" value="Fiesta" placeholder="Ej. Diversiones" oninput="window.app.previewBrandIdentityLive()" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl font-black text-slate-900">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-extrabold text-brand-700 mb-1">Nombre 2da Parte (Morado)</label>
+                                    <input id="cfgBrandPart2" type="text" value="Control" placeholder="Ej. Keiler" oninput="window.app.previewBrandIdentityLive()" class="w-full px-3 py-2 bg-white border border-brand-300 rounded-xl font-black text-brand-700">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-extrabold text-slate-700 mb-1">Insignia Corta (Ej. PRO)</label>
+                                    <input id="cfgBrandBadge" type="text" value="PRO" placeholder="PRO / VIP" oninput="window.app.previewBrandIdentityLive()" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl font-extrabold uppercase text-slate-800">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-extrabold text-slate-700 mb-1">Eslogan / Subtítulo</label>
+                                    <input id="cfgBrandSubtitle" type="text" value="Alquiler de Mobiliario, Inflables y Sonido" placeholder="Alquiler de Mobiliario..." oninput="window.app.previewBrandIdentityLive()" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl font-semibold text-slate-700">
+                                </div>
+                            </div>
+
+                            <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <label for="cfgBrandLogoInput" class="cursor-pointer px-3.5 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-extrabold text-xs shadow-xs transition flex items-center gap-1.5">
+                                        <i class="fa-solid fa-image"></i> 📸 Subir Logo de mi Empresa
+                                        <input id="cfgBrandLogoInput" type="file" accept="image/*" onchange="window.app.handleBrandLogoUpload(event)" class="hidden">
+                                    </label>
+                                    <button type="button" id="btnRemoveCustomLogo" onclick="window.app.clearBrandLogo()" class="hidden px-3 py-2 rounded-xl bg-rose-100 hover:bg-rose-200 text-rose-700 font-extrabold text-xs transition flex items-center gap-1">
+                                        <i class="fa-solid fa-rotate-left"></i> Usar Icono de Carpa Original
+                                    </button>
+                                </div>
+                                <button type="button" onclick="window.app.saveBusinessSettings()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shadow-sm transition flex items-center gap-1.5">
+                                    <i class="fa-solid fa-floppy-disk"></i> Guardar Nombre y Logo en Firebase
+                                </button>
+                            </div>
+                        </div>
+
                         <!-- Las 4 Opciones de Visibilidad -->
                         <div class="bg-gradient-to-r from-brand-50 via-indigo-50 to-emerald-50 border-2 border-brand-300 p-3.5 rounded-2xl space-y-3">
                             <div class="flex flex-wrap items-center justify-between gap-2">
@@ -2287,11 +2349,12 @@
         <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-200">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                 <div class="flex items-center gap-2.5">
-                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-brand-600 to-indigo-700 text-white flex items-center justify-center text-lg shadow-sm">
-                        <i class="fa-solid fa-mobile-screen-button"></i>
+                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-brand-600 to-indigo-700 text-white flex items-center justify-center text-lg shadow-sm overflow-hidden">
+                        <img id="pwaModalLogoImg" src="" alt="Logo" class="hidden w-full h-full object-cover">
+                        <i id="pwaModalDefaultIcon" class="fa-solid fa-mobile-screen-button"></i>
                     </div>
                     <div>
-                        <h3 class="font-extrabold text-sm sm:text-base text-slate-900">Instalar FiestaControl Pro</h3>
+                        <h3 id="pwaModalBrandTitle" class="font-extrabold text-sm sm:text-base text-slate-900">Instalar FiestaControl Pro</h3>
                         <p class="text-[11px] text-slate-500">Acceso directo en la pantalla de tu teléfono</p>
                     </div>
                 </div>
@@ -2338,7 +2401,7 @@
     <footer id="clientFooter" class="bg-slate-950 text-slate-400 border-t border-slate-800 mt-10 pb-24 sm:pb-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
             <div class="text-center sm:text-left">
-                <span class="font-black text-white">Fiesta<span class="text-brand-400">Control</span></span> • Alquiler de Mobiliario, Trampolines, Carpas y Sonido
+                <span class="font-black text-white"><span id="footerBrandPart1">Fiesta</span><span id="footerBrandPart2" class="text-brand-400">Control</span></span> • <span id="footerBrandSubtitle">Alquiler de Mobiliario, Trampolines, Carpas y Sonido</span>
                 <p class="text-[11px] text-slate-500 mt-0.5">Reservas 100% seguras vía WhatsApp</p>
             </div>
             <div id="footerAdminBtnWrap" class="hidden items-center gap-3">
@@ -3082,6 +3145,11 @@
             },
             cart: [],
             settings: {
+                brandNamePrimary: 'Fiesta',
+                brandNameAccent: 'Control',
+                brandBadge: 'PRO',
+                brandSubtitle: 'Alquiler de Mobiliario, Inflables y Sonido',
+                brandLogoDataUrl: '',
                 heroTitle: 'Todo el mobiliario y diversión para tu fiesta en un solo lugar',
                 heroDesc: 'Selecciona trampolines, sillas, mesas, carpas y sonido profesional. Arma tu cotización en segundos y envíala directo a nuestro WhatsApp.',
                 heroBtnText: 'Ver Catálogo y Precios Abajo',
@@ -3362,7 +3430,100 @@
             return { distKm, fee };
         }
 
+        function getBrandDisplayData() {
+            const s = state.settings || {};
+            const part1 = (s.brandNamePrimary ?? 'Fiesta').trim() || 'Fiesta';
+            const part2 = (s.brandNameAccent ?? 'Control').trim();
+            const badge = (s.brandBadge ?? 'PRO').trim();
+            const subtitle = (s.brandSubtitle ?? 'Alquiler de Mobiliario, Inflables y Sonido').trim();
+            const logoUrl = s.brandLogoDataUrl || '';
+            const combinedName = `${part1}${part2}`;
+            const fullNameWithBadge = badge ? `${combinedName} ${badge}` : combinedName;
+            return { part1, part2, badge, subtitle, logoUrl, combinedName, fullNameWithBadge };
+        }
+
+        function applyBrandIdentityToDOM() {
+            const b = getBrandDisplayData();
+
+            // Título de la pestaña del navegador y título de App móvil
+            document.title = `${b.fullNameWithBadge} | ${b.subtitle}`;
+            const appleTitleMeta = document.querySelector('meta[name="apple-mobile-web-app-title"]');
+            if (appleTitleMeta) appleTitleMeta.setAttribute('content', b.combinedName);
+
+            // Cabecera de Clientes (Mismo diseño a dos tonos)
+            const cPart1 = document.getElementById('clientBrandPart1');
+            const cPart2 = document.getElementById('clientBrandPart2');
+            const cBadge = document.getElementById('clientBrandBadge');
+            const cSub = document.getElementById('clientBrandSubtitle');
+            if (cPart1) cPart1.textContent = b.part1;
+            if (cPart2) cPart2.textContent = b.part2;
+            if (cBadge) {
+                cBadge.textContent = b.badge;
+                cBadge.classList.toggle('hidden', !b.badge);
+            }
+            if (cSub) cSub.textContent = b.subtitle;
+
+            // Cabeceras Admin, Entregas, Modal PWA y Pie de página
+            const admName = document.getElementById('adminBrandNameText');
+            const delivName = document.getElementById('deliveriesBrandNameText');
+            const pwaTitle = document.getElementById('pwaModalBrandTitle');
+            const fPart1 = document.getElementById('footerBrandPart1');
+            const fPart2 = document.getElementById('footerBrandPart2');
+            const fSub = document.getElementById('footerBrandSubtitle');
+
+            if (admName) admName.textContent = b.combinedName;
+            if (delivName) delivName.textContent = b.combinedName;
+            if (pwaTitle) pwaTitle.textContent = `Instalar ${b.fullNameWithBadge}`;
+            if (fPart1) fPart1.textContent = b.part1;
+            if (fPart2) fPart2.textContent = b.part2;
+            if (fSub) fSub.textContent = b.subtitle;
+
+            // Vista previa en el panel de Ajustes
+            const p1 = document.getElementById('cfgPreviewPart1');
+            const p2 = document.getElementById('cfgPreviewPart2');
+            const pb = document.getElementById('cfgPreviewBadge');
+            const ps = document.getElementById('cfgPreviewSubtitle');
+            if (p1) p1.textContent = b.part1;
+            if (p2) p2.textContent = b.part2;
+            if (pb) {
+                pb.textContent = b.badge;
+                pb.classList.toggle('hidden', !b.badge);
+            }
+            if (ps) ps.textContent = b.subtitle;
+
+            // Actualizar Logos en todos los encabezados y modales
+            const logoTargets = [
+                { img: 'clientBrandLogoImg', icon: 'clientBrandDefaultIcon' },
+                { img: 'adminBrandLogoImg', icon: 'adminBrandDefaultIcon' },
+                { img: 'deliveriesBrandLogoImg', icon: 'deliveriesBrandDefaultIcon' },
+                { img: 'pwaModalLogoImg', icon: 'pwaModalDefaultIcon' },
+                { img: 'cfgBrandLogoPreviewImg', icon: 'cfgBrandLogoDefaultIcon' }
+            ];
+            logoTargets.forEach(pair => {
+                const imgEl = document.getElementById(pair.img);
+                const iconEl = document.getElementById(pair.icon);
+                if (imgEl && iconEl) {
+                    if (b.logoUrl) {
+                        imgEl.src = b.logoUrl;
+                        imgEl.classList.remove('hidden');
+                        iconEl.classList.add('hidden');
+                    } else {
+                        imgEl.src = '';
+                        imgEl.classList.add('hidden');
+                        iconEl.classList.remove('hidden');
+                    }
+                }
+            });
+
+            const btnRemoveLogo = document.getElementById('btnRemoveCustomLogo');
+            if (btnRemoveLogo) btnRemoveLogo.classList.toggle('hidden', !b.logoUrl);
+
+            // Actualizar Manifiesto e Icono de Instalación PWA con el nombre y logo personalizados
+            setupSingleFilePWA();
+        }
+
         function renderHeroAndPromos() {
+            applyBrandIdentityToDOM();
             // 0. Update System Notice Banner & Deposit Percentage Badges
             const noticeBanner = document.getElementById('clientAdminNoticeBanner');
             const noticeText = document.getElementById('clientAdminNoticeText');
@@ -4016,12 +4177,13 @@
                 ? `📍 *Dirección:* ${addressRef}\n🗺️ *Pin GPS Exacto:* ${mapsLink}`
                 : `📍 *Ubicación:* Por confirmar dirección`;
 
+            const brandInfo = getBrandDisplayData();
             const headerTitle = isReserva
-                ? `🔒 *SOLICITUD DE APARTADO PARA EL DÍA ${eventDate}* 🔒`
-                : `🎉 *NUEVA COTIZACIÓN DE EVENTO* 🎉`;
+                ? `🔒 *SOLICITUD DE APARTADO - ${brandInfo.fullNameWithBadge.toUpperCase()} (${eventDate})* 🔒`
+                : `🎉 *NUEVA COTIZACIÓN - ${brandInfo.fullNameWithBadge.toUpperCase()}* 🎉`;
             const footerAction = isReserva
-                ? `\n💳 *Abono (${pct}%) para apartar la fecha ${eventDate}:* $${requiredAbono.toFixed(2)}\n---\nHola, deseo apartar este mobiliario (${durationText}) para mi evento del día *${eventDate}*.`
-                : `\n---\nHola, me gustaría consultar disponibilidad de esta cotización (${durationText}) para el día *${eventDate}*.`;
+                ? `\n💳 *Abono (${pct}%) para apartar la fecha ${eventDate}:* $${requiredAbono.toFixed(2)}\n---\nHola *${brandInfo.combinedName}*, deseo apartar este mobiliario (${durationText}) para mi evento del día *${eventDate}*.`
+                : `\n---\nHola *${brandInfo.combinedName}*, me gustaría consultar disponibilidad de esta cotización (${durationText}) para el día *${eventDate}*.`;
 
             const waText =
 `${headerTitle}
@@ -5488,6 +5650,10 @@ ${itemsSummary}
             const setVal = (id, v) => { const el = document.getElementById(id); if (el && v !== undefined) el.value = v; };
             const setChk = (id, v) => { const el = document.getElementById(id); if (el) el.checked = Boolean(v); };
 
+            setVal('cfgBrandPart1', s.brandNamePrimary ?? 'Fiesta');
+            setVal('cfgBrandPart2', s.brandNameAccent ?? 'Control');
+            setVal('cfgBrandBadge', s.brandBadge ?? 'PRO');
+            setVal('cfgBrandSubtitle', s.brandSubtitle ?? 'Alquiler de Mobiliario, Inflables y Sonido');
             setVal('cfgHeroTitle', s.heroTitle);
             setVal('cfgHeroDesc', s.heroDesc);
             setVal('cfgHeroBtnText', s.heroBtnText);
@@ -5530,6 +5696,10 @@ ${itemsSummary}
 
         async function saveBusinessSettings() {
             const s = state.settings;
+            s.brandNamePrimary = document.getElementById('cfgBrandPart1')?.value.trim() || 'Fiesta';
+            s.brandNameAccent = document.getElementById('cfgBrandPart2')?.value.trim() ?? '';
+            s.brandBadge = document.getElementById('cfgBrandBadge')?.value.trim() ?? '';
+            s.brandSubtitle = document.getElementById('cfgBrandSubtitle')?.value.trim() || 'Alquiler de Mobiliario, Inflables y Sonido';
             s.heroTitle = document.getElementById('cfgHeroTitle')?.value.trim() || s.heroTitle;
             s.heroDesc = document.getElementById('cfgHeroDesc')?.value.trim() || s.heroDesc;
             s.heroBtnText = document.getElementById('cfgHeroBtnText')?.value.trim() || s.heroBtnText;
@@ -6616,6 +6786,7 @@ ${itemsSummary}
             sendDeliveryReceiptWhatsApp(orderId) {
                 const ord = state.orders.find(o => o.id === orderId);
                 if (!ord) return;
+                const brandInfo = getBrandDisplayData();
                 const tot = (Number(ord.total) || 0) + (Number(ord.damagePenalty) || 0);
                 const paid = Number(ord.paidAmount) || 0;
                 const debt = Math.max(0, tot - paid);
@@ -6623,7 +6794,7 @@ ${itemsSummary}
                 const mapsLink = `https://www.google.com/maps?q=${ord.lat},${ord.lng}`;
 
                 const msg =
-`🧾 *CONSTANCIA DE ENTREGA - FIESTACONTROL PRO*
+`🧾 *CONSTANCIA DE ENTREGA - ${brandInfo.fullNameWithBadge.toUpperCase()}*
 👤 *Cliente:* ${ord.clientName}
 📅 *Fecha:* ${ord.eventDate} | ⏰ *Hora programada de retiro:* ${ord.pickupTime || '18:00'}
 📍 *Casa / Dirección:* ${ord.address}
@@ -7354,8 +7525,8 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
 
                     const waMsg = encodeURIComponent(
                         isConfirmedReservation
-                            ? `Hola FiestaControl, consulto mi reserva a nombre de *${ord.clientName}* para el día *${ord.eventDate}* (Total: $${tot.toFixed(2)} | Abonado: $${paid.toFixed(2)} | Saldo: $${debt.toFixed(2)}).`
-                            : `Hola FiestaControl, envié una cotización a nombre de *${ord.clientName}* para el día *${ord.eventDate}* por *$${tot.toFixed(2)}* y me gustaría confirmar disponibilidad o apartar la fecha.`
+                            ? `Hola ${ getBrandDisplayData().combinedName }, consulto mi reserva a nombre de *${ord.clientName}* para el día *${ord.eventDate}* (Total: $${tot.toFixed(2)} | Abonado: $${paid.toFixed(2)} | Saldo: $${debt.toFixed(2)}).`
+                            : `Hola ${ getBrandDisplayData().combinedName }, envié una cotización a nombre de *${ord.clientName}* para el día *${ord.eventDate}* por *$${tot.toFixed(2)}* y me gustaría confirmar disponibilidad o apartar la fecha.`
                     );
 
                     return `
@@ -8143,12 +8314,13 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
             sendBirthdayReactivationWhatsApp(clientKey) {
                 const ord = state.orders.find(o => ((o.phone || '').replace(/\D/g, '') || o.clientName) === clientKey);
                 if (!ord) return;
+                const brandInfo = getBrandDisplayData();
                 const couponCode = (state.settings.couponCode || 'FIESTA10').toUpperCase();
                 const couponPct = Number(state.settings.couponDiscountPct) || 10;
                 const itemsHint = (ord.items || []).map(i => `${i.requested}x ${i.name}`).join(', ');
 
                 const msg =
-`🎉 ¡Hola *${ord.clientName}*! Te saludamos de *FiestaControl Pro*.
+`🎉 ¡Hola *${ord.clientName}*! Te saludamos de *${brandInfo.fullNameWithBadge}*.
 
 Recordamos con mucho cariño que para esta fecha nos permitiste acompañarte en tu evento (donde alquilaste: _${itemsHint}_). 🎂✨
 
@@ -8184,8 +8356,50 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
             },
             openDirectWhatsApp() {
                 const cleanPhone = (state.settings.whatsappNumber || '50760000000').replace(/\D/g, '');
-                const msg = encodeURIComponent('Hola, estoy viendo el catálogo de FiestaControl y me gustaría hacer una consulta para un evento.');
+                const brandInfo = getBrandDisplayData();
+                const msg = encodeURIComponent(`Hola, estoy viendo el catálogo de ${brandInfo.combinedName} y me gustaría hacer una consulta para un evento.`);
                 window.open(`https://wa.me/${cleanPhone}?text=${msg}`, '_blank', 'noopener,noreferrer');
+            },
+            previewBrandIdentityLive() {
+                state.settings.brandNamePrimary = document.getElementById('cfgBrandPart1')?.value.trim() || 'Fiesta';
+                state.settings.brandNameAccent = document.getElementById('cfgBrandPart2')?.value.trim() ?? '';
+                state.settings.brandBadge = document.getElementById('cfgBrandBadge')?.value.trim() ?? '';
+                state.settings.brandSubtitle = document.getElementById('cfgBrandSubtitle')?.value.trim() || 'Alquiler de Mobiliario, Inflables y Sonido';
+                applyBrandIdentityToDOM();
+            },
+            handleBrandLogoUpload(event) {
+                const file = event.target.files?.[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = async () => {
+                        const canvas = document.createElement('canvas');
+                        const maxSide = 256;
+                        const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+                        canvas.width = Math.round(img.width * scale);
+                        canvas.height = Math.round(img.height * scale);
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        const compressedLogo = canvas.toDataURL('image/png', 0.85);
+                        state.settings.brandLogoDataUrl = compressedLogo;
+                        applyBrandIdentityToDOM();
+                        if (typeof fbSaveSettings === 'function') {
+                            try { await fbSaveSettings(state.settings); } catch (err) {}
+                        }
+                        showToast('🏢 ¡Logo de la empresa actualizado y sincronizado con Firebase!', 'success');
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            },
+            async clearBrandLogo() {
+                state.settings.brandLogoDataUrl = '';
+                applyBrandIdentityToDOM();
+                if (typeof fbSaveSettings === 'function') {
+                    try { await fbSaveSettings(state.settings); } catch (err) {}
+                }
+                showToast('Icono original restaurado', 'info');
             },
             setOrderFilter(filter) {
                 state.orderFilter = filter;
@@ -8355,6 +8569,7 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
                 if (!ord) return;
                 state.activeReceiptOrderId = orderId;
                 state.tempEvidencePhotoDataUrl = ord.evidencePhotoUrl || null;
+                const brandInfo = getBrandDisplayData();
 
                 const baseTotal = Number(ord.total) || 0;
                 const damagePenalty = Number(ord.damagePenalty) || 0;
@@ -8363,10 +8578,13 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
                 const debt = Math.max(0, total - paid);
                 const box = document.getElementById('receiptModalPrintContent');
                 box.innerHTML = `
-                    <div class="border-b-2 border-slate-900 pb-3 flex items-center justify-between">
-                        <div>
-                            <h2 class="text-base font-black text-slate-900">FIESTACONTROL PRO</h2>
-                            <p class="text-[11px] text-slate-500">Comprobante de Alquiler, Entrega y Compromiso de Cuidado</p>
+                    <div class="border-b-2 border-slate-900 pb-3 flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-2.5">
+                            ${brandInfo.logoUrl ? `<img src="${brandInfo.logoUrl}" class="w-11 h-11 rounded-xl object-cover border border-slate-300 shrink-0">` : ''}
+                            <div>
+                                <h2 class="text-base font-black text-slate-900">${brandInfo.fullNameWithBadge.toUpperCase()}</h2>
+                                <p class="text-[11px] text-slate-500">${brandInfo.subtitle} • Comprobante Oficial</p>
+                            </div>
                         </div>
                         <div class="text-right">
                             <span class="font-mono font-bold text-xs block">#${ord.id.slice(-6).toUpperCase()}</span>
@@ -8430,6 +8648,7 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
             buildPlainTextThermalTicket(orderId, cols = 32) {
                 const ord = state.orders.find(o => o.id === (orderId || state.activeReceiptOrderId));
                 if (!ord) return '';
+                const brandInfo = getBrandDisplayData();
 
                 const cleanAscii = (str) => String(str || '')
                     .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
@@ -8455,8 +8674,8 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
                 const debt = Math.max(0, grandTotal - paid);
 
                 const lines = [];
-                lines.push(center('FIESTACONTROL PRO'));
-                lines.push(center('Alquiler Mobiliario y Eventos'));
+                lines.push(center(brandInfo.fullNameWithBadge.toUpperCase()));
+                lines.push(center(brandInfo.subtitle));
                 lines.push(center('Tel/WA: ' + (state.settings.whatsappNumber || '50760000000')));
                 lines.push(sep('='));
                 lines.push(lr('RECIBO:', '#' + ord.id.slice(-6).toUpperCase()));
@@ -8551,6 +8770,7 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
             async shareOrDownloadReceiptPng(orderId) {
                 const ord = state.orders.find(o => o.id === (orderId || state.activeReceiptOrderId));
                 if (!ord) return;
+                const brandInfo = getBrandDisplayData();
 
                 const items = ord.items || [];
                 const baseTotal = Number(ord.total) || 0;
@@ -8574,27 +8794,26 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
                 ctx.fillStyle = '#4c1d95';
                 ctx.fillRect(0, 0, width, 118);
 
+                let textStartX = 36;
+                if (brandInfo.logoUrl) {
+                    try {
+                        const logoImg = new Image();
+                        logoImg.src = brandInfo.logoUrl;
+                        await new Promise((res) => { logoImg.onload = res; logoImg.onerror = res; });
+                        ctx.drawImage(logoImg, 36, 22, 74, 74);
+                        textStartX = 124;
+                    } catch (e) {}
+                }
+
                 ctx.fillStyle = '#ffffff';
                 ctx.font = '900 30px Inter, sans-serif';
-                ctx.fillText('FIESTACONTROL PRO', 36, 52);
+                ctx.fillText(brandInfo.fullNameWithBadge.toUpperCase(), textStartX, 52);
                 ctx.fillStyle = '#fde68a';
                 ctx.font = '700 15px Inter, sans-serif';
-                ctx.fillText('Comprobante Digital de Alquiler, Entrega y Estado de Cuenta', 36, 82);
+                ctx.fillText(brandInfo.subtitle || 'Comprobante Digital de Alquiler y Entrega', textStartX, 82);
                 ctx.fillStyle = '#e2e8f0';
                 ctx.font = '600 13px Inter, sans-serif';
-                ctx.fillText(`WhatsApp: ${state.settings.whatsappNumber || '50760000000'}`, 36, 104);
-
-                ctx.textAlign = 'right';
-                ctx.fillStyle = '#fbbf24';
-                ctx.font = '900 22px monospace';
-                ctx.fillText(`#${ord.id.slice(-6).toUpperCase()}`, width - 36, 52);
-                ctx.fillStyle = '#ffffff';
-                ctx.font = '700 14px Inter, sans-serif';
-                ctx.fillText(`Fecha Evento: ${ord.eventDate}`, width - 36, 80);
-                ctx.fillText(`Retiro: ${ord.pickupTime || '18:00'}`, width - 36, 102);
-                ctx.textAlign = 'left';
-
-                // Caja de Datos del Cliente
+                ctx.fillText(`WhatsApp: ${state.settings.whatsappNumber || '50760000000'}`, textStartX, 104);
                 ctx.fillStyle = '#f8fafc';
                 ctx.fillRect(32, 138, width - 64, 98);
                 ctx.strokeStyle = '#cbd5e1';
@@ -8689,7 +8908,7 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
                 ctx.fillText('Recibí el mobiliario en buen estado y me comprometo a su cuidado.', 350, y + 65);
                 ctx.fillStyle = '#0f172a';
                 ctx.font = '800 13px Inter, sans-serif';
-                ctx.fillText('¡Gracias por confiar en FiestaControl Pro!', 350, y + 90);
+                ctx.fillText(`¡Gracias por confiar en ${brandInfo.fullNameWithBadge}!`, 350, y + 90);
 
                 canvas.toBlob(async (blob) => {
                     if (!blob) return;
@@ -8698,7 +8917,7 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
                     if (navigator.canShare && navigator.canShare({ files: [file] })) {
                         try {
                             await navigator.share({
-                                title: `Recibo FiestaControl - ${ord.clientName}`,
+                                title: `Recibo ${brandInfo.combinedName} - ${ord.clientName}`,
                                 text: `Comprobante de alquiler de ${ord.clientName} (Saldo: $${debt.toFixed(2)})`,
                                 files: [file]
                             });
@@ -8767,6 +8986,7 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
             sendWhatsAppOrderReminder(orderId) {
                 const ord = state.orders.find(o => o.id === orderId);
                 if (!ord) return;
+                const brandInfo = getBrandDisplayData();
                 const debt = Math.max(0, (Number(ord.total)||0) - (Number(ord.paidAmount)||0));
                 const streetList = (ord.items || [])
                     .filter(i => (Number(i.delivered)||0) - (Number(i.returned)||0) > 0)
@@ -8774,7 +8994,7 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
                     .join(', ');
 
                 const lines = [
-                    `¡Hola *${ord.clientName}*! Te escribimos de *FiestaControl* respecto a tu evento del día *${ord.eventDate}*.`,
+                    `¡Hola *${ord.clientName}*! Te escribimos de *${brandInfo.combinedName}* respecto a tu evento del día *${ord.eventDate}*.`,
                     streetList ? `📦 *Mobiliario pendiente por retirar en tu ubicación:* ${streetList}.` : '',
                     debt > 0 ? `💰 *Saldo pendiente por cancelar:* $${debt.toFixed(2)} (Abonado: $${Number(ord.paidAmount).toFixed(2)} de $${Number(ord.total).toFixed(2)}).` : '',
                     `¿A qué hora podemos pasar por tu ubicación o coordinar el cierre del pedido? ¡Muchas gracias!`
@@ -8998,6 +9218,7 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
         // Generador de Icono, Manifiesto Web y Service Worker en 1 Solo Archivo para hacer la App Instalable (PWA)
         function setupSingleFilePWA() {
             try {
+                const brandInfo = getBrandDisplayData();
                 // 1. Generar icono PNG de alta resolución (512x512) en Canvas para la pantalla de inicio del celular
                 const canvas = document.createElement('canvas');
                 canvas.width = 512;
@@ -9011,55 +9232,84 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
                 ctx.roundRect ? ctx.roundRect(0, 0, 512, 512, 110) : ctx.rect(0, 0, 512, 512);
                 ctx.fill();
 
-                ctx.fillStyle = '#fbbf24';
-                ctx.font = 'bold 210px Inter, sans-serif';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText('🎪', 256, 215);
+                const finalizeManifestWithIcon = (iconDataUrl) => {
+                    const iconLink = document.getElementById('pwaAppIconLink');
+                    const appleIconLink = document.getElementById('pwaAppleTouchIconLink');
+                    if (iconLink) iconLink.href = iconDataUrl;
+                    if (appleIconLink) appleIconLink.href = iconDataUrl;
 
-                ctx.fillStyle = '#ffffff';
-                ctx.font = '900 58px Inter, sans-serif';
-                ctx.fillText('FIESTA', 256, 390);
-                ctx.fillStyle = '#fde68a';
-                ctx.font = '800 36px Inter, sans-serif';
-                ctx.fillText('CONTROL PRO', 256, 442);
-
-                const iconDataUrl = canvas.toDataURL('image/png');
-                const iconLink = document.getElementById('pwaAppIconLink');
-                const appleIconLink = document.getElementById('pwaAppleTouchIconLink');
-                if (iconLink) iconLink.href = iconDataUrl;
-                if (appleIconLink) appleIconLink.href = iconDataUrl;
-
-                // 2. Generar Web App Manifest dinámico para pantalla completa (standalone)
-                const manifestObj = {
-                    name: 'FiestaControl Pro - Alquiler y Logística',
-                    short_name: 'FiestaControl',
-                    description: 'Alquiler de mobiliario, inflables, carpas, sonido y control logístico con GPS.',
-                    start_url: window.location.href.split('#')[0],
-                    display: 'standalone',
-                    orientation: 'portrait',
-                    background_color: '#0f172a',
-                    theme_color: '#6d28d9',
-                    icons: [
-                        { src: iconDataUrl, sizes: '192x192', type: 'image/png', purpose: 'any maskable' },
-                        { src: iconDataUrl, sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
-                    ]
+                    const manifestObj = {
+                        name: `${brandInfo.fullNameWithBadge} - ${brandInfo.subtitle}`,
+                        short_name: brandInfo.combinedName.slice(0, 15),
+                        description: brandInfo.subtitle,
+                        start_url: window.location.href.split('#')[0],
+                        display: 'standalone',
+                        orientation: 'portrait',
+                        background_color: '#0f172a',
+                        theme_color: '#6d28d9',
+                        icons: [
+                            { src: iconDataUrl, sizes: '192x192', type: 'image/png', purpose: 'any maskable' },
+                            { src: iconDataUrl, sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
+                        ]
+                    };
+                    const manifestBlob = new Blob([JSON.stringify(manifestObj)], { type: 'application/manifest+json' });
+                    const manifestUrl = URL.createObjectURL(manifestBlob);
+                    const manifestLink = document.getElementById('pwaManifestLink');
+                    if (manifestLink) manifestLink.href = manifestUrl;
                 };
-                const manifestBlob = new Blob([JSON.stringify(manifestObj)], { type: 'application/manifest+json' });
-                const manifestUrl = URL.createObjectURL(manifestBlob);
-                const manifestLink = document.getElementById('pwaManifestLink');
-                if (manifestLink) manifestLink.href = manifestUrl;
+
+                if (brandInfo.logoUrl) {
+                    const customImg = new Image();
+                    customImg.onload = () => {
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.roundRect ? ctx.roundRect(76, 45, 360, 260, 48) : ctx.rect(76, 45, 360, 260);
+                        ctx.clip();
+                        ctx.drawImage(customImg, 76, 45, 360, 260);
+                        ctx.restore();
+
+                        ctx.fillStyle = '#ffffff';
+                        ctx.font = '900 54px Inter, sans-serif';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(brandInfo.part1.toUpperCase().slice(0, 12), 256, 375);
+                        ctx.fillStyle = '#fde68a';
+                        ctx.font = '800 38px Inter, sans-serif';
+                        ctx.fillText(`${brandInfo.part2} ${brandInfo.badge}`.trim().toUpperCase().slice(0, 16), 256, 435);
+                        finalizeManifestWithIcon(canvas.toDataURL('image/png'));
+                    };
+                    customImg.onerror = () => finalizeManifestWithIcon(canvas.toDataURL('image/png'));
+                    customImg.src = brandInfo.logoUrl;
+                } else {
+                    ctx.fillStyle = '#fbbf24';
+                    ctx.font = 'bold 210px Inter, sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('🎪', 256, 215);
+
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = '900 58px Inter, sans-serif';
+                    ctx.fillText(brandInfo.part1.toUpperCase().slice(0, 12), 256, 390);
+                    ctx.fillStyle = '#fde68a';
+                    ctx.font = '800 36px Inter, sans-serif';
+                    ctx.fillText(`${brandInfo.part2} ${brandInfo.badge}`.trim().toUpperCase().slice(0, 16), 256, 442);
+
+                    finalizeManifestWithIcon(canvas.toDataURL('image/png'));
+                }
 
                 // 3. Capturar el evento nativo de instalación en Android / Chrome / Edge
-                window.addEventListener('beforeinstallprompt', (e) => {
-                    e.preventDefault();
-                    deferredPwaPrompt = e;
-                });
+                if (!window.__pwaListenersRegistered) {
+                    window.__pwaListenersRegistered = true;
+                    window.addEventListener('beforeinstallprompt', (e) => {
+                        e.preventDefault();
+                        deferredPwaPrompt = e;
+                    });
 
-                window.addEventListener('appinstalled', () => {
-                    deferredPwaPrompt = null;
-                    showToast('¡FiestaControl Pro quedó instalada en tu teléfono!', 'success');
-                });
+                    window.addEventListener('appinstalled', () => {
+                        deferredPwaPrompt = null;
+                        showToast(`¡${getBrandDisplayData().fullNameWithBadge} quedó instalada en tu teléfono!`, 'success');
+                    });
+                }
             } catch (pwaErr) {
                 console.warn('Aviso configuración PWA:', pwaErr);
             }
