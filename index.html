@@ -5923,10 +5923,6 @@ ${itemsSummary}
                 s.fbApiKey = fbKey;
                 s.fbProjectId = fbProj;
                 s.fbAppId = fbApp;
-                
-                if (fbAppInstance && fbAppInstance.options.projectId !== fbProj) {
-                    fbAppInstance = null; // Forzar reinicio si cambió el proyecto
-                }
                 initFirebaseSync();
             }
 
@@ -6014,6 +6010,34 @@ ${itemsSummary}
             const addressBase = document.getElementById('manAddress').value.trim();
             const gmapsLink = document.getElementById('manGmapsLink')?.value.trim();
             const statusMode = document.getElementById('manStatus')?.value || 'PENDIENTE';
+
+            if (!clientName || !addressBase) {
+                showToast('Completa el nombre del cliente y la dirección de entrega', 'warning');
+                return;
+            }
+
+            const address = gmapsLink ? `${addressBase} (${gmapsLink})` : addressBase;
+            const selectedItems = [];
+            let total = 0;
+
+            document.querySelectorAll('[data-man-item]').forEach(inp => {
+                const qty = parseInt(inp.value || '0', 10);
+                if (qty > 0) {
+                    const item = state.catalog.find(i => i.id === inp.getAttribute('data-man-item'));
+                    if (item) {
+                        total += qty * Number(item.price);
+                        selectedItems.push({
+                            id: item.id,
+                            name: item.name,
+                            price: Number(item.price),
+                            requested: qty,
+                            delivered: statusMode === 'ENTREGADO' ? qty : 0,
+                            returned: 0,
+                            damaged: 0
+                        });
+                    }
+                }
+            });
 
             // Collect custom free items added by Admin in Manual Order Modal
             document.querySelectorAll('[data-free-item-row="manual"]').forEach(row => {
@@ -8119,6 +8143,28 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
 
                 if (!clientName || !address) {
                     showToast('Ingresa el nombre del cliente y la referencia/dirección de la casa', 'warning');
+                    return;
+                }
+
+                const items = [];
+                document.querySelectorAll('[data-deliv-new-item]').forEach(inp => {
+                    const qty = Math.max(0, parseInt(inp.value || '0', 10));
+                    if (qty > 0) {
+                        const catItem = state.catalog.find(c => c.id === inp.getAttribute('data-deliv-new-item'));
+                        if (catItem) {
+                            items.push({
+                                id: catItem.id,
+                                name: catItem.name,
+                                price: Number(catItem.price),
+                                requested: qty,
+                                delivered: statusMode === 'ENTREGADO' ? qty : 0,
+                                returned: 0,
+                                damaged: 0
+                            });
+                        }
+                    }
+                });
+
                 // Collect custom free items in Deliveries form
                 document.querySelectorAll('[data-free-item-row="deliv"]').forEach(row => {
                     const freeName = row.querySelector('[data-free-name]')?.value.trim();
@@ -9652,8 +9698,24 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
                 state.catalog = JSON.parse(JSON.stringify(INITIAL_CATALOG));
                 state.combos = JSON.parse(JSON.stringify(INITIAL_COMBOS));
                 state.orders = JSON.parse(JSON.stringify(INITIAL_ORDERS));
+                state.settings.combos = state.combos;
+
+                if (typeof fbSaveCatalogItem === 'function') {
+                    for (const item of state.catalog) {
+                        try { await fbSaveCatalogItem(item); } catch (e) {}
+                    }
+                }
+                if (typeof fbSaveOrder === 'function') {
+                    for (const ord of state.orders) {
+                        try { await fbSaveOrder(ord); } catch (e) {}
+                    }
+                }
+                if (typeof fbSaveSettings === 'function') {
+                    try { await fbSaveSettings(state.settings); } catch (e) {}
+                }
+
                 renderAllViews();
-                showToast('🔄 Datos de prueba restaurados con éxito', 'success');
+                showToast('🔄 Datos de prueba restaurados y sincronizados con éxito', 'success');
             },
             promptInstallApp() {
                 if (deferredPwaPrompt) {
