@@ -2372,8 +2372,8 @@
                     </div>
 
                     <div class="space-y-2">
-                        <label class="font-extrabold text-slate-800 block"><i class="fa-solid fa-camera text-amber-600 mr-1"></i> Fotos de Evidencia (Entrega y Retiro)</label>
-                        <div class="grid grid-cols-2 gap-2">
+                        <label class="font-extrabold text-slate-800 block"><i class="fa-solid fa-camera text-amber-600 mr-1"></i> Fotos de Evidencia (Entrega y Retiro) y Firma</label>
+                        <div class="grid grid-cols-3 gap-2">
                             <div class="space-y-1">
                                 <div id="editInvHousePhotoWrapper" class="w-full h-24 bg-slate-200 rounded-xl overflow-hidden flex items-center justify-center border border-slate-300">
                                     <img id="editInvHousePhotoImg" src="" alt="Sin foto de casa" class="w-full h-full object-cover hidden">
@@ -2393,6 +2393,15 @@
                                     <i class="fa-solid fa-camera-rotate"></i> 2. Foto Retiro
                                     <input type="file" accept="image/*" capture="environment" onchange="window.app.handleDeliveryHousePhoto(event, 'edit-return')" class="hidden">
                                 </label>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="w-full h-24 bg-white rounded-xl overflow-hidden flex items-center justify-center border border-emerald-300 p-1">
+                                    <img id="editInvSignaturePreviewImg" src="" alt="Firma del cliente" class="w-full h-full object-contain hidden">
+                                    <span id="editInvNoSignaturePlaceholder" class="text-[10px] text-slate-400 font-semibold text-center px-1">Sin firma aún</span>
+                                </div>
+                                <button type="button" onclick="window.app.openReceiptFromEditModal()" class="w-full py-1.5 px-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-[10px] flex items-center justify-center gap-1">
+                                    <i class="fa-solid fa-print"></i> Recibo / Firma
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -2453,9 +2462,14 @@
             </div>
 
             <div class="flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-slate-200">
-                <button type="button" onclick="window.app.deleteOrderFromEditModal()" class="px-3.5 py-2.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-extrabold text-xs flex items-center gap-1.5">
-                    <i class="fa-solid fa-trash-can"></i> Eliminar Factura
-                </button>
+                <div class="flex flex-wrap items-center gap-2">
+                    <button type="button" onclick="window.app.deleteOrderFromEditModal()" class="px-3.5 py-2.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-extrabold text-xs flex items-center gap-1.5">
+                        <i class="fa-solid fa-trash-can"></i> Eliminar Factura
+                    </button>
+                    <button type="button" onclick="window.app.openReceiptFromEditModal()" class="px-3.5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs flex items-center gap-1.5 shadow-2xs">
+                        <i class="fa-solid fa-print"></i> 🖨️ Reimprimir Factura / Ver Firma y Foto
+                    </button>
+                </div>
                 <div class="flex items-center gap-2">
                     <button type="button" onclick="window.app.closeEditInvoiceModal()" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs">
                         Cancelar
@@ -2662,13 +2676,14 @@
             <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 space-y-2.5 text-xs">
                 <!-- Estado cuando YA está firmado: Bloqueado para no borrar la firma anterior salvo que toque "Editar Firma" -->
                 <div id="signatureLockedStateBox" class="hidden bg-emerald-50 border border-emerald-300 rounded-xl p-3 flex items-center justify-between gap-2">
-                    <div class="flex items-center gap-2.5">
+                    <div class="flex items-center gap-2.5 min-w-0">
                         <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center shrink-0">
                             <i class="fa-solid fa-lock"></i>
                         </div>
-                        <div>
+                        <img id="signatureLockedThumbImg" src="" alt="Firma" class="h-10 w-20 object-contain bg-white border border-emerald-300 rounded-lg p-0.5 shrink-0">
+                        <div class="min-w-0">
                             <span class="font-extrabold text-emerald-950 block">✅ Firma del Cliente Guardada y Protegida</span>
-                            <span class="text-[10px] text-emerald-700">El panel de firma está bloqueado para evitar que se borre por accidente.</span>
+                            <span class="text-[10px] text-emerald-700 block">El panel de firma está bloqueado para evitar que se borre por accidente.</span>
                         </div>
                     </div>
                     <button type="button" onclick="window.app.unlockSignatureForEditing()" class="px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-[11px] shrink-0 flex items-center gap-1 shadow-2xs">
@@ -3504,12 +3519,23 @@
         // --- PERSISTENCE HELPERS (Dual Local + Firestore) ---
         async function persistOrder(orderObj) {
             const idx = state.orders.findIndex(o => o.id === orderObj.id);
-            if (idx >= 0) state.orders[idx] = orderObj;
-            else state.orders.unshift(orderObj);
+            if (idx >= 0) {
+                const prev = state.orders[idx];
+                if (!orderObj.signatureDataUrl && prev.signatureDataUrl) orderObj.signatureDataUrl = prev.signatureDataUrl;
+                if (!orderObj.evidencePhotoUrl && prev.evidencePhotoUrl) orderObj.evidencePhotoUrl = prev.evidencePhotoUrl;
+                if (!orderObj.returnPhotoUrl && prev.returnPhotoUrl) orderObj.returnPhotoUrl = prev.returnPhotoUrl;
+                state.orders[idx] = orderObj;
+            } else {
+                state.orders.unshift(orderObj);
+            }
             renderAllViews();
 
             if (typeof fbSaveOrder === 'function') {
-                fbSaveOrder(orderObj).catch(e => console.warn("Error guardando pedido en Firebase:", e));
+                try {
+                    await fbSaveOrder(orderObj);
+                } catch (e) {
+                    console.warn("Error guardando pedido en Firebase:", e);
+                }
             }
         }
 
@@ -4694,10 +4720,10 @@ ${itemsSummary}
                 if (dateFilter && ord.eventDate !== dateFilter) return;
                 if (!matchesUniversalSearch(ord, searchQuery)) return;
                 const b = classifyOrderLogicalBucket(ord);
+                counts.ALL++;
                 if (b.isHistory) {
                     counts.COMPLETADO++;
                 } else {
-                    counts.ALL++;
                     if (b.isConfirmedToDeliver) counts.RESERVAS++;
                     if (b.isInStreetNow) counts.EN_CALLE++;
                     if (b.isPureQuote) counts.COTIZACIONES++;
@@ -4718,7 +4744,7 @@ ${itemsSummary}
                     EN_CALLE: '🚚 <strong>Gaveta 2: Equipos en la Calle Ahora (Por Recoger)</strong> — Casas donde dejaste mobiliario, ordenadas por Hora de Retiro.',
                     COTIZACIONES: '💬 <strong>Gaveta 3: Cotizaciones (Solo Preguntando)</strong> — Clientes que cotizaron sin abonar. Toca "Confirmar como Reserva" cuando aparten.',
                     DEUDA: '💰 <strong>Gaveta 4: Clientes con Saldo Pendiente ($)</strong> — Eventos con cuenta abierta por cobrar.',
-                    ALL: '📂 <strong>Gaveta 5: Todos los Pedidos Activos</strong> — Ordenados cronológicamente del más cercano al más lejano.',
+                    ALL: '📂 <strong>Gaveta 5: Todos los Pedidos y Facturas</strong> — Incluye reservas, en calle y cerrados para consultar o reimprimir siempre.',
                     COMPLETADO: '✅ <strong>Gaveta 6: Historial Completado</strong> — Eventos donde ya recogiste todo el equipo y pagaron el 100%.'
                 };
                 helperBanner.innerHTML = `<span>${helperMessages[state.orderFilter] || helperMessages.ALL}</span>`;
@@ -4729,13 +4755,16 @@ ${itemsSummary}
                 if (dateFilter && ord.eventDate !== dateFilter) return false;
                 if (!matchesUniversalSearch(ord, searchQuery)) return false;
 
+                // Si el usuario está escribiendo en el buscador universal, mostrar coincidencias de cualquier gaveta
+                if (searchQuery.trim() !== '') return true;
+
                 const b = classifyOrderLogicalBucket(ord);
                 if (state.orderFilter === 'COMPLETADO') return b.isHistory;
                 if (state.orderFilter === 'RESERVAS') return b.isConfirmedToDeliver;
                 if (state.orderFilter === 'EN_CALLE') return b.isInStreetNow;
                 if (state.orderFilter === 'COTIZACIONES') return b.isPureQuote;
-                if (state.orderFilter === 'DEUDA') return !b.isHistory && b.debt > 0;
-                return !b.isHistory;
+                if (state.orderFilter === 'DEUDA') return b.debt > 0;
+                return true;
             });
 
             // Ordenar siempre de la más cercana a la más lejana (o por hora de retiro si estamos en la gaveta En Calle)
@@ -4851,9 +4880,31 @@ ${itemsSummary}
 
                                 <!-- Vista Rápida de Qué Equipos Lleva sin necesidad de abrir el desplegable -->
                                 <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 space-y-1">
-                                    <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block">📦 Mobiliario del Pedido:</span>
+                                    <div class="flex flex-wrap items-center justify-between gap-1">
+                                        <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">📦 Mobiliario del Pedido:</span>
+                                        <div class="flex flex-wrap items-center gap-1.5">
+                                            ${ord.signatureDataUrl ? `<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300 text-[10px] font-extrabold">✍️ Firmado</span>` : ''}
+                                            ${ord.evidencePhotoUrl ? `<span class="px-2 py-0.5 rounded bg-amber-100 text-amber-900 border border-amber-300 text-[10px] font-extrabold">📸 Con Evidencia</span>` : ''}
+                                        </div>
+                                    </div>
                                     <div class="flex flex-wrap gap-1.5">${quickItemsSummary}</div>
                                 </div>
+
+                                ${(ord.signatureDataUrl || ord.evidencePhotoUrl) ? `
+                                <div class="flex flex-wrap items-center justify-between gap-2 bg-emerald-50/70 px-3 py-2 rounded-xl border border-emerald-200 text-xs" onclick="event.stopPropagation()">
+                                    <div class="flex items-center gap-2.5">
+                                        ${ord.signatureDataUrl ? `<img src="${ord.signatureDataUrl}" onclick="window.app.openReceiptModal('${ord.id}')" class="h-10 w-20 object-contain bg-white rounded-lg border border-emerald-300 p-0.5 cursor-pointer" title="Firma guardada">` : ''}
+                                        ${ord.evidencePhotoUrl ? `<img src="${ord.evidencePhotoUrl}" onclick="window.app.openPhotoZoomModal('${ord.evidencePhotoUrl}', 'Evidencia de Entrega - ${ord.clientName}')" class="h-10 w-12 object-cover rounded-lg border border-amber-400 cursor-pointer" title="Foto de evidencia guardada">` : ''}
+                                        <div class="text-[11px]">
+                                            <span class="font-extrabold text-emerald-950 block">✅ Firma / Evidencia Guardada</span>
+                                            <span class="text-[10px] text-slate-600">Lista para ver o reimprimir</span>
+                                        </div>
+                                    </div>
+                                    <button type="button" onclick="window.app.openReceiptModal('${ord.id}')" class="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-[11px] flex items-center gap-1">
+                                        <i class="fa-solid fa-print text-amber-300"></i> Reimprimir
+                                    </button>
+                                </div>
+                                ` : ''}
 
                                 <!-- Botón Especial si es Cotización para pasarla a Reserva en 1 Toque, o los 2 Botones Gigantes (Entregar y Recoger) -->
                                 ${isPureQuoteHere ? `
@@ -4868,7 +4919,7 @@ ${itemsSummary}
                                 ` : `
                                 <div class="grid grid-cols-2 gap-2 pt-1" onclick="event.stopPropagation()">
                                     <button type="button" onclick="window.app.openReceiptModal('${ord.id}')" class="py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs sm:text-sm shadow-md flex items-center justify-center gap-1.5 transition">
-                                        <i class="fa-solid fa-box-open text-sm"></i> <span>1. ENTREGAR / RECIBO</span>
+                                        <i class="fa-solid fa-print text-sm"></i> <span>1. ENTREGAR / RECIBO</span>
                                     </button>
                                     <button type="button" onclick="window.app.openEditInvoiceModal('${ord.id}')" class="py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs sm:text-sm shadow-md flex items-center justify-center gap-1.5 transition">
                                         <i class="fa-solid fa-check-double text-sm"></i> <span>2. RECOGER / EDITAR</span>
@@ -4879,16 +4930,6 @@ ${itemsSummary}
                                 <div class="text-center pt-0.5">
                                     <span class="text-[10px] font-bold text-brand-600"><i class="fa-solid fa-chevron-down mr-1"></i>Toca aquí para ver u ocultar el conteo detallado y abonos</span>
                                 </div>
-                            </div>
-                            
-                            <!-- 2 BOTONES GIGANTES (Entregar y Recoger) -->
-                            <div class="grid grid-cols-2 gap-2 pt-1" onclick="event.stopPropagation()">
-                                <button type="button" onclick="window.app.openReceiptModal('${ord.id}')" class="py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs sm:text-sm shadow-md flex items-center justify-center gap-1.5 transition">
-                                    <i class="fa-solid fa-box-open text-sm"></i> <span>ENTREGAR</span>
-                                </button>
-                                <button type="button" onclick="window.app.openEditInvoiceModal('${ord.id}')" class="py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs sm:text-sm shadow-md flex items-center justify-center gap-1.5 transition">
-                                    <i class="fa-solid fa-check-double text-sm"></i> <span>RECOGER</span>
-                                </button>
                             </div>
                         </div>
 
@@ -5862,13 +5903,32 @@ ${itemsSummary}
                 return { x: clientX - r.left, y: clientY - r.top };
             };
 
+            const autoPersistSignatureStroke = () => {
+                if (!sigPadHasNewStrokes || !state.activeReceiptOrderId) return;
+                const ord = state.orders.find(o => o.id === state.activeReceiptOrderId);
+                if (ord && sigCanvas) {
+                    ord.signatureDataUrl = sigCanvas.toDataURL('image/png');
+                    persistOrder(ord);
+                }
+            };
+
             sigCanvas.onmousedown = (e) => { isDrawingSig = true; sigPadHasNewStrokes = true; const p = getPos(e); sigCtx.beginPath(); sigCtx.moveTo(p.x, p.y); };
             sigCanvas.onmousemove = (e) => { if (!isDrawingSig) return; sigPadHasNewStrokes = true; const p = getPos(e); sigCtx.lineTo(p.x, p.y); sigCtx.stroke(); };
-            window.addEventListener('mouseup', () => { isDrawingSig = false; });
+            window.addEventListener('mouseup', () => {
+                if (isDrawingSig) {
+                    isDrawingSig = false;
+                    autoPersistSignatureStroke();
+                }
+            });
 
             sigCanvas.ontouchstart = (e) => { e.preventDefault(); isDrawingSig = true; sigPadHasNewStrokes = true; const p = getPos(e); sigCtx.beginPath(); sigCtx.moveTo(p.x, p.y); };
             sigCanvas.ontouchmove = (e) => { e.preventDefault(); if (!isDrawingSig) return; sigPadHasNewStrokes = true; const p = getPos(e); sigCtx.lineTo(p.x, p.y); sigCtx.stroke(); };
-            sigCanvas.ontouchend = () => { isDrawingSig = false; };
+            sigCanvas.ontouchend = () => {
+                if (isDrawingSig) {
+                    isDrawingSig = false;
+                    autoPersistSignatureStroke();
+                }
+            };
         }
 
         // Convierte una imagen (DataURL de firma o foto de entrega) en comando raster monocromático ESC/POS (GS v 0) para RawBT
@@ -6718,10 +6778,10 @@ ${itemsSummary}
                 if (delivDateFilter && ord.eventDate !== delivDateFilter) return;
                 if (!matchesUniversalSearch(ord, delivSearch)) return;
                 const b = classifyOrderLogicalBucket(ord);
+                delivCounts.ALL++;
                 if (b.isHistory) {
                     delivCounts.HISTORY++;
                 } else {
-                    delivCounts.ALL++;
                     if (b.isConfirmedToDeliver) delivCounts.TO_DELIVER++;
                     if (b.isInStreetNow) delivCounts.STREET++;
                     if (b.debt > 0) delivCounts.DEBT++;
@@ -6742,7 +6802,7 @@ ${itemsSummary}
                     STREET: '🚚 <strong>Paso 2: Equipos en la Calle por Recoger</strong> — Ordenados desde la hora de retiro más temprana.',
                     DEBT: '💰 <strong>Paso 3: Clientes con Saldo por Cobrar ($)</strong> — Eventos con cuenta pendiente.',
                     QUOTES: '💬 <strong>Paso 4: Cotizaciones sin Apartar</strong> — Clientes que solo consultaron precios.',
-                    ALL: '📂 <strong>Paso 5: Todas las Entregas y Reservas Activas</strong> — Ordenadas de la más cercana a la más lejana.',
+                    ALL: '📂 <strong>Paso 5: Todas las Facturas y Entregas</strong> — Incluye reservas, en calle y cerradas para consultar o reimprimir.',
                     HISTORY: '✅ <strong>Paso 6: Historial Completado</strong> — Equipos ya recogidos y pagados en su totalidad.'
                 };
                 delivHelper.innerHTML = helperTexts[filter] || helperTexts.ALL;
@@ -6752,13 +6812,15 @@ ${itemsSummary}
                 if (delivDateFilter && ord.eventDate !== delivDateFilter) return false;
                 if (!matchesUniversalSearch(ord, delivSearch)) return false;
 
+                if (delivSearch.trim() !== '') return true;
+
                 const b = classifyOrderLogicalBucket(ord);
                 if (filter === 'HISTORY') return b.isHistory;
                 if (filter === 'TO_DELIVER') return b.isConfirmedToDeliver;
                 if (filter === 'STREET') return b.isInStreetNow;
-                if (filter === 'DEBT') return !b.isHistory && b.debt > 0;
+                if (filter === 'DEBT') return b.debt > 0;
                 if (filter === 'QUOTES') return b.isPureQuote;
-                return !b.isHistory;
+                return true;
             });
 
             filtered = sortOrdersFromClosestToFarthest(
@@ -6849,6 +6911,19 @@ ${itemsSummary}
                                 </div>
                                 <div class="flex flex-wrap gap-1.5">${itemsPills}</div>
                             </div>
+
+                            ${(ord.signatureDataUrl || ord.evidencePhotoUrl) ? `
+                            <div class="flex flex-wrap items-center justify-between gap-2 bg-emerald-50/80 px-3 py-2 rounded-xl border border-emerald-300 text-xs" onclick="event.stopPropagation()">
+                                <div class="flex items-center gap-2">
+                                    ${ord.signatureDataUrl ? `<img src="${ord.signatureDataUrl}" onclick="window.app.openReceiptModal('${ord.id}')" class="h-9 w-16 object-contain bg-white rounded border border-emerald-300 p-0.5 cursor-pointer">` : ''}
+                                    ${ord.evidencePhotoUrl ? `<img src="${ord.evidencePhotoUrl}" onclick="window.app.openPhotoZoomModal('${ord.evidencePhotoUrl}', 'Foto de Entrega - ${ord.clientName}')" class="h-9 w-11 object-cover rounded border border-amber-400 cursor-pointer">` : ''}
+                                    <span class="font-extrabold text-emerald-950 text-[11px]">✅ Firma / Evidencia Guardada</span>
+                                </div>
+                                <button type="button" onclick="window.app.openReceiptModal('${ord.id}')" class="px-2.5 py-1 rounded-lg bg-slate-900 text-white font-black text-[11px] flex items-center gap-1">
+                                    <i class="fa-solid fa-print text-amber-300"></i> Reimprimir
+                                </button>
+                            </div>
+                            ` : ''}
 
                             <!-- 2 BOTONES GIGANTES (Entregar y Recoger) -->
                             <div class="grid grid-cols-2 gap-2 pt-1" onclick="event.stopPropagation()">
@@ -8540,6 +8615,20 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
                     }
                 }
 
+                const sigImgEl = document.getElementById('editInvSignaturePreviewImg');
+                const sigPhEl = document.getElementById('editInvNoSignaturePlaceholder');
+                if (sigImgEl && sigPhEl) {
+                    if (ord.signatureDataUrl) {
+                        sigImgEl.src = ord.signatureDataUrl;
+                        sigImgEl.classList.remove('hidden');
+                        sigPhEl.classList.add('hidden');
+                    } else {
+                        sigImgEl.src = '';
+                        sigImgEl.classList.add('hidden');
+                        sigPhEl.classList.remove('hidden');
+                    }
+                }
+
                 // Construir lista completa de todos los productos del catálogo + los que ya tenía la factura para poder editar cantidades o agregar nuevos
                 const allProductRows = [];
                 const existingMap = {};
@@ -8655,6 +8744,7 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
                     const returned = Math.max(0, parseInt(rowEl.querySelector('[data-edit-field="returned"]')?.value || '0', 10));
 
                     if (requested > 0 || delivered > 0) {
+                        const prevItem = (ord.items || []).find(i => i.id === id);
                         updatedItems.push({
                             id,
                             name,
@@ -8662,7 +8752,7 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
                             requested: Math.max(requested, delivered),
                             delivered,
                             returned: Math.min(delivered, returned),
-                            damaged: 0
+                            damaged: Number(prevItem?.damaged) || 0
                         });
                     }
                 });
@@ -8714,6 +8804,12 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
                     modal.classList.add('hidden');
                     modal.classList.remove('flex');
                 }
+            },
+            async openReceiptFromEditModal() {
+                const ordId = document.getElementById('editInvOrderId')?.value;
+                if (!ordId) return;
+                this.closeEditInvoiceModal();
+                this.openReceiptModal(ordId);
             },
             adjustGuestCalc(delta) {
                 const inp = document.getElementById('calcGuestCountInput');
@@ -9294,8 +9390,10 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
 
                 // Si el pedido YA tiene firma guardada, bloquear y ocultar el canvas de firma hasta que toque "Editar Firma"
                 const lockedBox = document.getElementById('signatureLockedStateBox');
+                const lockedThumb = document.getElementById('signatureLockedThumbImg');
                 const padWrapper = document.getElementById('signatureActivePadWrapper');
                 if (ord.signatureDataUrl) {
+                    if (lockedThumb) lockedThumb.src = ord.signatureDataUrl;
                     lockedBox?.classList.remove('hidden');
                     padWrapper?.classList.add('hidden');
                 } else {
@@ -9428,6 +9526,19 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
             async printThermalViaRawBT(orderId) {
                 const targetId = orderId || state.activeReceiptOrderId;
                 const ord = state.orders.find(o => o.id === targetId);
+                if (ord && targetId === state.activeReceiptOrderId) {
+                    let changedBeforePrint = false;
+                    if (sigCanvas && sigPadHasNewStrokes) {
+                        ord.signatureDataUrl = sigCanvas.toDataURL('image/png');
+                        sigPadHasNewStrokes = false;
+                        changedBeforePrint = true;
+                    }
+                    if (state.tempEvidencePhotoDataUrl && state.tempEvidencePhotoDataUrl !== ord.evidencePhotoUrl) {
+                        ord.evidencePhotoUrl = state.tempEvidencePhotoDataUrl;
+                        changedBeforePrint = true;
+                    }
+                    if (changedBeforePrint) await persistOrder(ord);
+                }
                 const cols = parseInt(document.getElementById('thermalPaperWidthSelect')?.value || '32', 10);
                 const ticketText = this.buildPlainTextThermalTicket(targetId, cols);
                 if (!ticketText || !ord) {
@@ -9475,8 +9586,22 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
                 showToast('🖨️ Enviando ticket térmico con Firma y Evidencia a RawBT...', 'info');
             },
             async shareOrDownloadReceiptPng(orderId) {
-                const ord = state.orders.find(o => o.id === (orderId || state.activeReceiptOrderId));
+                const targetId = orderId || state.activeReceiptOrderId;
+                const ord = state.orders.find(o => o.id === targetId);
                 if (!ord) return;
+                if (targetId === state.activeReceiptOrderId) {
+                    let changedBeforePng = false;
+                    if (sigCanvas && sigPadHasNewStrokes) {
+                        ord.signatureDataUrl = sigCanvas.toDataURL('image/png');
+                        sigPadHasNewStrokes = false;
+                        changedBeforePng = true;
+                    }
+                    if (state.tempEvidencePhotoDataUrl && state.tempEvidencePhotoDataUrl !== ord.evidencePhotoUrl) {
+                        ord.evidencePhotoUrl = state.tempEvidencePhotoDataUrl;
+                        changedBeforePng = true;
+                    }
+                    if (changedBeforePng) await persistOrder(ord);
+                }
                 const brandInfo = getBrandDisplayData();
 
                 const items = ord.items || [];
@@ -9680,6 +9805,7 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
             clearSignaturePad() {
                 if (sigCanvas && sigCtx) {
                     sigCtx.clearRect(0, 0, sigCanvas.width, sigCanvas.height);
+                    sigPadHasNewStrokes = false;
                 }
             },
             handleEvidencePhotoUpload(event) {
@@ -9688,11 +9814,11 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     const img = new Image();
-                    img.onload = () => {
+                    img.onload = async () => {
                         const canvas = document.createElement('canvas');
                         const scale = Math.min(1, 600 / img.width);
-                        canvas.width = img.width * scale;
-                        canvas.height = img.height * scale;
+                        canvas.width = Math.round(img.width * scale);
+                        canvas.height = Math.round(img.height * scale);
                         canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
                         state.tempEvidencePhotoDataUrl = canvas.toDataURL('image/jpeg', 0.65);
                         
@@ -9703,7 +9829,19 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
                             pBox.classList.remove('hidden');
                         }
 
-                        showToast('Foto de evidencia comprimida (~40 KB) lista para guardar', 'info');
+                        // Guardar automáticamente la foto de evidencia en el pedido activo para que no se pierda al cerrar
+                        const ord = state.orders.find(o => o.id === state.activeReceiptOrderId);
+                        if (ord) {
+                            ord.evidencePhotoUrl = state.tempEvidencePhotoDataUrl;
+                            if (sigCanvas && sigPadHasNewStrokes) {
+                                ord.signatureDataUrl = sigCanvas.toDataURL('image/png');
+                                sigPadHasNewStrokes = false;
+                            }
+                            await persistOrder(ord);
+                            this.openReceiptModal(ord.id);
+                        }
+
+                        showToast('📸 Foto de evidencia guardada automáticamente en la factura', 'success');
                     };
                     img.src = e.target.result;
                 };
@@ -9714,7 +9852,7 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
                 if (!ord) return;
                 const padWrapper = document.getElementById('signatureActivePadWrapper');
                 const isPadVisible = padWrapper && !padWrapper.classList.contains('hidden');
-                if (sigCanvas && isPadVisible && (sigPadHasNewStrokes || !ord.signatureDataUrl)) {
+                if (sigCanvas && isPadVisible && sigPadHasNewStrokes) {
                     ord.signatureDataUrl = sigCanvas.toDataURL('image/png');
                     sigPadHasNewStrokes = false;
                 }
@@ -9725,7 +9863,26 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
                 this.openReceiptModal(ord.id);
                 showToast('🔒 ¡Firma digital y foto de evidencia guardadas y protegidas!', 'success');
             },
-            closeReceiptModal() {
+            async closeReceiptModal() {
+                // Auto-guardar cualquier firma o foto adjuntada antes de cerrar la ventana para que jamás se borre
+                if (state.activeReceiptOrderId) {
+                    const ord = state.orders.find(o => o.id === state.activeReceiptOrderId);
+                    if (ord) {
+                        let changed = false;
+                        if (sigCanvas && sigPadHasNewStrokes) {
+                            ord.signatureDataUrl = sigCanvas.toDataURL('image/png');
+                            sigPadHasNewStrokes = false;
+                            changed = true;
+                        }
+                        if (state.tempEvidencePhotoDataUrl && state.tempEvidencePhotoDataUrl !== ord.evidencePhotoUrl) {
+                            ord.evidencePhotoUrl = state.tempEvidencePhotoDataUrl;
+                            changed = true;
+                        }
+                        if (changed) {
+                            await persistOrder(ord);
+                        }
+                    }
+                }
                 const modal = document.getElementById('receiptContractModal');
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
@@ -10271,7 +10428,14 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
                                 try {
                                     parsedItems = raw.itemsJson ? JSON.parse(raw.itemsJson) : (raw.items || []);
                                 } catch (e) { parsedItems = []; }
-                                const fullOrd = { ...raw, items: parsedItems };
+                                const existingLocal = state.orders.find(o => o.id === raw.id);
+                                const fullOrd = {
+                                    ...raw,
+                                    items: parsedItems,
+                                    signatureDataUrl: raw.signatureDataUrl || existingLocal?.signatureDataUrl || null,
+                                    evidencePhotoUrl: raw.evidencePhotoUrl || existingLocal?.evidencePhotoUrl || null,
+                                    returnPhotoUrl: raw.returnPhotoUrl || existingLocal?.returnPhotoUrl || null
+                                };
                                 loadedOrders.push(fullOrd);
 
                                 if (!isFirstOrdersSnapshot && !knownCloudOrderIds.has(fullOrd.id)) {
@@ -10281,77 +10445,3 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
                             });
 
                             isFirstOrdersSnapshot = false;
-                            loadedOrders.sort((a, b) => String(b.id || '').localeCompare(String(a.id || '')));
-                            state.orders = loadedOrders;
-                            renderAllViews();
-
-                            // Si entró un nuevo pedido/cotización/reserva desde un cliente, disparar la alerta sonora y visual estilo fiesta
-                            if (newlyArrivedOrder && window.app && typeof window.app.triggerNewOrderPartyNotification === 'function') {
-                                window.app.triggerNewOrderPartyNotification(newlyArrivedOrder);
-                            }
-                        }
-                    }, (err) => {
-                        console.warn("Error leyendo pedidos:", err);
-                    });
-
-                    unsubSettings = onSnapshot(settingsCol, (snapshot) => {
-                        if (snapshot.empty) {
-                            fbSaveSettings({
-                                ...state.settings,
-                                combos: state.combos,
-                                expenses: state.expenses,
-                                clientTags: state.clientTags
-                            }).catch(() => {});
-                            return;
-                        }
-                        snapshot.forEach(d => {
-                            if (d.id === 'main') {
-                                const cloudData = d.data();
-                                state.settings = { ...state.settings, ...cloudData };
-                                if (Array.isArray(cloudData.combos)) state.combos = cloudData.combos;
-                                if (Array.isArray(cloudData.expenses)) state.expenses = cloudData.expenses;
-                                if (cloudData.clientTags && typeof cloudData.clientTags === 'object') {
-                                    state.clientTags = { ...state.clientTags, ...cloudData.clientTags };
-                                }
-                                if (state.settings.isSystemResetEmpty) {
-                                    state.isSystemResetEmpty = true;
-                                }
-                                populateSettingsInputs();
-                                renderAllViews();
-                            }
-                        });
-                    }, (err) => {
-                        console.warn("Error leyendo configuración:", err);
-                    });
-                };
-
-                onAuthStateChanged(auth, (user) => {
-                    if (user) activateListeners(user);
-                });
-                activateListeners(state.user);
-                return true;
-            } catch (err) {
-                state.isCloudConnected = false;
-                if (badge) {
-                    badge.className = 'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40';
-                    badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span> Modo Local (Verificar Firebase)';
-                }
-                if (adminStatus) {
-                    adminStatus.className = 'px-2.5 py-1 rounded-full text-[10px] font-black bg-rose-600 text-white';
-                    adminStatus.textContent = '❌ Error de Conexión';
-                }
-                if (resultBanner) {
-                    resultBanner.className = 'text-[11px] font-bold text-rose-700 p-2.5 bg-rose-50 rounded-xl border border-rose-200 mt-2 block w-full';
-                    resultBanner.innerHTML = `❌ <strong>No se pudo conectar a Firebase:</strong><br><span class="text-[10px] mt-1 block leading-tight font-medium">${err?.message || 'Error desconocido'}</span>`;
-                }
-                console.warn("Operando con memoria local de respaldo:", err);
-                if (forceVerify) throw err;
-                return false;
-            }
-        }
-
-        triggerFirebaseReconnect = connectFirebaseCloud;
-        connectFirebaseCloud();
-    </script>
-</body>
-</html>
