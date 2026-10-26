@@ -88,32 +88,32 @@
             </div>
         </div>
 
-        <!-- Nivel 2: Marca + Botones de Acción (Ajustados para nunca desbordar) -->
-        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-2">
-            <!-- Brand Identity -->
-            <div class="flex items-center gap-2.5 cursor-pointer min-w-0 group" onclick="window.app.handleSecretBrandTap()">
-                <div id="clientBrandLogoContainer" class="relative w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-brand-600 via-brand-700 to-indigo-800 flex items-center justify-center text-white shadow-md shadow-brand-600/25 shrink-0 overflow-hidden">
+        <!-- Nivel 2: Marca + Botones de Acción (En móvil la Marca usa todo el ancho superior para verse 100% completa sin cortarse) -->
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3">
+            <!-- Brand Identity (100% de ancho en móvil para que el Logo, Nombre y Eslogan nunca se oculten ni se corten) -->
+            <div class="flex items-center gap-2.5 sm:gap-3 cursor-pointer w-full sm:w-auto sm:flex-1 min-w-0 group" onclick="window.app.handleSecretBrandTap()">
+                <div id="clientBrandLogoContainer" class="relative w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-brand-600 via-brand-700 to-indigo-800 flex items-center justify-center text-white shadow-md shadow-brand-600/25 shrink-0 overflow-hidden">
                     <img id="clientBrandLogoImg" src="" alt="Logo" class="hidden w-full h-full object-cover">
                     <i id="clientBrandDefaultIcon" class="fa-solid fa-tent text-base sm:text-lg"></i>
                     <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center text-[7px]">
                         <i class="fa-solid fa-check"></i>
                     </span>
                 </div>
-                <div class="min-w-0">
-                    <div class="flex items-center gap-1.5">
-                        <span class="font-black text-base sm:text-xl tracking-tight text-slate-900 truncate"><span id="clientBrandPart1">Fiesta</span><span id="clientBrandPart2" class="text-brand-600">Control</span></span>
-                        <span id="clientBrandBadge" class="px-1.5 py-0.5 rounded text-[9px] font-extrabold uppercase bg-brand-50 text-brand-700 border border-brand-200 shrink-0">
+                <div class="min-w-0 flex-1">
+                    <div class="flex flex-wrap items-center gap-1.5 leading-snug">
+                        <span class="font-black text-base sm:text-xl tracking-tight text-slate-900 leading-tight break-words"><span id="clientBrandPart1">Fiesta</span> <span id="clientBrandPart2" class="text-brand-600">Control</span></span>
+                        <span id="clientBrandBadge" class="px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-extrabold uppercase bg-brand-50 text-brand-700 border border-brand-200 shrink-0">
                             PRO
                         </span>
                     </div>
-                    <p id="clientBrandSubtitle" class="text-[10px] sm:text-xs text-slate-500 truncate">Alquiler de Mobiliario, Inflables y Sonido</p>
+                    <p id="clientBrandSubtitle" class="text-[11px] sm:text-xs text-slate-500 leading-tight mt-0.5 break-words">Alquiler de Mobiliario, Inflables y Sonido</p>
                 </div>
             </div>
 
-            <!-- Right Actions: Consultar Reserva + WhatsApp + Botón de Cotización en Vivo -->
-            <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-                <button type="button" onclick="window.app.openClientOrderLookupModal()" class="flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-[11px] sm:text-xs font-extrabold text-brand-700 bg-brand-50 hover:bg-brand-100 border border-brand-200 transition shadow-2xs" title="Consulta cuánto has abonado y el estado de tu reserva">
-                    <i class="fa-solid fa-magnifying-glass-dollar text-brand-600"></i>
+            <!-- Right Actions: En móvil se acomodan en una fila limpia debajo del nombre para no aplastar el título -->
+            <div class="flex items-center justify-between sm:justify-end gap-2 w-full sm:w-auto shrink-0 border-t sm:border-t-0 border-slate-100 pt-1.5 sm:pt-0">
+                <button type="button" onclick="window.app.openClientOrderLookupModal()" class="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-extrabold text-brand-700 bg-brand-50 hover:bg-brand-100 border border-brand-200 transition shadow-2xs" title="Consulta cuánto has abonado y el estado de tu reserva">
+                    <i class="fa-solid fa-magnifying-glass-dollar text-brand-600 text-sm"></i>
                     <span>Mi Reserva</span>
                 </button>
 
@@ -122,10 +122,10 @@
                     <span>Asesoría</span>
                 </button>
 
-                <button id="headerCartBtn" onclick="window.app.toggleQuoteDrawer(true)" class="group relative bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-700 hover:to-indigo-700 text-white p-1.5 pr-3 sm:pr-4 rounded-xl sm:rounded-2xl shadow-md shadow-brand-600/20 transition flex items-center gap-2">
-                    <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-white/15 flex items-center justify-center relative shrink-0">
+                <button id="headerCartBtn" onclick="window.app.toggleQuoteDrawer(true)" class="flex-1 sm:flex-initial group relative bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-700 hover:to-indigo-700 text-white p-1.5 pr-3.5 sm:pr-4 rounded-xl sm:rounded-2xl shadow-md shadow-brand-600/20 transition flex items-center justify-center sm:justify-start gap-2">
+                    <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-white/15 flex items-center justify-center relative shrink-0">
                         <i class="fa-solid fa-cart-flatbed text-xs sm:text-sm"></i>
-                        <span id="cartCountBadge" class="absolute -top-1.5 -right-1.5 bg-amber-400 text-slate-950 font-black text-[10px] min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center border border-white">0</span>
+                        <span id="cartCountBadge" class="absolute -top-1.5 -right-1.5 bg-amber-400 text-slate-950 font-black text-[9px] sm:text-[10px] min-w-[16px] sm:min-w-[18px] h-[16px] sm:h-[18px] px-1 rounded-full flex items-center justify-center border border-white">0</span>
                     </div>
                     <div class="text-left leading-tight">
                         <span class="block text-[9px] sm:text-[10px] uppercase tracking-wider text-brand-100 font-semibold">Cotización</span>
