@@ -426,25 +426,115 @@
         </section>
 
         <!-- Barra de Disponibilidad por Fecha del Evento y Apartado (Para el día que la persona solicita) -->
-        <section id="dateAvailabilityBannerSection" class="bg-slate-900 text-white rounded-2xl p-4 sm:px-6 border border-slate-800 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div class="flex items-start sm:items-center gap-3.5">
-                <div class="w-11 h-11 rounded-2xl bg-amber-400 text-slate-950 flex items-center justify-center text-lg font-black shrink-0 shadow-sm">
-                    <i class="fa-regular fa-calendar-check"></i>
-                </div>
-                <div>
-                    <div class="flex flex-wrap items-center gap-2">
-                        <h3 class="font-extrabold text-sm sm:text-base text-white">Consulta Disponibilidad y Aparta tu Fecha</h3>
-                        <span id="depositBadgeHeader" class="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-400 text-slate-950">Aparta con 30%</span>
+        <section id="dateAvailabilityBannerSection" class="bg-slate-900 text-white rounded-2xl p-4 sm:px-6 border border-slate-800 shadow-md space-y-4">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="flex items-start sm:items-center gap-3.5">
+                    <div class="w-11 h-11 rounded-2xl bg-amber-400 text-slate-950 flex items-center justify-center text-lg font-black shrink-0 shadow-sm">
+                        <i class="fa-regular fa-calendar-check"></i>
                     </div>
-                    <p class="text-xs text-slate-300 mt-0.5">Elige el día de tu evento para ver cuántos equipos están libres esa fecha.</p>
+                    <div>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <h3 class="font-extrabold text-sm sm:text-base text-white">Consulta Disponibilidad y Asegura tu Fecha</h3>
+                            <span id="depositBadgeHeader" class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-400 text-slate-950">Aparta con $15</span>
+                        </div>
+                        <p class="text-xs text-slate-300 mt-0.5 leading-relaxed">
+                            Elige el día de tu evento, selecciona el equipo y la cantidad que necesitas para verificar disponibilidad al instante.
+                        </p>
+                    </div>
+                </div>
+                <div class="flex flex-wrap items-center gap-2 shrink-0">
+                    <label for="clientEventDateFilter" class="text-xs font-bold text-amber-300"><i class="fa-regular fa-calendar mr-1"></i>1. Día de tu fiesta:</label>
+                    <input id="clientEventDateFilter" type="date" onchange="window.app.setClientEventDate(this.value)" class="px-3 py-2 rounded-xl bg-white text-slate-900 font-extrabold text-xs border-2 border-amber-400 focus:outline-none">
+                    <button id="btnClearEventDateFilter" onclick="window.app.setClientEventDate('')" class="hidden px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 transition">
+                        Cambiar / Limpiar
+                    </button>
                 </div>
             </div>
-            <div class="flex flex-wrap items-center gap-2 shrink-0">
-                <label for="clientEventDateFilter" class="text-xs font-bold text-amber-300"><i class="fa-regular fa-calendar mr-1"></i>Día de tu fiesta:</label>
-                <input id="clientEventDateFilter" type="date" onchange="window.app.setClientEventDate(this.value)" class="px-3 py-2 rounded-xl bg-white text-slate-900 font-extrabold text-xs border-2 border-amber-400 focus:outline-none">
-                <button id="btnClearEventDateFilter" onclick="window.app.setClientEventDate('')" class="hidden px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 transition">
-                    Ver stock general
-                </button>
+
+            <!-- Panel Interactivo que se despliega cuando el cliente elige la fecha de su fiesta -->
+            <div id="dateInteractiveEquipmentPicker" class="hidden pt-3 border-t border-slate-800 space-y-3.5">
+                <!-- Selector Directo: ¿Qué equipo necesitas? + ¿Qué cantidad necesitas? -->
+                <div class="bg-slate-800/95 p-3.5 rounded-2xl border-2 border-amber-400/80 space-y-3">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <span class="text-xs sm:text-sm font-black text-amber-300 flex items-center gap-1.5">
+                            <i class="fa-solid fa-boxes-stacked"></i> 2. Indica el equipo y la cantidad que necesitas para el <span id="pickerSelectedDateText" class="underline text-white">día seleccionado</span>:
+                        </span>
+                        <span id="pickerLiveAvailabilitySummaryBadge" class="px-2.5 py-1 rounded-full text-[11px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 shrink-0">
+                            🟢 Verificando stock en vivo
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5 items-end">
+                        <div class="sm:col-span-6">
+                            <label for="quickDateItemSelect" class="block text-[11px] font-extrabold text-slate-200 mb-1">🪑 ¿Qué equipo necesitas?</label>
+                            <select id="quickDateItemSelect" onchange="window.app.updateQuickDateSelectHint()" class="w-full px-3 py-2.5 rounded-xl bg-white text-slate-900 font-extrabold text-xs border-2 border-slate-600 focus:border-amber-400 focus:outline-none">
+                                <!-- Populated dynamically by JS -->
+                            </select>
+                        </div>
+                        <div class="sm:col-span-3">
+                            <label for="quickDateQtyInput" class="block text-[11px] font-extrabold text-slate-200 mb-1">🔢 Cantidad que necesitas:</label>
+                            <div class="flex items-center bg-white rounded-xl border-2 border-slate-600 overflow-hidden">
+                                <button type="button" onclick="window.app.adjustQuickDateQty(-1)" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-900 font-black text-xs">-</button>
+                                <input id="quickDateQtyInput" type="number" min="1" value="1" oninput="window.app.updateQuickDateSelectHint()" class="w-full text-center font-black text-xs text-slate-900 focus:outline-none py-2">
+                                <button type="button" onclick="window.app.adjustQuickDateQty(1)" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-900 font-black text-xs">+</button>
+                            </div>
+                        </div>
+                        <div class="sm:col-span-3">
+                            <button type="button" onclick="window.app.addQuickDateSelectedItem()" class="w-full py-2.5 px-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs shadow-md transition flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-plus-circle"></i> <span>Agregar a mi Fecha</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Aviso instantáneo de disponibilidad del equipo elegido en el selector -->
+                    <div id="quickDateSelectLiveHint" class="text-[11px] font-bold text-emerald-300 bg-slate-900/90 px-3 py-2 rounded-xl border border-slate-700 flex flex-wrap items-center justify-between gap-2">
+                        <span>Selecciona un equipo y la cantidad arriba para verificar si está libre en tu fecha.</span>
+                    </div>
+
+                    <!-- Resumen claro de lo que el cliente va necesitando (Equipo + Cantidad + Estado de Disponibilidad) -->
+                    <div id="pickerChosenItemsSummaryBox" class="hidden bg-slate-900 p-3 rounded-xl border border-emerald-500/40 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[11px] font-black uppercase tracking-wider text-amber-300">📋 Equipos y cantidades que necesitas para tu evento:</span>
+                            <button type="button" onclick="window.app.clearCart(); window.app.renderDateAvailabilityChecker();" class="text-[10px] font-bold text-rose-400 hover:underline">Limpiar selección</button>
+                        </div>
+                        <div id="pickerChosenItemsPills" class="flex flex-wrap gap-1.5"></div>
+                    </div>
+                </div>
+
+                <!-- Lista rápida adicional de todos los equipos con botones +/- -->
+                <div class="space-y-1.5">
+                    <span class="text-[11px] font-bold text-slate-300 block px-1">O también puedes marcar varios equipos y cantidades directamente en la lista:</span>
+                    <div id="dateInteractiveEquipmentList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 max-h-64 overflow-y-auto pr-1">
+                        <!-- Populated dynamically by JS -->
+                    </div>
+                </div>
+
+                <!-- Mensaje Persuasivo de Apartado + Botones de Acción Directa -->
+                <div class="bg-gradient-to-r from-amber-400/15 via-indigo-500/15 to-emerald-500/15 border-2 border-amber-400/70 rounded-2xl p-3.5 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+                    <div class="flex items-start gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center text-base font-black shrink-0 mt-0.5 shadow-sm">
+                            <i class="fa-solid fa-shield-heart"></i>
+                        </div>
+                        <div class="space-y-0.5">
+                            <p id="pickerStatusHeadline" class="text-xs sm:text-sm font-extrabold text-amber-300">
+                                ✨ ¡No te quedes sin tus equipos para el día de tu celebración!
+                            </p>
+                            <p id="pickerReminderCopy" class="text-[11px] sm:text-xs text-slate-200 leading-relaxed">
+                                Recuerda que nuestra disponibilidad cambia rápidamente. <strong class="text-white">Puedes apartar tu mobiliario hoy mismo con solo <span id="pickerDepositAmountText" class="text-amber-300 font-black">$15.00 de abono</span></strong> para congelar tus equipos y tener la tranquilidad de que estarán 100% reservados y listos para tu fiesta.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap sm:flex-nowrap items-center gap-2 shrink-0">
+                        <button type="button" onclick="window.app.proceedFromDateChecker('COTIZACION')" class="flex-1 sm:flex-initial px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white border border-slate-600 font-bold text-xs transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-calculator text-brand-400"></i>
+                            <span>Solo Cotizar</span>
+                        </button>
+                        <button type="button" onclick="window.app.proceedFromDateChecker('RESERVA')" class="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs shadow-lg transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-lock"></i>
+                            <span id="btnDateCheckerReserveText">Apartar para Asegurar Disponibilidad</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -4190,6 +4280,8 @@
             const depDrawerBadge = document.getElementById('drawerDepositPctBadge');
             if (depDrawerBadge) depDrawerBadge.textContent = depInfo.shortBadge;
 
+            renderDateAvailabilityChecker();
+
             const yappyEl = document.getElementById('drawerYappyDisplay');
             const bankEl = document.getElementById('drawerBankDisplay');
             if (yappyEl) yappyEl.textContent = state.settings.yappyInfo || '6000-0000 (@FiestaControl)';
@@ -5986,6 +6078,152 @@ ${itemsSummary}
             }
             if (totalEl) {
                 totalEl.textContent = areClientPricesVisible() ? `$${calc.total.toFixed(2)} /día` : 'Cotizar Paquete';
+            }
+        }
+
+        function renderDateAvailabilityChecker() {
+            const panel = document.getElementById('dateInteractiveEquipmentPicker');
+            const listEl = document.getElementById('dateInteractiveEquipmentList');
+            const dateTextEl = document.getElementById('pickerSelectedDateText');
+            const depTextEl = document.getElementById('pickerDepositAmountText');
+            const btnReserveText = document.getElementById('btnDateCheckerReserveText');
+            const headlineEl = document.getElementById('pickerStatusHeadline');
+            const summaryBadge = document.getElementById('pickerLiveAvailabilitySummaryBadge');
+            const quickSelect = document.getElementById('quickDateItemSelect');
+            const chosenBox = document.getElementById('pickerChosenItemsSummaryBox');
+            const chosenPills = document.getElementById('pickerChosenItemsPills');
+
+            if (!panel || !listEl) return;
+
+            if (!state.clientSelectedDate) {
+                panel.classList.add('hidden');
+                return;
+            }
+
+            panel.classList.remove('hidden');
+            const showPrices = areClientPricesVisible();
+            const depInfo = getDepositRequirementInfo(0);
+
+            if (dateTextEl) dateTextEl.textContent = state.clientSelectedDate;
+            if (depTextEl) {
+                depTextEl.textContent = depInfo.mode === 'FIXED'
+                    ? `$${depInfo.amount.toFixed(2)} de abono`
+                    : `un ${depInfo.shortBadge} de abono`;
+            }
+            if (btnReserveText) {
+                btnReserveText.textContent = depInfo.mode === 'FIXED'
+                    ? `Apartar Ahora con $${depInfo.amount.toFixed(2)}`
+                    : `Apartar Ahora (${depInfo.shortBadge})`;
+            }
+
+            // Poblar el selector directo "¿Qué equipo necesitas?" mostrando cuántas unidades hay disponibles ese día
+            if (quickSelect) {
+                const prevSelectedId = quickSelect.value;
+                quickSelect.innerHTML = state.catalog.map(item => {
+                    const avail = getAvailableForDate(item.id, item.stock, state.clientSelectedDate);
+                    const priceTxt = showPrices ? ` • $${Number(item.price).toFixed(2)}/día` : '';
+                    return `<option value="${item.id}">${item.name} (${avail} disponibles${priceTxt})</option>`;
+                }).join('');
+                if (prevSelectedId && state.catalog.some(i => i.id === prevSelectedId)) {
+                    quickSelect.value = prevSelectedId;
+                }
+                if (window.app && typeof window.app.updateQuickDateSelectHint === 'function') {
+                    window.app.updateQuickDateSelectHint();
+                }
+            }
+
+            let selectedKindsCount = 0;
+            let selectedUnitsTotal = 0;
+            let allSelectedAreAvailable = true;
+            const chosenSummaryHtml = [];
+
+            listEl.innerHTML = state.catalog.map(item => {
+                const availableForDay = getAvailableForDate(item.id, item.stock, state.clientSelectedDate);
+                const cartEntry = state.cart.find(c => c.id === item.id);
+                const qtySelected = cartEntry ? Number(cartEntry.qty) || 0 : 0;
+
+                if (qtySelected > 0) {
+                    selectedKindsCount++;
+                    selectedUnitsTotal += qtySelected;
+                    const isItemOk = qtySelected <= availableForDay;
+                    if (!isItemOk) {
+                        allSelectedAreAvailable = false;
+                    }
+                    chosenSummaryHtml.push(`
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-extrabold border ${isItemOk ? 'bg-emerald-500/20 text-emerald-200 border-emerald-400/50' : 'bg-amber-400/20 text-amber-200 border-amber-400/60'}">
+                            <span>${isItemOk ? '✅' : '⚡'} <strong>${qtySelected}x</strong> ${item.name}</span>
+                            <span class="text-[10px] opacity-90">(${isItemOk ? 'Disponible' : `Quedan ${availableForDay} en 1 turno`})</span>
+                            <button type="button" onclick="window.app.setDateCheckerItemQty('${item.id}', 0)" class="ml-1 text-rose-300 hover:text-white" title="Quitar">✕</button>
+                        </span>
+                    `);
+                }
+
+                let statusPill = '';
+                if (availableForDay <= 0) {
+                    statusPill = `<span class="px-2 py-0.5 rounded-md bg-rose-500/20 text-rose-300 border border-rose-500/40 text-[10px] font-extrabold">⚠️ Turno lleno (Consultar horario)</span>`;
+                } else if (qtySelected > 0 && qtySelected <= availableForDay) {
+                    statusPill = `<span class="px-2 py-0.5 rounded-md bg-emerald-500 text-slate-950 text-[10px] font-black">✅ ¡Disponible! (Pides ${qtySelected} de ${availableForDay})</span>`;
+                } else if (qtySelected > availableForDay) {
+                    statusPill = `<span class="px-2 py-0.5 rounded-md bg-amber-400 text-slate-950 text-[10px] font-black">⚡ Pides ${qtySelected} (Hay ${availableForDay} en 1 turno)</span>`;
+                } else {
+                    statusPill = `<span class="px-2 py-0.5 rounded-md bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold">🟢 ${availableForDay} disponibles ese día</span>`;
+                }
+
+                return `
+                    <div class="p-2.5 rounded-xl border transition flex items-center justify-between gap-2.5 ${qtySelected > 0 ? 'bg-indigo-950/90 border-amber-400 shadow-sm' : 'bg-slate-800/75 border-slate-700/90 hover:border-slate-600'}">
+                        <div class="flex items-center gap-2.5 min-w-0 flex-1">
+                            <img src="${item.photo}" onerror="this.src='https://placehold.co/80x80/1e293b/ffffff?text=Equipo'" class="w-11 h-11 rounded-lg object-cover shrink-0 border border-slate-600">
+                            <div class="min-w-0 flex-1">
+                                <p class="text-xs font-extrabold text-white truncate">${item.name}</p>
+                                <div class="flex flex-wrap items-center gap-1.5 mt-1">
+                                    ${statusPill}
+                                    ${showPrices ? `<span class="text-[11px] font-black text-amber-300">$${Number(item.price).toFixed(2)}</span>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-end gap-0.5 shrink-0">
+                            <span class="text-[9px] font-bold uppercase text-slate-400">Cantidad:</span>
+                            <div class="flex items-center gap-1 bg-slate-900 rounded-xl p-1 border border-slate-700">
+                                <button type="button" onclick="window.app.toggleDateCheckerItemQty('${item.id}', -1)" class="w-7 h-7 rounded-lg bg-slate-800 hover:bg-rose-600 text-white font-black text-xs transition">-</button>
+                                <input type="number" min="0" value="${qtySelected}" onchange="window.app.setDateCheckerItemQty('${item.id}', this.value)" class="w-10 text-center bg-transparent text-white font-black text-xs focus:outline-none">
+                                <button type="button" onclick="window.app.toggleDateCheckerItemQty('${item.id}', 1)" class="w-7 h-7 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs transition">+</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            if (chosenBox && chosenPills) {
+                if (chosenSummaryHtml.length > 0) {
+                    chosenBox.classList.remove('hidden');
+                    chosenPills.innerHTML = chosenSummaryHtml.join('');
+                } else {
+                    chosenBox.classList.add('hidden');
+                    chosenPills.innerHTML = '';
+                }
+            }
+
+            if (summaryBadge) {
+                if (selectedUnitsTotal === 0) {
+                    summaryBadge.className = 'px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-slate-700 text-amber-300 border border-slate-600 shrink-0';
+                    summaryBadge.textContent = '👆 Elige el equipo y la cantidad que necesitas';
+                } else if (allSelectedAreAvailable) {
+                    summaryBadge.className = 'px-2.5 py-1 rounded-full text-[11px] font-black bg-emerald-500 text-slate-950 shrink-0';
+                    summaryBadge.textContent = `✅ ¡Sí hay disponibilidad! (${selectedUnitsTotal} uds seleccionadas)`;
+                } else {
+                    summaryBadge.className = 'px-2.5 py-1 rounded-full text-[11px] font-black bg-amber-400 text-slate-950 shrink-0';
+                    summaryBadge.textContent = `⚡ ${selectedUnitsTotal} uds seleccionadas (Sujeto a turno)`;
+                }
+            }
+
+            if (headlineEl) {
+                if (selectedUnitsTotal > 0 && allSelectedAreAvailable) {
+                    headlineEl.innerHTML = `🎉 ¡Sí están disponibles! Los equipos y cantidades que necesitas están libres para el <span class="underline">${state.clientSelectedDate}</span>.`;
+                } else if (selectedUnitsTotal > 0) {
+                    headlineEl.innerHTML = `⏰ Has seleccionado ${selectedUnitsTotal} unidades para el <span class="underline">${state.clientSelectedDate}</span>.`;
+                } else {
+                    headlineEl.innerHTML = `✨ ¡Selecciona arriba el equipo y la cantidad que necesitas y asegúralos para tu celebración!`;
+                }
             }
         }
 
@@ -9507,11 +9745,101 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
                 if (drawerInput && state.clientSelectedDate) drawerInput.value = state.clientSelectedDate;
                 if (clearBtn) clearBtn.classList.toggle('hidden', !state.clientSelectedDate);
                 renderHeroAndPromos();
+                renderDateAvailabilityChecker();
                 renderCatalog();
                 updateCartUI();
                 if (state.clientSelectedDate) {
-                    showToast(`Mostrando disponibilidad para el día ${state.clientSelectedDate}`, 'info');
+                    showToast(`📅 Ahora elige qué equipos necesitas para el ${state.clientSelectedDate}`, 'info');
                 }
+            },
+            toggleDateCheckerItemQty(itemId, delta) {
+                const item = state.catalog.find(i => i.id === itemId);
+                if (!item) return;
+                const existing = state.cart.find(c => c.id === itemId);
+                const currentQty = existing ? Number(existing.qty) || 0 : 0;
+                const nextQty = Math.max(0, currentQty + delta);
+                this.setDateCheckerItemQty(itemId, nextQty);
+            },
+            adjustQuickDateQty(delta) {
+                const inp = document.getElementById('quickDateQtyInput');
+                if (!inp) return;
+                let val = parseInt(inp.value || '1', 10) + delta;
+                if (val < 1) val = 1;
+                inp.value = val;
+                this.updateQuickDateSelectHint();
+            },
+            updateQuickDateSelectHint() {
+                const sel = document.getElementById('quickDateItemSelect');
+                const qtyInp = document.getElementById('quickDateQtyInput');
+                const hintBox = document.getElementById('quickDateSelectLiveHint');
+                if (!sel || !qtyInp || !hintBox) return;
+
+                const item = state.catalog.find(i => i.id === sel.value);
+                if (!item) return;
+
+                const neededQty = Math.max(1, parseInt(qtyInp.value || '1', 10));
+                const avail = getAvailableForDate(item.id, item.stock, state.clientSelectedDate);
+                const depInfo = getDepositRequirementInfo(0);
+                const depLabel = depInfo.mode === 'FIXED' ? `$${depInfo.amount.toFixed(2)}` : depInfo.shortBadge;
+
+                if (neededQty <= avail) {
+                    hintBox.className = 'text-[11px] font-bold text-emerald-300 bg-emerald-950/70 px-3 py-2 rounded-xl border border-emerald-500/50 flex flex-wrap items-center justify-between gap-2';
+                    hintBox.innerHTML = `
+                        <span>✅ <strong>¡Sí está disponible!</strong> Necesitas <strong>${neededQty}x ${item.name}</strong> y tenemos <strong>${avail} libres</strong> para el ${state.clientSelectedDate}.</span>
+                        <span class="text-amber-300 font-black">🔒 Apártalo hoy con ${depLabel} para asegurar tu fecha</span>
+                    `;
+                } else {
+                    hintBox.className = 'text-[11px] font-bold text-amber-200 bg-amber-950/70 px-3 py-2 rounded-xl border border-amber-400/60 flex flex-wrap items-center justify-between gap-2';
+                    hintBox.innerHTML = `
+                        <span>⚡ Necesitas <strong>${neededQty}x ${item.name}</strong> y quedan <strong>${avail} libres</strong> en horario continuo para el ${state.clientSelectedDate}.</span>
+                        <span class="text-white font-extrabold">Agrégalo y coordinamos tu turno por WhatsApp</span>
+                    `;
+                }
+            },
+            addQuickDateSelectedItem() {
+                const sel = document.getElementById('quickDateItemSelect');
+                const qtyInp = document.getElementById('quickDateQtyInput');
+                if (!sel || !qtyInp) return;
+                const itemId = sel.value;
+                const item = state.catalog.find(i => i.id === itemId);
+                if (!item) return;
+                const qty = Math.max(1, parseInt(qtyInp.value || '1', 10));
+                this.setDateCheckerItemQty(itemId, qty);
+                showToast(`✅ ${qty}x ${item.name} agregado para el ${state.clientSelectedDate}`, 'success');
+            },
+            RenderDateAvailabilityChecker: renderDateAvailabilityChecker,
+            renderDateAvailabilityChecker,
+            setDateCheckerItemQty(itemId, rawVal) {
+                const item = state.catalog.find(i => i.id === itemId);
+                if (!item) return;
+                const qty = Math.max(0, parseInt(rawVal || '0', 10));
+                if (qty === 0) {
+                    state.cart = state.cart.filter(c => c.id !== itemId);
+                } else {
+                    const existing = state.cart.find(c => c.id === itemId);
+                    if (existing) {
+                        existing.qty = qty;
+                    } else {
+                        state.cart.push({
+                            id: item.id,
+                            name: item.name,
+                            price: Number(item.price),
+                            qty,
+                            photo: item.photo
+                        });
+                    }
+                }
+                updateCartUI();
+                renderDateAvailabilityChecker();
+                renderCatalog();
+            },
+            proceedFromDateChecker(mode = 'RESERVA') {
+                if (state.cart.length === 0) {
+                    showToast('Primero selecciona arriba al menos un equipo (+) de la lista para tu fecha', 'warning');
+                    return;
+                }
+                this.setQuoteMode(mode);
+                this.toggleQuoteDrawer(true);
             },
             setQuoteMode(mode) {
                 state.quoteMode = mode;
