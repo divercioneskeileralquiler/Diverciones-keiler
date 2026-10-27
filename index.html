@@ -2090,7 +2090,11 @@
                             <select id="delivInitialStatus" class="w-full px-2.5 py-2 border border-slate-300 rounded-xl text-xs font-extrabold bg-emerald-50 text-emerald-950">
                                 <option value="ENTREGADO">🚚 Dejado en la Casa (En Calle)</option>
                                 <option value="RESERVA">🔒 Apartado para Fecha</option>
-                        <!-- Captura de Coordenadas GPS con 1 Solo Botón o Link de Google Maps -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Captura de Coordenadas GPS con 1 Solo Botón o Link de Google Maps -->
                     <div class="p-3 rounded-xl bg-sky-50 border-2 border-sky-200 space-y-2">
                         <div class="flex items-center justify-between">
                             <span class="font-extrabold text-sky-950"><i class="fa-solid fa-location-crosshairs text-sky-600 mr-1"></i> Ubicación: Link Maps o Autodetectar GPS</span>
@@ -2142,10 +2146,10 @@
                     <!-- Tomar Foto de la Casa donde se dejaron los equipos -->
                     <div class="p-3 rounded-xl bg-amber-50 border-2 border-amber-300 space-y-2">
                         <div class="flex items-center justify-between">
-                            <span class="font-extrabold text-amber-950"><i class="fa-solid fa-house-chimney-window text-amber-600 mr-1"></i> Fotos de la Casa (Entrega y Retiro)</span>
+                            <span class="font-extrabold text-amber-950"><i class="fa-solid fa-house-chimney-window text-amber-600 mr-1"></i> Fotos de la Casa (Entrega y Retiro) y Firma</span>
                             <span class="text-[10px] font-bold text-amber-800">Comprime a ~40 KB</span>
                         </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
                             <label for="delivHousePhotoInput" class="cursor-pointer w-full py-2.5 px-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs shadow-xs transition flex items-center justify-center gap-1.5">
                                 <i class="fa-solid fa-camera text-sm"></i> 📸 1. Foto Entrega
                                 <input id="delivHousePhotoInput" type="file" accept="image/*" capture="environment" onchange="window.app.handleDeliveryHousePhoto(event, 'new')" class="hidden">
@@ -2154,8 +2158,11 @@
                                 <i class="fa-solid fa-camera-rotate text-sm"></i> 📸 2. Foto Retiro
                                 <input id="delivReturnPhotoInput" type="file" accept="image/*" capture="environment" onchange="window.app.handleDeliveryHousePhoto(event, 'new-return')" class="hidden">
                             </label>
+                            <button type="button" onclick="window.app.openFullscreenSignatureModal('deliv-new')" class="w-full py-2.5 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs shadow-xs transition flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-signature text-sm"></i> ✍️ Firmar Pantalla Completa
+                            </button>
                         </div>
-                        <div id="delivHousePhotoPreviewBox" class="hidden pt-1 grid grid-cols-2 gap-2">
+                        <div id="delivHousePhotoPreviewBox" class="hidden pt-1 grid grid-cols-3 gap-2">
                             <div class="relative">
                                 <img id="delivHousePhotoPreviewImg" src="" class="w-full h-20 object-cover rounded-lg border border-amber-400">
                                 <span class="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-black/70 text-white text-[9px] font-bold">Entrega</span>
@@ -2163,6 +2170,10 @@
                             <div id="delivReturnPhotoPreviewWrap" class="hidden relative">
                                 <img id="delivReturnPhotoPreviewImg" src="" class="w-full h-20 object-cover rounded-lg border border-slate-500">
                                 <span class="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-black/70 text-white text-[9px] font-bold">Retiro</span>
+                            </div>
+                            <div id="delivNewSigPreviewWrap" class="hidden relative bg-white rounded-lg border border-indigo-400 p-1">
+                                <img id="delivNewSigPreviewImg" src="" class="w-full h-18 object-contain">
+                                <span class="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-indigo-600 text-white text-[9px] font-bold">Firma Lista</span>
                             </div>
                         </div>
                     </div>
@@ -2395,13 +2406,18 @@
                                 </label>
                             </div>
                             <div class="space-y-1">
-                                <div class="w-full h-24 bg-white rounded-xl overflow-hidden flex items-center justify-center border border-emerald-300 p-1">
+                                <div onclick="window.app.openFullscreenSignatureModal('edit')" class="cursor-pointer w-full h-24 bg-white rounded-xl overflow-hidden flex items-center justify-center border border-emerald-300 p-1 hover:border-indigo-500 transition">
                                     <img id="editInvSignaturePreviewImg" src="" alt="Firma del cliente" class="w-full h-full object-contain hidden">
-                                    <span id="editInvNoSignaturePlaceholder" class="text-[10px] text-slate-400 font-semibold text-center px-1">Sin firma aún</span>
+                                    <span id="editInvNoSignaturePlaceholder" class="text-[10px] text-indigo-600 font-extrabold text-center px-1">✍️ Toca para Firmar en Pantalla Completa</span>
                                 </div>
-                                <button type="button" onclick="window.app.openReceiptFromEditModal()" class="w-full py-1.5 px-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-[10px] flex items-center justify-center gap-1">
-                                    <i class="fa-solid fa-print"></i> Recibo / Firma
-                                </button>
+                                <div class="grid grid-cols-2 gap-1">
+                                    <button type="button" onclick="window.app.openFullscreenSignatureModal('edit')" class="w-full py-1.5 px-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-[10px] flex items-center justify-center gap-1">
+                                        <i class="fa-solid fa-signature"></i> Firmar
+                                    </button>
+                                    <button type="button" onclick="window.app.openReceiptFromEditModal()" class="w-full py-1.5 px-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-[10px] flex items-center justify-center gap-1">
+                                        <i class="fa-solid fa-print"></i> Recibo
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -2680,24 +2696,36 @@
                         <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center shrink-0">
                             <i class="fa-solid fa-lock"></i>
                         </div>
-                        <img id="signatureLockedThumbImg" src="" alt="Firma" class="h-10 w-20 object-contain bg-white border border-emerald-300 rounded-lg p-0.5 shrink-0">
                         <div class="min-w-0">
                             <span class="font-extrabold text-emerald-950 block">✅ Firma del Cliente Guardada y Protegida</span>
-                            <span class="text-[10px] text-emerald-700 block">El panel de firma está bloqueado para evitar que se borre por accidente.</span>
+                            <span class="text-[10px] text-emerald-700 block">El panel está bloqueado para evitar que se borre por accidente.</span>
                         </div>
                     </div>
-                    <button type="button" onclick="window.app.unlockSignatureForEditing()" class="px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-[11px] shrink-0 flex items-center gap-1 shadow-2xs">
-                        <i class="fa-solid fa-pen"></i> Editar Firma
+                    <img id="signatureLockedThumbImg" src="" class="h-10 w-20 object-contain bg-white rounded border border-emerald-300 p-0.5 shrink-0">
+                    <button type="button" onclick="window.app.unlockSignatureForEditing()" class="px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs shrink-0 flex items-center gap-1 shadow-2xs">
+                        <i class="fa-solid fa-pen"></i> <span>Editar Firma</span>
                     </button>
                 </div>
 
-                <!-- Área de Firma Activa (Solo se muestra si NO se ha firmado o si se presionó "Editar Firma") -->
+                <!-- Área de Firma Activa (Al tocar abre el Modo Pantalla Completa para que sea más fácil firmar) -->
                 <div id="signatureActivePadWrapper" class="space-y-2">
                     <div class="flex items-center justify-between">
-                        <span class="font-extrabold text-slate-800">✍️ Firma de Conformidad del Cliente (Con el dedo):</span>
-                        <button type="button" onclick="window.app.clearSignaturePad()" class="text-[11px] text-rose-600 font-bold hover:underline">Limpiar Firma</button>
+                        <span class="font-extrabold text-slate-800">✍️ Firma de Conformidad del Cliente:</span>
+                        <div class="flex items-center gap-2">
+                            <button type="button" onclick="window.app.openFullscreenSignatureModal('receipt')" class="px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] font-black flex items-center gap-1 shadow-2xs">
+                                <i class="fa-solid fa-expand"></i> Abrir Pantalla Completa
+                            </button>
+                            <button type="button" onclick="window.app.clearSignaturePad()" class="text-[11px] text-rose-600 font-bold hover:underline">Limpiar</button>
+                        </div>
                     </div>
-                    <canvas id="signaturePadCanvas" class="w-full h-32 bg-white border-2 border-dashed border-slate-300 rounded-xl touch-none cursor-crosshair"></canvas>
+                    <div onclick="window.app.openFullscreenSignatureModal('receipt')" class="relative cursor-pointer group">
+                        <canvas id="signaturePadCanvas" class="w-full h-32 bg-white border-2 border-dashed border-indigo-400 rounded-xl touch-none pointer-events-none"></canvas>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center bg-indigo-950/5 group-hover:bg-indigo-950/10 rounded-xl transition">
+                            <span class="px-3.5 py-2 rounded-xl bg-indigo-600 text-white font-black text-xs shadow-md flex items-center gap-1.5">
+                                <i class="fa-solid fa-signature"></i> Toca aquí para Firmar en Pantalla Completa
+                            </span>
+                        </div>
+                    </div>
                 </div>
 
                 <div id="receiptPhotoPreviewBox" class="hidden mt-2">
@@ -2811,6 +2839,51 @@
                     </div>
                     <div id="manCustomFreeItemsContainer" class="space-y-1.5"></div>
                     <div id="manOverbookingLiveBanner" class="hidden mt-2 p-2.5 rounded-xl bg-amber-50 border-2 border-amber-400 text-[11px] text-amber-950 font-semibold"></div>
+                </div>
+
+                <!-- Bloque Opcional Directo al Crear Pedido: Foto de Evidencia y Firma Digital en el Momento -->
+                <div class="p-3 rounded-xl bg-amber-50/80 border-2 border-amber-300 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="font-extrabold text-amber-950 text-[11px]"><i class="fa-solid fa-camera-retro text-amber-600 mr-1"></i> Foto de Evidencia y Firma en el Momento (Opcional):</span>
+                        <span class="text-[10px] font-bold text-amber-800">Se guarda directo en la factura</span>
+                    </div>
+
+                    <!-- 1. Tomar Foto de Entrega Ahí Mismo -->
+                    <div class="space-y-1.5">
+                        <div class="flex items-center justify-between gap-2">
+                            <label for="manOrderPhotoInput" class="cursor-pointer flex-1 py-2 px-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs shadow-2xs transition flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-camera"></i> 📸 Tomar / Subir Foto de Entrega
+                                <input id="manOrderPhotoInput" type="file" accept="image/*" capture="environment" onchange="window.app.handleManualOrderPhotoUpload(event)" class="hidden">
+                            </label>
+                            <button type="button" id="btnClearManPhoto" onclick="window.app.clearManualOrderPhoto()" class="hidden px-2.5 py-2 rounded-xl bg-rose-100 hover:bg-rose-200 text-rose-700 font-extrabold text-xs">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                        <div id="manOrderPhotoPreviewBox" class="hidden">
+                            <img id="manOrderPhotoPreviewImg" src="" class="w-full h-28 object-cover rounded-xl border-2 border-amber-400">
+                        </div>
+                    </div>
+
+                    <!-- 2. Firma Digital del Cliente Ahí Mismo (Abre en Pantalla Completa al tocar) -->
+                    <div class="space-y-1.5 pt-1 border-t border-amber-200/80">
+                        <div class="flex items-center justify-between">
+                            <span class="font-extrabold text-slate-800 text-[11px]">✍️ Firma del Cliente (Pantalla Completa):</span>
+                            <div class="flex items-center gap-2">
+                                <button type="button" onclick="window.app.openFullscreenSignatureModal('manual')" class="px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-black text-[10px] flex items-center gap-1 shadow-2xs">
+                                    <i class="fa-solid fa-expand"></i> Firmar en Pantalla Completa
+                                </button>
+                                <button type="button" onclick="window.app.clearManualOrderSignaturePad()" class="text-[11px] text-rose-600 font-bold hover:underline">Limpiar</button>
+                            </div>
+                        </div>
+                        <div onclick="window.app.openFullscreenSignatureModal('manual')" class="relative cursor-pointer group">
+                            <canvas id="manOrderSignatureCanvas" class="w-full h-28 bg-white border-2 border-dashed border-amber-400 rounded-xl touch-none pointer-events-none"></canvas>
+                            <div id="manOrderSigOverlayHint" class="absolute inset-0 flex items-center justify-center bg-amber-950/5 group-hover:bg-amber-950/10 rounded-xl transition">
+                                <span class="px-3 py-1.5 rounded-xl bg-slate-900 text-amber-300 font-black text-xs shadow-md flex items-center gap-1.5">
+                                    <i class="fa-solid fa-signature"></i> Toca aquí para Firmar en Pantalla Completa
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-200">
@@ -3126,6 +3199,47 @@
         </div>
     </div>
 
+    <!-- MODAL DE FIRMA EN PANTALLA COMPLETA (CON BOTONES: LIMPIAR, CERRAR Y ACEPTAR) -->
+    <div id="fullscreenSignatureModal" class="fixed inset-0 bg-slate-950 z-[70] hidden flex-col justify-between p-3 sm:p-5 select-none">
+        <!-- Barra Superior -->
+        <div class="flex items-center justify-between gap-2 bg-slate-900 text-white px-4 py-3 rounded-2xl border border-slate-800 shrink-0">
+            <div class="flex items-center gap-2.5 min-w-0">
+                <div class="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-base font-black shrink-0">
+                    <i class="fa-solid fa-signature"></i>
+                </div>
+                <div class="min-w-0">
+                    <h3 class="font-black text-sm sm:text-base text-white truncate">✍️ Firma de Conformidad en Pantalla Completa</h3>
+                    <p class="text-[11px] text-amber-300 truncate">Firme con el dedo dentro del recuadro blanco y toque "Aceptar"</p>
+                </div>
+            </div>
+            <button type="button" onclick="window.app.closeFullscreenSignatureModal()" class="px-3.5 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-black text-xs flex items-center gap-1.5 shrink-0 shadow-md">
+                <i class="fa-solid fa-xmark"></i> <span>Cerrar</span>
+            </button>
+        </div>
+
+        <!-- Área Central Gigante de Firma -->
+        <div class="relative flex-1 my-3 bg-white rounded-3xl border-4 border-indigo-500 shadow-2xl overflow-hidden flex items-center justify-center">
+            <!-- Línea guía de firma -->
+            <div class="absolute bottom-14 left-8 right-8 border-b-2 border-dashed border-slate-300 pointer-events-none flex justify-center">
+                <span class="bg-white px-3 -mb-2.5 text-[11px] font-extrabold uppercase tracking-widest text-slate-400">Firme sobre esta línea</span>
+            </div>
+            <canvas id="fullscreenSigCanvas" class="w-full h-full touch-none cursor-crosshair block"></canvas>
+        </div>
+
+        <!-- Barra Inferior con los 3 Botones Grandes: Limpiar, Cerrar y Aceptar -->
+        <div class="grid grid-cols-3 gap-2.5 sm:gap-4 bg-slate-900 p-3 rounded-2xl border border-slate-800 shrink-0">
+            <button type="button" onclick="window.app.clearFullscreenSignature()" class="py-3.5 px-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs sm:text-sm shadow-md transition flex items-center justify-center gap-2">
+                <i class="fa-solid fa-eraser"></i> <span>Limpiar</span>
+            </button>
+            <button type="button" onclick="window.app.closeFullscreenSignatureModal()" class="py-3.5 px-3 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-extrabold text-xs sm:text-sm shadow-md transition flex items-center justify-center gap-2">
+                <i class="fa-solid fa-xmark"></i> <span>Cerrar</span>
+            </button>
+            <button type="button" onclick="window.app.acceptFullscreenSignature()" class="py-3.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs sm:text-sm shadow-lg transition flex items-center justify-center gap-2 ring-2 ring-emerald-300">
+                <i class="fa-solid fa-circle-check"></i> <span>Aceptar</span>
+            </button>
+        </div>
+    </div>
+
     <!-- Custom Non-Blocking Toast Notification -->
     <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
 
@@ -3385,10 +3499,14 @@
             activeReceiptOrderId: null,
             compressedPhotoDataUrl: null,
             tempEvidencePhotoDataUrl: null,
+            tempManualOrderPhotoDataUrl: null,
+            tempManualOrderSignatureDataUrl: null,
             tempNewDeliveryHousePhoto: null,
             tempNewDeliveryReturnPhoto: null,
+            tempNewDeliverySignatureDataUrl: null,
             tempEditDeliveryHousePhoto: null,
             tempEditDeliveryReturnPhoto: null,
+            fullscreenSigTarget: null,
             deliveriesListFilter: 'ALL',
             deliveriesSubTab: 'list',
             pendingIncompleteAlert: null,
@@ -5565,7 +5683,114 @@ ${itemsSummary}
         let sigCtx = null;
         let isDrawingSig = false;
         let sigPadHasNewStrokes = false;
+        let manSigCanvas = null;
+        let manSigCtx = null;
+        let isDrawingManSig = false;
+        let manSigHasStrokes = false;
+        let fullSigCanvas = null;
+        let fullSigCtx = null;
+        let isDrawingFullSig = false;
+        let fullSigHasStrokes = false;
         let partyAlarmRepeatTimer = null;
+
+        function initFullscreenSignaturePad() {
+            fullSigCanvas = document.getElementById('fullscreenSigCanvas');
+            if (!fullSigCanvas) return;
+            const rect = fullSigCanvas.getBoundingClientRect();
+            fullSigCanvas.width = Math.max(320, Math.floor(rect.width));
+            fullSigCanvas.height = Math.max(260, Math.floor(rect.height));
+            fullSigCtx = fullSigCanvas.getContext('2d');
+            fullSigCtx.strokeStyle = '#0f172a';
+            fullSigCtx.lineWidth = 3.2;
+            fullSigCtx.lineCap = 'round';
+            fullSigCtx.lineJoin = 'round';
+            fullSigHasStrokes = false;
+
+            const getPos = (e) => {
+                const r = fullSigCanvas.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                return { x: clientX - r.left, y: clientY - r.top };
+            };
+
+            fullSigCanvas.onmousedown = (e) => {
+                isDrawingFullSig = true;
+                fullSigHasStrokes = true;
+                const p = getPos(e);
+                fullSigCtx.beginPath();
+                fullSigCtx.moveTo(p.x, p.y);
+            };
+            fullSigCanvas.onmousemove = (e) => {
+                if (!isDrawingFullSig) return;
+                fullSigHasStrokes = true;
+                const p = getPos(e);
+                fullSigCtx.lineTo(p.x, p.y);
+                fullSigCtx.stroke();
+            };
+            fullSigCanvas.onmouseup = () => { isDrawingFullSig = false; };
+
+            fullSigCanvas.ontouchstart = (e) => {
+                e.preventDefault();
+                isDrawingFullSig = true;
+                fullSigHasStrokes = true;
+                const p = getPos(e);
+                fullSigCtx.beginPath();
+                fullSigCtx.moveTo(p.x, p.y);
+            };
+            fullSigCanvas.ontouchmove = (e) => {
+                e.preventDefault();
+                if (!isDrawingFullSig) return;
+                fullSigHasStrokes = true;
+                const p = getPos(e);
+                fullSigCtx.lineTo(p.x, p.y);
+                fullSigCtx.stroke();
+            };
+            fullSigCanvas.ontouchend = () => { isDrawingFullSig = false; };
+        }
+
+        function drawDataUrlIntoPreviewCanvas(canvasEl, dataUrl) {
+            if (!canvasEl || !dataUrl) return;
+            const rect = canvasEl.getBoundingClientRect();
+            if (rect.width > 0 && rect.height > 0) {
+                canvasEl.width = rect.width;
+                canvasEl.height = rect.height;
+            }
+            const ctx = canvasEl.getContext('2d');
+            const img = new Image();
+            img.onload = () => {
+                ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+                ctx.drawImage(img, 0, 0, canvasEl.width, canvasEl.height);
+            };
+            img.src = dataUrl;
+        }
+
+        function initManualOrderSignaturePad() {
+            manSigCanvas = document.getElementById('manOrderSignatureCanvas');
+            if (!manSigCanvas) return;
+            const rect = manSigCanvas.getBoundingClientRect();
+            manSigCanvas.width = rect.width || 380;
+            manSigCanvas.height = rect.height || 112;
+            manSigCtx = manSigCanvas.getContext('2d');
+            manSigCtx.strokeStyle = '#0f172a';
+            manSigCtx.lineWidth = 2.4;
+            manSigCtx.lineCap = 'round';
+            manSigHasStrokes = false;
+
+            const getPos = (e) => {
+                const r = manSigCanvas.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                return { x: clientX - r.left, y: clientY - r.top };
+            };
+
+            manSigCanvas.onmousedown = (e) => { isDrawingManSig = true; manSigHasStrokes = true; const p = getPos(e); manSigCtx.beginPath(); manSigCtx.moveTo(p.x, p.y); };
+            manSigCanvas.onmousemove = (e) => { if (!isDrawingManSig) return; manSigHasStrokes = true; const p = getPos(e); manSigCtx.lineTo(p.x, p.y); manSigCtx.stroke(); };
+            window.addEventListener('mouseup', () => { isDrawingManSig = false; });
+
+            manSigCanvas.ontouchstart = (e) => { e.preventDefault(); isDrawingManSig = true; manSigHasStrokes = true; const p = getPos(e); manSigCtx.beginPath(); manSigCtx.moveTo(p.x, p.y); };
+            manSigCanvas.ontouchmove = (e) => { e.preventDefault(); if (!isDrawingManSig) return; manSigHasStrokes = true; const p = getPos(e); manSigCtx.lineTo(p.x, p.y); manSigCtx.stroke(); };
+            manSigCanvas.ontouchend = () => { isDrawingManSig = false; };
+        }
 
         function playLoudPartyOrderFanfare() {
             try {
@@ -6196,6 +6421,16 @@ ${itemsSummary}
             if (document.getElementById('manLngHidden')) document.getElementById('manLngHidden').value = '';
             const customBox = document.getElementById('manCustomFreeItemsContainer');
             if (customBox) customBox.innerHTML = '';
+            state.tempManualOrderPhotoDataUrl = null;
+            state.tempManualOrderSignatureDataUrl = null;
+            document.getElementById('manOrderPhotoPreviewBox')?.classList.add('hidden');
+            document.getElementById('btnClearManPhoto')?.classList.add('hidden');
+            const hintOverlay = document.getElementById('manOrderSigOverlayHint');
+            if (hintOverlay) {
+                hintOverlay.innerHTML = `<span class="px-3 py-1.5 rounded-xl bg-slate-900 text-amber-300 font-black text-xs shadow-md flex items-center gap-1.5"><i class="fa-solid fa-signature"></i> Toca aquí para Firmar en Pantalla Completa</span>`;
+            }
+            const photoInp = document.getElementById('manOrderPhotoInput');
+            if (photoInp) photoInp.value = '';
             const list = document.getElementById('manItemsChecklist');
             list.innerHTML = state.catalog.map(item => `
                 <div class="flex items-center justify-between bg-white px-3 py-1.5 rounded-lg border border-slate-200">
@@ -6207,6 +6442,7 @@ ${itemsSummary}
             const modal = document.getElementById('manualOrderModal');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
+            setTimeout(() => initManualOrderSignaturePad(), 100);
         }
 
         function checkManualOrderOverbookingLive() {
@@ -6307,6 +6543,10 @@ ${itemsSummary}
             }
 
             const finalizeManualOrderSave = async (hasDoubleShiftWarning) => {
+                const capturedSignature = state.tempManualOrderSignatureDataUrl
+                    || ((manSigCanvas && manSigHasStrokes) ? manSigCanvas.toDataURL('image/png') : null);
+                const capturedPhoto = state.tempManualOrderPhotoDataUrl || null;
+
                 const ord = {
                     id: 'ord-' + Date.now(),
                     clientName,
@@ -6319,11 +6559,16 @@ ${itemsSummary}
                     lng: Number(lng.toFixed(5)),
                     total,
                     paidAmount,
+                    signatureDataUrl: capturedSignature,
+                    evidencePhotoUrl: capturedPhoto,
                     items: selectedItems,
                     paymentNotes: (paidAmount > 0 ? `Abono inicial de $${paidAmount.toFixed(2)}.` : 'Pendiente de cobro.') + (hasDoubleShiftWarning ? ' 🔄 [Doble Turno / Sobre-Alquiler Autorizado]' : '')
                 };
 
                 await persistOrder(ord);
+                state.tempManualOrderPhotoDataUrl = null;
+                state.tempManualOrderSignatureDataUrl = null;
+                manSigHasStrokes = false;
                 closeManualOrderModal();
                 window.app.showAdminOrderCreatedModal(ord);
                 showToast('✅ Pedido guardado con éxito', 'success');
@@ -7780,6 +8025,82 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
                 this.closeOverbookingModal();
                 this.closeQuoteSuccessModal();
                 this.closeAdminOrderCreatedModal();
+                this.closeFullscreenSignatureModal();
+            },
+            openFullscreenSignatureModal(targetContext = 'receipt') {
+                state.fullscreenSigTarget = targetContext;
+                const modal = document.getElementById('fullscreenSignatureModal');
+                if (!modal) return;
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                setTimeout(() => {
+                    initFullscreenSignaturePad();
+                }, 60);
+            },
+            clearFullscreenSignature() {
+                if (fullSigCanvas && fullSigCtx) {
+                    fullSigCtx.clearRect(0, 0, fullSigCanvas.width, fullSigCanvas.height);
+                    fullSigHasStrokes = false;
+                }
+                showToast('Lienzo de firma limpio', 'info');
+            },
+            closeFullscreenSignatureModal() {
+                const modal = document.getElementById('fullscreenSignatureModal');
+                if (modal) {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                }
+            },
+            async acceptFullscreenSignature() {
+                if (!fullSigCanvas || !fullSigHasStrokes) {
+                    showToast('Por favor dibuja la firma en la pantalla antes de tocar Aceptar', 'warning');
+                    return;
+                }
+                const dataUrl = fullSigCanvas.toDataURL('image/png');
+                const target = state.fullscreenSigTarget || 'receipt';
+
+                if (target === 'receipt') {
+                    const ord = state.orders.find(o => o.id === state.activeReceiptOrderId);
+                    if (ord) {
+                        ord.signatureDataUrl = dataUrl;
+                        sigPadHasNewStrokes = false;
+                        await persistOrder(ord);
+                        this.openReceiptModal(ord.id);
+                    }
+                } else if (target === 'manual') {
+                    state.tempManualOrderSignatureDataUrl = dataUrl;
+                    manSigHasStrokes = true;
+                    drawDataUrlIntoPreviewCanvas(document.getElementById('manOrderSignatureCanvas'), dataUrl);
+                    const hintOverlay = document.getElementById('manOrderSigOverlayHint');
+                    if (hintOverlay) {
+                        hintOverlay.innerHTML = `<span class="px-3 py-1 rounded-xl bg-emerald-600 text-white font-black text-xs shadow-md flex items-center gap-1.5"><i class="fa-solid fa-circle-check"></i> Firma Capturada (Toca para editar)</span>`;
+                    }
+                } else if (target === 'edit') {
+                    const ordId = document.getElementById('editInvOrderId')?.value;
+                    const ord = state.orders.find(o => o.id === ordId);
+                    if (ord) {
+                        ord.signatureDataUrl = dataUrl;
+                        await persistOrder(ord);
+                        const sigImgEl = document.getElementById('editInvSignaturePreviewImg');
+                        const sigPhEl = document.getElementById('editInvNoSignaturePlaceholder');
+                        if (sigImgEl) {
+                            sigImgEl.src = dataUrl;
+                            sigImgEl.classList.remove('hidden');
+                        }
+                        if (sigPhEl) sigPhEl.classList.add('hidden');
+                    }
+                } else if (target === 'deliv-new') {
+                    state.tempNewDeliverySignatureDataUrl = dataUrl;
+                    const box = document.getElementById('delivHousePhotoPreviewBox');
+                    const wrap = document.getElementById('delivNewSigPreviewWrap');
+                    const img = document.getElementById('delivNewSigPreviewImg');
+                    if (img) img.src = dataUrl;
+                    if (box) box.classList.remove('hidden');
+                    if (wrap) wrap.classList.remove('hidden');
+                }
+
+                this.closeFullscreenSignatureModal();
+                showToast('✅ Firma aceptada y guardada con éxito', 'success');
             },
             getLastCreatedOrderId() {
                 return state.lastCreatedAdminOrderId || state.activeReceiptOrderId || state.orders[0]?.id;
@@ -8530,6 +8851,7 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
                         total,
                         paidAmount,
                         damagePenalty: 0,
+                        signatureDataUrl: state.tempNewDeliverySignatureDataUrl || null,
                         evidencePhotoUrl: state.tempNewDeliveryHousePhoto || null,
                         returnPhotoUrl: state.tempNewDeliveryReturnPhoto || null,
                         paymentNotes: `Facturado en entrega. Total $${total.toFixed(2)} | Abonó $${paidAmount.toFixed(2)} | Debe $${debt.toFixed(2)}.` + (isDoubleShift ? ' 🔄 [Doble Turno Mañana/Noche]' : ''),
@@ -8551,8 +8873,10 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
                     document.getElementById('delivOverbookingLiveBanner')?.classList.add('hidden');
                     state.tempNewDeliveryHousePhoto = null;
                     state.tempNewDeliveryReturnPhoto = null;
+                    state.tempNewDeliverySignatureDataUrl = null;
                     document.getElementById('delivHousePhotoPreviewBox')?.classList.add('hidden');
                     document.getElementById('delivReturnPhotoPreviewWrap')?.classList.add('hidden');
+                    document.getElementById('delivNewSigPreviewWrap')?.classList.add('hidden');
                     this.updateDeliveryFormDebtPreview();
                     this.switchDeliveriesSubTab('list');
 
@@ -9416,10 +9740,7 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
                 this.updateThermalPreview();
             },
             unlockSignatureForEditing() {
-                document.getElementById('signatureLockedStateBox')?.classList.add('hidden');
-                document.getElementById('signatureActivePadWrapper')?.classList.remove('hidden');
-                setTimeout(() => initSignaturePad(), 80);
-                showToast('✍️ Panel de firma habilitado para nueva firma', 'info');
+                this.openFullscreenSignatureModal('receipt');
             },
             buildPlainTextThermalTicket(orderId, cols = 32) {
                 const ord = state.orders.find(o => o.id === (orderId || state.activeReceiptOrderId));
@@ -9979,6 +10300,49 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
             checkManualOrderOverbookingLive,
             closeManualOrderModal,
             saveManualOrder,
+            handleManualOrderPhotoUpload(event) {
+                const file = event.target.files?.[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const scale = Math.min(1, 680 / img.width);
+                        canvas.width = Math.round(img.width * scale);
+                        canvas.height = Math.round(img.height * scale);
+                        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+                        state.tempManualOrderPhotoDataUrl = canvas.toDataURL('image/jpeg', 0.66);
+                        const pBox = document.getElementById('manOrderPhotoPreviewBox');
+                        const pImg = document.getElementById('manOrderPhotoPreviewImg');
+                        const clearBtn = document.getElementById('btnClearManPhoto');
+                        if (pImg) pImg.src = state.tempManualOrderPhotoDataUrl;
+                        if (pBox) pBox.classList.remove('hidden');
+                        if (clearBtn) clearBtn.classList.remove('hidden');
+                        showToast('📸 Foto lista para guardarse al crear el pedido', 'success');
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            },
+            clearManualOrderPhoto() {
+                state.tempManualOrderPhotoDataUrl = null;
+                document.getElementById('manOrderPhotoPreviewBox')?.classList.add('hidden');
+                document.getElementById('btnClearManPhoto')?.classList.add('hidden');
+                const inp = document.getElementById('manOrderPhotoInput');
+                if (inp) inp.value = '';
+            },
+            clearManualOrderSignaturePad() {
+                state.tempManualOrderSignatureDataUrl = null;
+                if (manSigCanvas && manSigCtx) {
+                    manSigCtx.clearRect(0, 0, manSigCanvas.width, manSigCanvas.height);
+                    manSigHasStrokes = false;
+                }
+                const hintOverlay = document.getElementById('manOrderSigOverlayHint');
+                if (hintOverlay) {
+                    hintOverlay.innerHTML = `<span class="px-3 py-1.5 rounded-xl bg-slate-900 text-amber-300 font-black text-xs shadow-md flex items-center gap-1.5"><i class="fa-solid fa-signature"></i> Toca aquí para Firmar en Pantalla Completa</span>`;
+                }
+            },
             async verifyFirebaseConnectionNow() {
                 const btn = document.getElementById('btnVerifyFirebaseConn');
                 const resultBanner = document.getElementById('fbCheckResultBanner');
@@ -10227,13 +10591,10 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
             populateSettingsInputs();
             renderAllViews();
 
-            // Bloquear el scroll del fondo cuando haya cualquier ventana/modal abierto
-            const modals = document.querySelectorAll('.fixed.inset-0.z-50');
-            const observer = new MutationObserver(() => {
-                const anyOpen = Array.from(modals).some(m => !m.classList.contains('hidden'));
-                document.body.classList.toggle('overflow-hidden', anyOpen);
-            });
-            modals.forEach(m => observer.observe(m, { attributes: true, attributeFilter: ['class'] }));
+            // Garantizar que el scroll vertical de la página jamás se quede bloqueado
+            document.body.classList.remove('overflow-hidden');
+            document.documentElement.style.overflowY = 'auto';
+            document.body.style.overflowY = 'auto';
 
             // Rotate floating promo notifications every 9 seconds so customers see different active offers
             setInterval(() => {
