@@ -10445,3 +10445,55 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
                             });
 
                             isFirstOrdersSnapshot = false;
+                            state.orders = loadedOrders;
+                            renderAllViews();
+
+                            if (newlyArrivedOrder && window.app && typeof window.app.triggerNewOrderPartyNotification === 'function') {
+                                window.app.triggerNewOrderPartyNotification(newlyArrivedOrder);
+                            }
+                        }
+                    }, (err) => {
+                        console.warn("Error leyendo pedidos en tiempo real:", err);
+                    });
+
+                    unsubSettings = onSnapshot(settingsCol, (snapshot) => {
+                        snapshot.forEach(d => {
+                            if (d.id === 'main') {
+                                const cloudSettings = d.data() || {};
+                                state.settings = { ...state.settings, ...cloudSettings };
+                                if (Array.isArray(cloudSettings.combos)) state.combos = cloudSettings.combos;
+                                if (Array.isArray(cloudSettings.expenses)) state.expenses = cloudSettings.expenses;
+                                if (cloudSettings.clientTags && typeof cloudSettings.clientTags === 'object') {
+                                    state.clientTags = cloudSettings.clientTags;
+                                }
+                                populateSettingsInputs();
+                                renderAllViews();
+                            }
+                        });
+                    }, (err) => {
+                        console.warn("Error leyendo configuración:", err);
+                    });
+                };
+
+                onAuthStateChanged(auth, (usr) => {
+                    if (usr) state.user = usr;
+                });
+
+                activateListeners(state.user);
+                return true;
+            } catch (err) {
+                console.warn("Aviso al conectar Firebase:", err);
+                if (badge) {
+                    badge.className = 'cursor-pointer inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30';
+                    badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span> Error Firebase`;
+                }
+                if (forceVerify) throw err;
+                return false;
+            }
+        }
+
+        triggerFirebaseReconnect = connectFirebaseCloud;
+        connectFirebaseCloud(false);
+    </script>
+</body>
+</html>
