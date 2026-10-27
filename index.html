@@ -816,25 +816,30 @@
 
                 <!-- Drawer Footer: Total & Submit to Firebase + WhatsApp + Telegram -->
                 <div class="p-5 bg-slate-50 border-t border-slate-200 space-y-2.5">
-                    <div class="flex items-center justify-between text-xs text-slate-500">
-                        <span>Subtotal Mobiliario (1 Día):</span>
-                        <span id="quoteSubtotalAmount" class="font-bold text-slate-700">$0.00</span>
+                    <div id="quotePricingSummaryRows" class="space-y-2.5">
+                        <div class="flex items-center justify-between text-xs text-slate-500">
+                            <span>Subtotal Mobiliario (1 Día):</span>
+                            <span id="quoteSubtotalAmount" class="font-bold text-slate-700">$0.00</span>
+                        </div>
+                        <div id="quoteWeekendRow" class="hidden flex items-center justify-between text-xs text-amber-800 bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200">
+                            <span>🎉 2do Día Fin de Semana (Con Descuento):</span>
+                            <span id="quoteWeekendExtraAmount" class="font-extrabold">+$0.00</span>
+                        </div>
+                        <div id="quoteDiscountRow" class="hidden flex items-center justify-between text-xs text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
+                            <span id="quoteDiscountLabel">🎟️ Descuento Cupón VIP:</span>
+                            <span id="quoteDiscountAmount" class="font-extrabold">-$0.00</span>
+                        </div>
+                        <div id="quoteFreightRow" class="hidden flex items-center justify-between text-xs text-emerald-700">
+                            <span>Transporte / Flete GPS:</span>
+                            <span id="quoteFreightAmount" class="font-bold">$0.00</span>
+                        </div>
+                        <div class="flex items-center justify-between pt-1 border-t border-slate-200">
+                            <span id="quoteTotalLabelText" class="text-sm font-semibold text-slate-600">Total Estimado (1 Día):</span>
+                            <span id="quoteTotalAmount" class="text-2xl font-extrabold text-brand-700">$0.00</span>
+                        </div>
                     </div>
-                    <div id="quoteWeekendRow" class="hidden flex items-center justify-between text-xs text-amber-800 bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200">
-                        <span>🎉 2do Día Fin de Semana (Con Descuento):</span>
-                        <span id="quoteWeekendExtraAmount" class="font-extrabold">+$0.00</span>
-                    </div>
-                    <div id="quoteDiscountRow" class="hidden flex items-center justify-between text-xs text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
-                        <span id="quoteDiscountLabel">🎟️ Descuento Cupón VIP:</span>
-                        <span id="quoteDiscountAmount" class="font-extrabold">-$0.00</span>
-                    </div>
-                    <div id="quoteFreightRow" class="hidden flex items-center justify-between text-xs text-emerald-700">
-                        <span>Transporte / Flete GPS:</span>
-                        <span id="quoteFreightAmount" class="font-bold">$0.00</span>
-                    </div>
-                    <div class="flex items-center justify-between pt-1 border-t border-slate-200">
-                        <span id="quoteTotalLabelText" class="text-sm font-semibold text-slate-600">Total Estimado (1 Día):</span>
-                        <span id="quoteTotalAmount" class="text-2xl font-extrabold text-brand-700">$0.00</span>
+                    <div id="quoteHiddenPricesBanner" class="hidden p-3 rounded-xl bg-indigo-50 border border-indigo-200 text-xs text-indigo-950 font-semibold text-center">
+                        💬 Envía tu lista de equipos seleccionados y te confirmaremos la cotización total al instante por WhatsApp.
                     </div>
                     <div class="flex items-center gap-2">
                         <button type="button" onclick="window.app.toggleQuoteDrawer(false)" class="px-3.5 py-3 bg-slate-200 hover:bg-slate-300 text-slate-800 font-extrabold rounded-xl transition flex items-center justify-center gap-1.5 text-xs shrink-0">
@@ -1605,26 +1610,29 @@
                                     <input id="cfgBrandSubtitle" type="text" value="Alquiler de Mobiliario, Inflables y Sonido" placeholder="Alquiler de Mobiliario..." oninput="window.app.previewBrandIdentityLive()" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl font-semibold text-slate-700">
                                 </div>
                             </div>
-
-                            <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
-                                <div class="flex flex-wrap items-center gap-2">
-                                    <label for="cfgBrandLogoInput" class="cursor-pointer px-3.5 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-extrabold text-xs shadow-xs transition flex items-center gap-1.5">
-                                        <i class="fa-solid fa-image"></i> 📸 Subir Logo de mi Empresa
-                                        <input id="cfgBrandLogoInput" type="file" accept="image/*" onchange="window.app.handleBrandLogoUpload(event)" class="hidden">
-                                    </label>
-                                    <button type="button" id="btnRemoveCustomLogo" onclick="window.app.clearBrandLogo()" class="hidden px-3 py-2 rounded-xl bg-rose-100 hover:bg-rose-200 text-rose-700 font-extrabold text-xs transition flex items-center gap-1">
-                                        <i class="fa-solid fa-rotate-left"></i> Usar Icono de Carpa Original
-                                    </button>
-                                </div>
-                                <button type="button" onclick="window.app.saveBusinessSettings()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shadow-sm transition flex items-center gap-1.5">
-                                    <i class="fa-solid fa-floppy-disk"></i> Guardar Nombre y Logo en Firebase
-                                </button>
-                            </div>
                         </div>
 
-                        <!-- Las 4 Opciones de Visibilidad -->
+                        <!-- Las 4 Opciones de Visibilidad + Interruptor de Mostrar/Ocultar Precios -->
                         <div class="bg-gradient-to-r from-brand-50 via-indigo-50 to-emerald-50 border-2 border-brand-300 p-3.5 rounded-2xl space-y-3">
-                            <div class="flex flex-wrap items-center justify-between gap-2">
+                            <!-- Interruptor Destacado: Mostrar u Ocultar Precios en la Tienda de Clientes -->
+                            <div class="bg-white p-3.5 rounded-xl border-2 border-emerald-400 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                <div class="flex items-start sm:items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-base shrink-0">
+                                        <i class="fa-solid fa-tags"></i>
+                                    </div>
+                                    <div>
+                                        <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-black text-[10px] uppercase">💲 Control de Precios al Público</span>
+                                        <h5 class="font-extrabold text-xs sm:text-sm text-slate-900 mt-0.5">Mostrar Precios de los Productos en la Página de Clientes</h5>
+                                        <p class="text-[11px] text-slate-500">Si lo desactivas, los clientes verán el catálogo y podrán armar su pedido o apartar con abono fijo sin ver los precios unitarios.</p>
+                                    </div>
+                                </div>
+                                <label class="inline-flex items-center gap-2 cursor-pointer bg-slate-100 px-3.5 py-2 rounded-xl border border-slate-300 shrink-0">
+                                    <input id="cfgShowClientPrices" type="checkbox" checked onchange="window.app.toggleShowClientPricesLive(this.checked)" class="w-5 h-5 accent-emerald-600 rounded cursor-pointer">
+                                    <span id="cfgShowClientPricesLabel" class="font-black text-xs text-emerald-700">Precios Visibles</span>
+                                </label>
+                            </div>
+
+                            <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
                                 <span class="text-xs font-extrabold uppercase tracking-wider text-brand-950">
                                     <i class="fa-solid fa-eye text-brand-600 mr-1"></i> Elige cuál(es) de las 4 Opciones de Catálogo Activar:
                                 </span>
@@ -1824,9 +1832,20 @@
                                 <input id="cfgBankInfo" type="text" placeholder="Ej. Banco General • Cta Ahorros 04-00-00-000000-0" class="w-full px-3 py-2 bg-white border border-indigo-300 rounded-xl text-xs font-bold">
                             </div>
                         </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 bg-amber-50/60 p-3.5 rounded-xl border border-amber-200">
+                        <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 bg-amber-50/60 p-3.5 rounded-xl border border-amber-200">
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">% Abono para Apartar Fecha</label>
+                                <label class="block text-xs font-extrabold text-amber-950 mb-1">🔒 Tipo de Abono Reserva</label>
+                                <select id="cfgDepositMode" onchange="window.app.toggleDepositModeInputs()" class="w-full px-2.5 py-2 bg-white border-2 border-amber-400 rounded-xl text-xs font-black text-slate-900">
+                                    <option value="FIXED">💵 Monto Fijo ($)</option>
+                                    <option value="PERCENT">📊 Porcentaje (%)</option>
+                                </select>
+                            </div>
+                            <div id="cfgFixedDepositWrap">
+                                <label class="block text-xs font-extrabold text-emerald-900 mb-1">💵 Abono Fijo ($ USD)</label>
+                                <input id="cfgFixedDepositAmount" type="number" min="1" step="1" value="15" placeholder="Ej. 15 o 20" class="w-full px-3 py-2 bg-white border-2 border-emerald-400 rounded-xl text-xs font-black text-emerald-900">
+                            </div>
+                            <div id="cfgPercentDepositWrap">
+                                <label class="block text-xs font-bold text-slate-700 mb-1">% Abono (Si usas %)</label>
                                 <input id="cfgDepositPercent" type="number" min="5" max="100" value="30" class="w-full px-3 py-2 bg-white border border-amber-300 rounded-xl text-xs font-bold">
                             </div>
                             <div>
@@ -1834,12 +1853,11 @@
                                 <input id="cfgWeekendExtraPct" type="number" min="10" max="100" value="60" class="w-full px-3 py-2 bg-white border border-amber-400 rounded-xl text-xs font-black text-amber-900" title="Ej. 60 significa que el domingo adicional cuesta solo +60% en vez de +100%">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">Km Gratis desde tu Bodega</label>
-                                <input id="cfgFreeKm" type="number" step="0.5" value="5" class="w-full px-3 py-2 bg-white border border-amber-300 rounded-xl text-xs font-bold">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">Costo por Km Adicional ($)</label>
-                                <input id="cfgExtraKmCost" type="number" step="0.25" value="1.50" class="w-full px-3 py-2 bg-white border border-amber-300 rounded-xl text-xs font-bold">
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Km Gratis / $ Km Extra</label>
+                                <div class="grid grid-cols-2 gap-1">
+                                    <input id="cfgFreeKm" type="number" step="0.5" value="5" title="Km Gratis desde tu Bodega" class="w-full px-2 py-2 bg-white border border-amber-300 rounded-xl text-xs font-bold text-center">
+                                    <input id="cfgExtraKmCost" type="number" step="0.25" value="1.50" title="Costo por Km Adicional ($)" class="w-full px-2 py-2 bg-white border border-amber-300 rounded-xl text-xs font-bold text-center">
+                                </div>
                             </div>
                         </div>
                         <!-- Configuración del Cupón de Descuento VIP (Función 4) -->
@@ -3271,6 +3289,95 @@
         let delivOverviewTileLayer = null;
         const inlineCardMiniMaps = {};
 
+        let sigCanvas = null;
+        let sigCtx = null;
+        let isDrawingSig = false;
+        let sigPadHasNewStrokes = false;
+
+        let manSigCanvas = null;
+        let manSigCtx = null;
+        let isDrawingManSig = false;
+        let manSigHasStrokes = false;
+
+        let fullSigCanvas = null;
+        let fullSigCtx = null;
+        let isDrawingFullSig = false;
+        let fullSigHasStrokes = false;
+
+        let partyAlarmRepeatTimer = null;
+
+        function playLoudPartyOrderFanfare() {
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtx) return;
+                const ctx = new AudioCtx();
+                const notes = [523.25, 659.25, 783.99, 1046.50];
+                notes.forEach((freq, i) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.12);
+                    gain.gain.setValueAtTime(0.25, ctx.currentTime + i * 0.12);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.12 + 0.25);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(ctx.currentTime + i * 0.12);
+                    osc.stop(ctx.currentTime + i * 0.12 + 0.26);
+                });
+            } catch (e) {}
+        }
+
+        function initManualOrderSignaturePad() {
+            manSigCanvas = document.getElementById('manOrderSignatureCanvas');
+            if (!manSigCanvas) return;
+            const rect = manSigCanvas.getBoundingClientRect();
+            manSigCanvas.width = rect.width || 380;
+            manSigCanvas.height = rect.height || 112;
+            manSigCtx = manSigCanvas.getContext('2d');
+            manSigCtx.strokeStyle = '#0f172a';
+            manSigCtx.lineWidth = 2.4;
+            manSigCtx.lineCap = 'round';
+        }
+
+        function initFullscreenSignaturePad() {
+            fullSigCanvas = document.getElementById('fullscreenSigCanvas');
+            if (!fullSigCanvas) return;
+            const rect = fullSigCanvas.getBoundingClientRect();
+            fullSigCanvas.width = Math.max(300, rect.width || window.innerWidth - 40);
+            fullSigCanvas.height = Math.max(240, rect.height || window.innerHeight - 200);
+            fullSigCtx = fullSigCanvas.getContext('2d');
+            fullSigCtx.strokeStyle = '#0f172a';
+            fullSigCtx.lineWidth = 3.2;
+            fullSigCtx.lineCap = 'round';
+            fullSigHasStrokes = false;
+
+            const getPos = (e) => {
+                const r = fullSigCanvas.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                return { x: clientX - r.left, y: clientY - r.top };
+            };
+
+            fullSigCanvas.onmousedown = (e) => { isDrawingFullSig = true; fullSigHasStrokes = true; const p = getPos(e); fullSigCtx.beginPath(); fullSigCtx.moveTo(p.x, p.y); };
+            fullSigCanvas.onmousemove = (e) => { if (!isDrawingFullSig) return; fullSigHasStrokes = true; const p = getPos(e); fullSigCtx.lineTo(p.x, p.y); fullSigCtx.stroke(); };
+            fullSigCanvas.onmouseup = () => { isDrawingFullSig = false; };
+
+            fullSigCanvas.ontouchstart = (e) => { e.preventDefault(); isDrawingFullSig = true; fullSigHasStrokes = true; const p = getPos(e); fullSigCtx.beginPath(); fullSigCtx.moveTo(p.x, p.y); };
+            fullSigCanvas.ontouchmove = (e) => { e.preventDefault(); if (!isDrawingFullSig) return; fullSigHasStrokes = true; const p = getPos(e); fullSigCtx.lineTo(p.x, p.y); fullSigCtx.stroke(); };
+            fullSigCanvas.ontouchend = () => { isDrawingFullSig = false; };
+        }
+
+        function drawDataUrlIntoPreviewCanvas(canvasEl, dataUrl) {
+            if (!canvasEl || !dataUrl) return;
+            const ctx = canvasEl.getContext('2d');
+            const img = new Image();
+            img.onload = () => {
+                ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+                ctx.drawImage(img, 0, 0, canvasEl.width, canvasEl.height);
+            };
+            img.src = dataUrl;
+        }
+
         // Credenciales Oficiales de tu Proyecto Firebase (diverciones-keiler)
         const CUSTOM_FIREBASE_CONFIG = {
             apiKey: "AIzaSyCmt_2AmxwubXGVeMOMLu4EoAbKDE2c6Y8",
@@ -3538,6 +3645,7 @@
                 showScrollHint: true,
                 showPromoPopup: true,
                 promoPosition: 'bottom-right',
+                showClientPrices: true,
                 visCatalogFirst: false,
                 visCalcCollapsed: true,
                 visTwoColsMobile: true,
@@ -3548,6 +3656,8 @@
                 calcTitle: '¿No sabes cuántas sillas, mesas, manteles o toldas necesitas?',
                 calcSubtitle: 'Calcula tu paquete exacto según tus invitados (mesas de 4, 6 u 8 puestos, sillas, manteles y toldas).',
                 calcShowCatalogExtras: true,
+                depositMode: 'FIXED',
+                fixedDepositAmount: 15.00,
                 depositPercent: 30,
                 weekendExtraPct: 60,
                 freeKm: 5,
@@ -3936,6 +4046,38 @@
             return { distKm, fee };
         }
 
+        function areClientPricesVisible() {
+            return state.settings.showClientPrices !== false;
+        }
+
+        function getDepositRequirementInfo(grandTotal = 0) {
+            const mode = state.settings.depositMode || 'PERCENT';
+            const fixedAmt = Math.max(1, Number(state.settings.fixedDepositAmount) || 15);
+            const pct = Math.max(1, Number(state.settings.depositPercent) || 30);
+
+            // Si los precios están ocultos al cliente o el modo elegido es FIXED, usamos el monto fijo en dólares ($15, $20, etc.)
+            if (mode === 'FIXED' || !areClientPricesVisible()) {
+                return {
+                    mode: 'FIXED',
+                    amount: fixedAmt,
+                    shortBadge: `$${fixedAmt.toFixed(0)}`,
+                    buttonLabel: `Apartar con $${fixedAmt.toFixed(2)}`,
+                    headerLabel: `Aparta con $${fixedAmt.toFixed(2)}`,
+                    summaryLabel: `Abono fijo para apartar: $${fixedAmt.toFixed(2)}`
+                };
+            }
+
+            const calcAmt = (grandTotal * pct) / 100;
+            return {
+                mode: 'PERCENT',
+                amount: calcAmt,
+                shortBadge: `${pct}%`,
+                buttonLabel: `Apartar (${pct}%)`,
+                headerLabel: `Aparta con ${pct}%`,
+                summaryLabel: `Abono (${pct}%): $${calcAmt.toFixed(2)}`
+            };
+        }
+
         function getBrandDisplayData() {
             const s = state.settings || {};
             const part1 = (s.brandNamePrimary ?? 'Fiesta').trim() || 'Fiesta';
@@ -4037,15 +4179,16 @@
                 noticeText.textContent = state.settings.adminNoticeText || '¡Agenda abierta para eventos de este mes!';
                 noticeBanner.classList.toggle('hidden', !state.settings.showAdminNotice);
             }
-            const pct = Number(state.settings.depositPercent) || 30;
+            const showPrices = areClientPricesVisible();
+            const depInfo = getDepositRequirementInfo(0);
             const depHeader = document.getElementById('depositBadgeHeader');
             if (depHeader) {
                 depHeader.textContent = state.clientSelectedDate
-                    ? `Apartando para el ${state.clientSelectedDate} (${pct}% abono)`
-                    : `Aparta tu fecha con ${pct}% de abono`;
+                    ? `Apartando para el ${state.clientSelectedDate} (${depInfo.headerLabel})`
+                    : `${depInfo.headerLabel} de abono`;
             }
             const depDrawerBadge = document.getElementById('drawerDepositPctBadge');
-            if (depDrawerBadge) depDrawerBadge.textContent = `${pct}%`;
+            if (depDrawerBadge) depDrawerBadge.textContent = depInfo.shortBadge;
 
             const yappyEl = document.getElementById('drawerYappyDisplay');
             const bankEl = document.getElementById('drawerBankDisplay');
@@ -4104,7 +4247,7 @@
                             </div>
                         </div>
                         <div class="text-right shrink-0">
-                            <span class="block text-sm sm:text-base font-black text-rose-600">$${Number(item.price).toFixed(2)}</span>
+                            ${showPrices ? `<span class="block text-sm sm:text-base font-black text-rose-600">$${Number(item.price).toFixed(2)}</span>` : `<span class="block text-xs font-extrabold text-brand-700">Cotizar</span>`}
                             <span class="inline-flex items-center gap-1 text-[11px] font-bold text-brand-700 group-hover:translate-x-0.5 transition">
                                 Ir a oferta <i class="fa-solid fa-arrow-right text-[10px]"></i>
                             </span>
@@ -4127,7 +4270,7 @@
                     state.activeFloatingPromoId = chosen.id;
                     document.getElementById('floatingPromoImg').src = chosen.photo;
                     document.getElementById('floatingPromoBadge').textContent = chosen.promoBadge || '🔥 OFERTA';
-                    document.getElementById('floatingPromoTitle').textContent = `${chosen.name} ($${Number(chosen.price).toFixed(2)})`;
+                    document.getElementById('floatingPromoTitle').textContent = showPrices ? `${chosen.name} ($${Number(chosen.price).toFixed(2)})` : chosen.name;
                     document.getElementById('floatingPromoDesc').textContent = chosen.promoText || '';
                     floatingAlert.classList.remove('hidden');
                 } else {
@@ -4217,6 +4360,7 @@
             // Opción 4: Vitrina Rápida / Carrusel Superior con Cotización en 1 Toque
             const showcaseBar = document.getElementById('quickCatalogShowcaseBar');
             const track = document.getElementById('quickCatalogCarouselTrack');
+            const showPrices = areClientPricesVisible();
             if (showcaseBar && track) {
                 if (s.visQuickCarousel && state.catalog.length > 0) {
                     showcaseBar.classList.remove('hidden');
@@ -4228,7 +4372,7 @@
                                 <div class="min-w-0 flex-1">
                                     <p onclick="window.app.focusPromoItemInCatalog('${item.id}')" class="text-[11px] font-extrabold text-slate-900 truncate cursor-pointer">${item.name}</p>
                                     <div class="flex items-center justify-between mt-1">
-                                        <span class="text-xs font-black text-brand-700">$${Number(item.price).toFixed(2)}</span>
+                                        ${showPrices ? `<span class="text-xs font-black text-brand-700">$${Number(item.price).toFixed(2)}</span>` : `<span class="text-[10px] font-bold text-slate-500">Disponible</span>`}
                                         <button type="button" onclick="window.app.quickAddOneFromCarousel('${item.id}')" class="px-2 py-0.5 rounded-lg text-[10px] font-extrabold transition ${inCart > 0 ? 'bg-emerald-600 text-white' : 'bg-brand-600 hover:bg-brand-700 text-white'}">
                                             ${inCart > 0 ? `✓ (${inCart})` : '+ Cotizar'}
                                         </button>
@@ -4246,7 +4390,8 @@
         function renderCatalog() {
             const grid = document.getElementById('clientCatalogGrid');
             const search = (document.getElementById('clientSearchInput')?.value || '').toLowerCase().trim();
-            const pct = Number(state.settings.depositPercent) || 30;
+            const showPrices = areClientPricesVisible();
+            const depInfo = getDepositRequirementInfo(0);
             const isCompactMobile = Boolean(state.settings.visTwoColsMobile);
 
             applyCatalogVisibilityModes();
@@ -4296,9 +4441,10 @@
                                 <span class="absolute top-2 right-2 sm:top-3 sm:right-3 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[9px] sm:text-[10px] font-black uppercase bg-amber-400 text-slate-950 shadow-md animate-pulse">
                                     ${item.promoBadge || '🔥 OFERTA'}
                                 </span>` : ''}
+                                ${showPrices ? `
                                 <span class="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-brand-700 shadow-md">
                                     $${Number(item.price).toFixed(2)} <span class="text-[9px] sm:text-[10px] font-normal text-slate-500">/día</span>
-                                </span>
+                                </span>` : ''}
                             </div>
                             <div class="${padClass}">
                                 <h3 class="font-bold text-slate-900 text-xs sm:text-sm line-clamp-2 leading-snug">${item.name}</h3>
@@ -4330,7 +4476,7 @@
                             </div>
                             <button onclick="window.app.quickReserveItem('${item.id}')" class="w-full py-1.5 sm:py-2 px-2 sm:px-3 rounded-xl text-[10px] sm:text-[11px] font-extrabold bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 transition flex items-center justify-center gap-1">
                                 <i class="fa-solid fa-lock text-amber-600"></i>
-                                <span class="truncate">${state.clientSelectedDate ? `Apartar (${pct}%)` : `Apartar Fecha (${pct}%)`}</span>
+                                <span class="truncate">${depInfo.buttonLabel}</span>
                             </button>
                         </div>
                     </div>
@@ -4341,7 +4487,8 @@
         function renderCombosSection() {
             const grid = document.getElementById('clientCombosGrid');
             if (!grid) return;
-            const pct = Number(state.settings.depositPercent) || 30;
+            const showPrices = areClientPricesVisible();
+            const depInfo = getDepositRequirementInfo(0);
 
             grid.innerHTML = state.combos.map(combo => {
                 const saving = Math.max(0, Number(combo.normalPrice) - Number(combo.price));
@@ -4351,7 +4498,7 @@
                         <div class="space-y-2">
                             <div class="flex items-center justify-between gap-2">
                                 <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-amber-400 text-slate-950">🎁 PAQUETE FIESTA</span>
-                                ${saving > 0 ? `<span class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-emerald-100 text-emerald-800">Ahorras $${saving.toFixed(2)}</span>` : ''}
+                                ${showPrices && saving > 0 ? `<span class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-emerald-100 text-emerald-800">Ahorras $${saving.toFixed(2)}</span>` : ''}
                             </div>
                             <h3 class="font-extrabold text-slate-900 text-base">${combo.name}</h3>
                             <p class="text-xs text-slate-600 bg-white/90 p-2.5 rounded-xl border border-amber-200">
@@ -4360,15 +4507,20 @@
                         </div>
                         <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-amber-200/80">
                             <div>
-                                <span class="text-[11px] text-slate-400 line-through block">Separado: $${Number(combo.normalPrice).toFixed(2)}</span>
-                                <span class="text-xl font-black text-slate-900">$${Number(combo.price).toFixed(2)} <small class="text-[11px] font-normal text-slate-500">/día</small></span>
+                                ${showPrices ? `
+                                    <span class="text-[11px] text-slate-400 line-through block">Separado: $${Number(combo.normalPrice).toFixed(2)}</span>
+                                    <span class="text-xl font-black text-slate-900">$${Number(combo.price).toFixed(2)} <small class="text-[11px] font-normal text-slate-500">/día</small></span>
+                                ` : `
+                                    <span class="text-xs font-extrabold text-brand-700 block">Paquete Completo Listo</span>
+                                    <span class="text-[11px] text-slate-500">Cotiza o aparta tu fecha</span>
+                                `}
                             </div>
                             <div class="flex items-center gap-2">
                                 <button onclick="window.app.addComboToQuote('${combo.id}', false)" class="px-3.5 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold transition">
                                     <i class="fa-solid fa-cart-plus mr-1"></i> Cotizar Combo
                                 </button>
                                 <button onclick="window.app.addComboToQuote('${combo.id}', true)" class="px-3.5 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-black transition">
-                                    <i class="fa-solid fa-lock mr-1"></i> Apartar (${pct}%)
+                                    <i class="fa-solid fa-lock mr-1"></i> ${depInfo.buttonLabel}
                                 </button>
                             </div>
                         </div>
@@ -4420,6 +4572,7 @@
             const headerTotalText = document.getElementById('headerCartTotalText');
             const totalItems = state.cart.reduce((acc, c) => acc + c.qty, 0);
             const baseOneDaySubtotal = state.cart.reduce((acc, c) => acc + (c.qty * c.price), 0);
+            const showPrices = areClientPricesVisible();
 
             const weekendExtraPct = Number(state.settings.weekendExtraPct ?? 60);
             const isWeekend = state.rentalDurationMode === 'FIN_DE_SEMANA';
@@ -4435,11 +4588,18 @@
             const subtotalMoney = Math.max(0, subtotalBeforeDiscount - couponDiscountMoney);
             const { distKm, fee } = calculateClientFreight();
             const grandTotal = subtotalMoney + fee;
-            const pct = Number(state.settings.depositPercent) || 30;
-            const requiredDeposit = (grandTotal * pct) / 100;
+            const depInfo = getDepositRequirementInfo(grandTotal);
+            const requiredDeposit = depInfo.amount;
 
             if (countBadge) countBadge.textContent = totalItems;
-            if (headerTotalText) headerTotalText.textContent = `$${grandTotal.toFixed(2)}`;
+            if (headerTotalText) {
+                headerTotalText.textContent = showPrices ? `$${grandTotal.toFixed(2)}` : `${totalItems} uds`;
+            }
+
+            const pricingSummaryRows = document.getElementById('quotePricingSummaryRows');
+            const hiddenPricesBanner = document.getElementById('quoteHiddenPricesBanner');
+            if (pricingSummaryRows) pricingSummaryRows.classList.toggle('hidden', !showPrices);
+            if (hiddenPricesBanner) hiddenPricesBanner.classList.toggle('hidden', showPrices);
 
             const listEl = document.getElementById('quoteCartItemsList');
             const subtotalEl = document.getElementById('quoteSubtotalAmount');
@@ -4458,9 +4618,9 @@
 
             if (subtotalEl) subtotalEl.textContent = `$${baseOneDaySubtotal.toFixed(2)}`;
             if (weekendSavingTag) {
-                weekendSavingTag.textContent = isWeekend && weekendSavings > 0
+                weekendSavingTag.textContent = showPrices && isWeekend && weekendSavings > 0
                     ? `¡Ahorras $${weekendSavings.toFixed(2)} en el 2do día!`
-                    : `¡2do día al +${weekendExtraPct}% en vez del doble!`;
+                    : `¡2do día con tarifa especial!`;
             }
             if (weekendRow && weekendExtraEl) {
                 weekendRow.classList.toggle('hidden', !isWeekend || baseOneDaySubtotal === 0);
@@ -4491,7 +4651,7 @@
             const feeBadge = document.getElementById('clientDeliveryFeeBadge');
             if (distLabel) distLabel.textContent = `${distKm.toFixed(1)} km`;
             if (feeBadge) {
-                feeBadge.textContent = fee > 0 ? `Flete: +$${fee.toFixed(2)}` : `¡Envío Gratis!`;
+                feeBadge.textContent = fee > 0 ? (showPrices ? `Flete: +$${fee.toFixed(2)}` : 'Flete según distancia') : `¡Envío Gratis!`;
                 feeBadge.className = fee > 0
                     ? 'px-2 py-0.5 rounded bg-amber-500 text-slate-950 text-[11px] font-extrabold'
                     : 'px-2 py-0.5 rounded bg-emerald-600 text-white text-[11px] font-bold';
@@ -4504,7 +4664,7 @@
             const chosenDate = document.getElementById('quoteEventDate')?.value || state.clientSelectedDate || TODAY_STR;
             if (reserveBox) reserveBox.classList.toggle('hidden', state.quoteMode !== 'RESERVA');
             if (reserveDateLbl) reserveDateLbl.textContent = chosenDate;
-            if (reserveAbonoLbl) reserveAbonoLbl.textContent = `Abono (${pct}%): $${requiredDeposit.toFixed(2)}`;
+            if (reserveAbonoLbl) reserveAbonoLbl.textContent = depInfo.summaryLabel;
 
             // Mostrar aviso informativo no bloqueante si en el carrito pide más unidades que las libres de un solo turno
             const overbookingNoticeEl = document.getElementById('quoteOverbookingNotice');
@@ -4549,7 +4709,7 @@
                             <img src="${c.photo}" class="w-10 h-10 rounded-lg object-cover shrink-0">
                             <div class="min-w-0">
                                 <p class="text-xs font-bold text-slate-900 truncate">${c.name}</p>
-                                <p class="text-[11px] text-slate-500">${c.qty} uds × $${c.price.toFixed(2)} = <strong class="text-slate-800">$${sub.toFixed(2)}</strong></p>
+                                <p class="text-[11px] text-slate-500">${showPrices ? `${c.qty} uds × $${c.price.toFixed(2)} = <strong class="text-slate-800">$${sub.toFixed(2)}</strong>` : `Cantidad solicitada: <strong class="text-slate-800">${c.qty} uds</strong>`}</p>
                             </div>
                         </div>
                         <button onclick="window.app.removeCartItem('${c.id}')" class="w-7 h-7 rounded-lg text-rose-500 hover:bg-rose-50 flex items-center justify-center shrink-0">
@@ -4595,8 +4755,9 @@
             const subtotal = Math.max(0, subtotalBeforeDiscount - couponDiscountMoney);
             const { distKm, fee } = calculateClientFreight();
             const total = subtotal + fee;
-            const pct = Number(state.settings.depositPercent) || 30;
-            const requiredAbono = (total * pct) / 100;
+            const showPrices = areClientPricesVisible();
+            const depInfo = getDepositRequirementInfo(total);
+            const requiredAbono = depInfo.amount;
             const isReserva = state.quoteMode === 'RESERVA';
             const durationText = isWeekend ? `Fin de Semana Completo (2 Días Promo +${weekendExtraPct}%)` : '1 Día Normal';
 
@@ -4659,7 +4820,7 @@
                 paidAmount: 0,
                 items: expandedOrderItems,
                 paymentNotes: isReserva
-                    ? `🔒 Solicitud de Apartado (${durationText}) para el día ${eventDate}. Abono requerido (${pct}%): $${requiredAbono.toFixed(2)}.`
+                    ? `🔒 Solicitud de Apartado (${durationText}) para el día ${eventDate}. ${depInfo.summaryLabel}.`
                     : `Cotización web recibida (${durationText}).`
             };
 
@@ -4669,15 +4830,15 @@
             sendTelegramNotification(newOrder, mapsLink);
 
             // 2. Build formatted WhatsApp quotation / reservation message
-            const itemsLines = state.cart.map(c => `• ${c.qty}x ${c.name} ($${(c.qty * c.price).toFixed(2)})`).join('\n');
-            const weekendLine = isWeekend
+            const itemsLines = state.cart.map(c => showPrices ? `• ${c.qty}x ${c.name} ($${(c.qty * c.price).toFixed(2)})` : `• ${c.qty}x ${c.name}`).join('\n');
+            const weekendLine = (isWeekend && showPrices)
                 ? `\n🎉 *Modalidad Fin de Semana (2 Días):* +$${weekendExtraMoney.toFixed(2)}`
                 : '';
-            const couponLine = hasCoupon
+            const couponLine = (hasCoupon && showPrices)
                 ? `\n🎟️ *Cupón VIP (${validCode} -${couponPct}%):* -$${couponDiscountMoney.toFixed(2)}`
-                : '';
+                : (hasCoupon ? `\n🎟️ *Cupón VIP Aplicado:* ${validCode} (-${couponPct}%)` : '');
             const freightLine = includeLocation
-                ? `\n🚚 *Transporte GPS (${distKm.toFixed(1)} km):* ${fee > 0 ? '$' + fee.toFixed(2) : '¡GRATIS!'}`
+                ? `\n🚚 *Transporte GPS (${distKm.toFixed(1)} km):* ${fee > 0 ? (showPrices ? '$' + fee.toFixed(2) : 'A cotizar') : '¡GRATIS!'}`
                 : '';
             const locationLines = includeLocation
                 ? `📍 *Dirección:* ${addressRef}\n🗺️ *Pin GPS Exacto:* ${mapsLink}`
@@ -4688,8 +4849,10 @@
                 ? `🔒 *SOLICITUD DE APARTADO - ${brandInfo.fullNameWithBadge.toUpperCase()} (${eventDate})* 🔒`
                 : `🎉 *NUEVA COTIZACIÓN - ${brandInfo.fullNameWithBadge.toUpperCase()}* 🎉`;
             const footerAction = isReserva
-                ? `\n💳 *Abono (${pct}%) para apartar la fecha ${eventDate}:* $${requiredAbono.toFixed(2)}\n---\nHola *${brandInfo.combinedName}*, deseo apartar este mobiliario (${durationText}) para mi evento del día *${eventDate}*.`
-                : `\n---\nHola *${brandInfo.combinedName}*, me gustaría consultar disponibilidad de esta cotización (${durationText}) para el día *${eventDate}*.`;
+                ? `\n💳 *Abono para apartar la fecha ${eventDate}:* $${requiredAbono.toFixed(2)}\n---\nHola *${brandInfo.combinedName}*, deseo apartar este mobiliario (${durationText}) para mi evento del día *${eventDate}* con el abono de *$${requiredAbono.toFixed(2)}*.`
+                : `\n---\nHola *${brandInfo.combinedName}*, me gustaría consultar disponibilidad y cotización (${durationText}) para el día *${eventDate}*.`;
+
+            const totalLine = showPrices ? `\n\n💰 *TOTAL:* $${total.toFixed(2)}` : '';
 
             const waText =
 `${headerTitle}
@@ -4700,9 +4863,7 @@
 ${locationLines}
 
 📦 *MOBILIARIO SOLICITADO:*
-${itemsLines}${weekendLine}${couponLine}${freightLine}
-
-💰 *TOTAL:* $${total.toFixed(2)}${footerAction}`;
+${itemsLines}${weekendLine}${couponLine}${freightLine}${totalLine}${footerAction}`;
 
             const cleanPhone = (state.settings.whatsappNumber || '50760000000').replace(/\D/g, '');
             const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(waText)}`;
@@ -4714,7 +4875,7 @@ ${itemsLines}${weekendLine}${couponLine}${freightLine}
             window.app.toggleQuoteDrawer(false);
 
             // Mostrar inmediatamente en primer plano la ventana indicando que la cotización se solicitó y que pronto tendrá respuesta
-            window.app.showQuoteSuccessModal(newOrder, waUrl, isReserva, requiredAbono, pct);
+            window.app.showQuoteSuccessModal(newOrder, waUrl, isReserva, requiredAbono, depInfo.shortBadge);
 
             // Disparar alerta de fiesta para el panel de administración (y guardarla pendiente por si entra al admin enseguida)
             if (window.app && typeof window.app.triggerNewOrderPartyNotification === 'function') {
@@ -5245,6 +5406,335 @@ ${itemsSummary}
             await persistCatalogItem(item);
             showToast(item.isPromo ? `Promoción activada para "${item.name}"` : `Promoción desactivada`, 'info');
         }
+
+        async function updateOrderItemCounts(orderId, itemIndex, field, rawVal) {
+            const ord = state.orders.find(o => o.id === orderId);
+            if (!ord || !ord.items || !ord.items[itemIndex]) return;
+            const it = ord.items[itemIndex];
+            const val = Math.max(0, parseInt(rawVal || '0', 10));
+
+            if (field === 'delivered') {
+                it.delivered = val;
+                if ((Number(it.returned) || 0) > val) it.returned = val;
+            } else if (field === 'returned') {
+                const del = Number(it.delivered) || 0;
+                it.returned = Math.min(del, val);
+                if (del > 0 && it.returned < del) {
+                    const missing = del - it.returned;
+                    state.pendingIncompleteAlert = { orderId, itemIndex };
+                    const alertBody = document.getElementById('incompleteReturnAlertBody');
+                    if (alertBody) {
+                        alertBody.innerHTML = `
+                            <p class="font-bold text-slate-900">En el pedido de <strong>${ord.clientName}</strong> dejaste <strong>${del}x ${it.name}</strong> y estás registrando que retiraste <strong>${it.returned}</strong>.</p>
+                            <p class="text-rose-700 font-extrabold mt-1">⚠️ Faltan ${missing} unidad(es) por recoger. ¿Qué deseas hacer?</p>
+                        `;
+                    }
+                    const modal = document.getElementById('incompleteReturnAlertModal');
+                    if (modal) {
+                        modal.classList.remove('hidden');
+                        modal.classList.add('flex');
+                    }
+                }
+            } else if (field === 'damaged') {
+                it.damaged = val;
+                let totalDamageFee = 0;
+                (ord.items || []).forEach(row => {
+                    const dmgCount = Number(row.damaged) || 0;
+                    if (dmgCount > 0) {
+                        const catRef = state.catalog.find(c => c.id === row.id);
+                        const unitFee = Number(catRef?.damageFee) || 10;
+                        totalDamageFee += dmgCount * unitFee;
+                    }
+                });
+                ord.damagePenalty = totalDamageFee;
+            }
+
+            await persistOrder(ord);
+            showToast('Conteo de mobiliario actualizado', 'info');
+        }
+
+        async function markAllDelivered(orderId) {
+            const ord = state.orders.find(o => o.id === orderId);
+            if (!ord) return;
+            (ord.items || []).forEach(it => {
+                it.delivered = Number(it.requested) || 0;
+            });
+            await persistOrder(ord);
+            showToast(`📦 Todos los equipos de ${ord.clientName} marcados como entregados en calle`, 'success');
+        }
+
+        async function markAllReturned(orderId) {
+            const ord = state.orders.find(o => o.id === orderId);
+            if (!ord) return;
+            (ord.items || []).forEach(it => {
+                const del = Number(it.delivered) || Number(it.requested) || 0;
+                it.delivered = del;
+                it.returned = del;
+            });
+            await persistOrder(ord);
+            showToast(`✅ Todos los equipos de ${ord.clientName} retirados a bodega`, 'success');
+        }
+
+        async function recordPartialPayment(orderId) {
+            const ord = state.orders.find(o => o.id === orderId);
+            if (!ord) return;
+            const inp = document.getElementById(`payInput-${orderId}`);
+            const addAmt = parseFloat(inp?.value || '0');
+            if (!addAmt || addAmt <= 0) {
+                showToast('Ingresa un monto de abono válido mayor a $0', 'warning');
+                return;
+            }
+            const tot = (Number(ord.total) || 0) + (Number(ord.damagePenalty) || 0);
+            ord.paidAmount = Math.min(tot, (Number(ord.paidAmount) || 0) + addAmt);
+            if (inp) inp.value = '';
+            await persistOrder(ord);
+            showToast(`💵 Abono de $${addAmt.toFixed(2)} registrado en ${ord.clientName}`, 'success');
+        }
+
+        async function setPaymentPercentage(orderId, pct) {
+            const ord = state.orders.find(o => o.id === orderId);
+            if (!ord) return;
+            const tot = (Number(ord.total) || 0) + (Number(ord.damagePenalty) || 0);
+            ord.paidAmount = Number(((tot * pct) / 100).toFixed(2));
+            await persistOrder(ord);
+            showToast(pct === 100 ? `✅ Cuenta de ${ord.clientName} marcada 100% pagada` : `Pago ajustado al ${pct}%`, 'success');
+        }
+
+        function calculateAndRenderRoute(showAllActive = false) {
+            const dateVal = document.getElementById('routeDateInput')?.value || TODAY_STR;
+            const timelineEl = document.getElementById('routeStopsTimeline');
+            const badgeEl = document.getElementById('routeTotalDistanceBadge');
+            const titleEl = document.getElementById('routeSummaryTitle');
+            const baseLat = Number(state.settings.baseLat) || 8.4273;
+            const baseLng = Number(state.settings.baseLng) || -82.4321;
+
+            let pool = showAllActive
+                ? state.orders.filter(o => !classifyOrderLogicalBucket(o).isHistory)
+                : state.orders.filter(o => o.eventDate === dateVal);
+
+            if (titleEl) {
+                titleEl.textContent = showAllActive ? `Todas las Paradas Activas (${pool.length})` : `Paradas del ${dateVal} (${pool.length})`;
+            }
+
+            const remaining = [...pool];
+            const orderedStops = [];
+            let currLat = baseLat;
+            let currLng = baseLng;
+            let totalDistKm = 0;
+
+            while (remaining.length > 0) {
+                let bestIdx = 0;
+                let bestDist = Infinity;
+                remaining.forEach((cand, idx) => {
+                    const d = haversineDistanceKm(currLat, currLng, Number(cand.lat) || baseLat, Number(cand.lng) || baseLng);
+                    if (d < bestDist) {
+                        bestDist = d;
+                        bestIdx = idx;
+                    }
+                });
+                const chosen = remaining.splice(bestIdx, 1)[0];
+                totalDistKm += bestDist;
+                currLat = Number(chosen.lat) || baseLat;
+                currLng = Number(chosen.lng) || baseLng;
+                orderedStops.push({ order: chosen, legKm: bestDist });
+            }
+
+            if (badgeEl) badgeEl.textContent = `${totalDistKm.toFixed(1)} km`;
+
+            if (timelineEl) {
+                if (orderedStops.length === 0) {
+                    timelineEl.innerHTML = `<div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-500 text-center">No hay paradas para esta fecha. Toca "Ver Todos los Activos".</div>`;
+                } else {
+                    timelineEl.innerHTML = orderedStops.map((s, i) => {
+                        const ord = s.order;
+                        const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${ord.lat},${ord.lng}`;
+                        return `
+                            <div onclick="window.app.focusStopOnMap(${ord.lat}, ${ord.lng})" class="cursor-pointer p-3 rounded-xl border border-slate-200 hover:border-brand-400 bg-slate-50/70 space-y-1 text-xs transition">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-black text-brand-700">Parada #${i + 1} (+${s.legKm.toFixed(1)} km)</span>
+                                    <a href="${gmapsUrl}" target="_blank" onclick="event.stopPropagation()" class="px-2 py-0.5 rounded bg-brand-600 text-white font-bold text-[10px]">Ir GPS</a>
+                                </div>
+                                <p class="font-extrabold text-slate-900 truncate">${ord.clientName}</p>
+                                <p class="text-[11px] text-slate-500 truncate">${ord.address}</p>
+                            </div>
+                        `;
+                    }).join('');
+                }
+            }
+
+            setTimeout(() => {
+                const mapBox = document.getElementById('adminRouteMap');
+                if (!mapBox || typeof L === 'undefined') return;
+                if (!adminRouteMap) {
+                    adminRouteMap = L.map('adminRouteMap').setView([baseLat, baseLng], 13);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap' }).addTo(adminRouteMap);
+                    adminMapLayerGroup = L.layerGroup().addTo(adminRouteMap);
+                } else {
+                    adminRouteMap.invalidateSize();
+                    adminMapLayerGroup.clearLayers();
+                }
+
+                const pts = [[baseLat, baseLng]];
+                const baseIcon = L.divIcon({
+                    className: '',
+                    html: `<div style="background:#0f172a;color:#fbbf24;width:30px;height:30px;border-radius:9999px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px;border:2px solid white;">0</div>`,
+                    iconSize: [30, 30],
+                    iconAnchor: [15, 15]
+                });
+                L.marker([baseLat, baseLng], { icon: baseIcon }).bindPopup('<b>Punto 0: Tu Bodega</b>').addTo(adminMapLayerGroup);
+
+                orderedStops.forEach((s, idx) => {
+                    const ord = s.order;
+                    const lat = Number(ord.lat) || baseLat;
+                    const lng = Number(ord.lng) || baseLng;
+                    pts.push([lat, lng]);
+                    const inSt = (ord.items || []).reduce((a, i) => a + Math.max(0, (Number(i.delivered) || 0) - (Number(i.returned) || 0)), 0);
+                    const color = inSt > 0 ? '#e11d48' : '#7c3aed';
+                    const stopIcon = L.divIcon({
+                        className: '',
+                        html: `<div style="background:${color};color:white;width:28px;height:28px;border-radius:9999px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px;border:2px solid white;">${idx + 1}</div>`,
+                        iconSize: [28, 28],
+                        iconAnchor: [14, 14]
+                    });
+                    L.marker([lat, lng], { icon: stopIcon })
+                        .bindPopup(`<b>#${idx + 1} ${ord.clientName}</b><br>${ord.address}`)
+                        .addTo(adminMapLayerGroup);
+                });
+
+                if (pts.length > 1) {
+                    L.polyline(pts, { color: '#7c3aed', weight: 4, dashArray: '6, 6' }).addTo(adminMapLayerGroup);
+                    adminRouteMap.fitBounds(pts, { padding: [30, 30] });
+                }
+            }, 120);
+        }
+
+        function renderAdminCrmClients() {
+            const grid = document.getElementById('adminCrmClientsGrid');
+            const bdayGrid = document.getElementById('adminCrmBirthdayRemindersGrid');
+            if (!grid) return;
+
+            const clientsMap = {};
+            state.orders.forEach(ord => {
+                const key = (ord.phone || '').replace(/\D/g, '') || ord.clientName;
+                if (!clientsMap[key]) {
+                    clientsMap[key] = {
+                        key,
+                        name: ord.clientName,
+                        phone: ord.phone || 'Sin teléfono',
+                        ordersCount: 0,
+                        totalBilled: 0,
+                        totalPaid: 0,
+                        lastDate: ord.eventDate || TODAY_STR,
+                        lastItems: (ord.items || []).map(i => `${i.requested}x ${i.name}`).join(', ')
+                    };
+                }
+                const c = clientsMap[key];
+                c.ordersCount += 1;
+                c.totalBilled += (Number(ord.total) || 0) + (Number(ord.damagePenalty) || 0);
+                c.totalPaid += Number(ord.paidAmount) || 0;
+                if ((ord.eventDate || '') >= c.lastDate) {
+                    c.lastDate = ord.eventDate || c.lastDate;
+                    c.lastItems = (ord.items || []).map(i => `${i.requested}x ${i.name}`).join(', ');
+                }
+            });
+
+            const list = Object.values(clientsMap);
+
+            if (bdayGrid) {
+                const selMonth = document.getElementById('crmBirthdayMonthSelect')?.value || 'CURRENT';
+                const currentMonthStr = String(new Date().getMonth() + 1).padStart(2, '0');
+                const targetMonth = selMonth === 'CURRENT' ? currentMonthStr : selMonth;
+                const bdayMatches = list.filter(c => {
+                    if (targetMonth === 'ALL') return true;
+                    const m = (c.lastDate || '').split('-')[1];
+                    return m === targetMonth;
+                });
+
+                if (bdayMatches.length === 0) {
+                    bdayMatches.push(...list.slice(0, 2));
+                }
+
+                bdayGrid.innerHTML = bdayMatches.map(c => `
+                    <div class="bg-white p-3.5 rounded-xl border border-amber-300 flex flex-col justify-between gap-2 text-xs shadow-2xs">
+                        <div>
+                            <div class="flex items-center justify-between gap-2">
+                                <span class="font-extrabold text-slate-900 truncate">🎂 ${c.name}</span>
+                                <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-900 font-bold text-[10px]">${c.lastDate}</span>
+                            </div>
+                            <p class="text-[11px] text-slate-500 truncate mt-0.5">Alquiló: ${c.lastItems}</p>
+                        </div>
+                        <button type="button" onclick="window.app.sendBirthdayReactivationWhatsApp('${c.key}')" class="w-full py-2 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-[11px] flex items-center justify-center gap-1.5">
+                            <i class="fa-brands fa-whatsapp"></i> Enviar Cupón Anual VIP
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            if (list.length === 0) {
+                grid.innerHTML = `<div class="col-span-full p-6 text-center text-xs text-slate-500 bg-white rounded-2xl border border-slate-200">Aún no hay clientes en cartera.</div>`;
+                return;
+            }
+
+            grid.innerHTML = list.map(c => {
+                const tag = state.clientTags[c.key] || 'PUNTUAL';
+                const debt = Math.max(0, c.totalBilled - c.totalPaid);
+                return `
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs space-y-3 text-xs flex flex-col justify-between">
+                        <div class="space-y-1">
+                            <div class="flex items-center justify-between gap-2">
+                                <h4 class="font-extrabold text-slate-900 text-sm truncate">${c.name}</h4>
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-black ${tag === 'VIP' ? 'bg-amber-300 text-slate-950' : tag === 'CUIDADO' ? 'bg-rose-600 text-white' : 'bg-emerald-100 text-emerald-800'}">${tag}</span>
+                            </div>
+                            <p class="text-slate-500"><i class="fa-solid fa-phone mr-1"></i>${c.phone} • <strong>${c.ordersCount}</strong> evento(s)</p>
+                            <p class="text-[11px] text-slate-600">Total facturado: <strong>$${c.totalBilled.toFixed(2)}</strong> | ${debt > 0 ? `<span class="text-rose-600 font-bold">Debe $${debt.toFixed(2)}</span>` : `<span class="text-emerald-600 font-bold">Al día</span>`}</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 pt-2 border-t border-slate-100">
+                            <button type="button" onclick="window.app.setClientCrmTag('${c.key}', 'VIP')" class="flex-1 py-1.5 rounded-lg font-extrabold text-[10px] ${tag === 'VIP' ? 'bg-amber-400 text-slate-950' : 'bg-slate-100 text-slate-700'}">⭐ VIP</button>
+                            <button type="button" onclick="window.app.setClientCrmTag('${c.key}', 'PUNTUAL')" class="flex-1 py-1.5 rounded-lg font-extrabold text-[10px] ${tag === 'PUNTUAL' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-700'}">✅ Puntual</button>
+                            <button type="button" onclick="window.app.setClientCrmTag('${c.key}', 'CUIDADO')" class="flex-1 py-1.5 rounded-lg font-extrabold text-[10px] ${tag === 'CUIDADO' ? 'bg-rose-600 text-white' : 'bg-slate-100 text-slate-700'}">⚠️ Cuidado</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderAdminCalculatorRules() {
+            const container = document.getElementById('adminCalcRulesContainer');
+            if (!container) return;
+            const cfg = ensureCalculatorConfig();
+            const groups = [
+                { key: 'tables', title: '🍽️ Mesas Configuradas', capField: 'seats', capLabel: 'Sillas/Mesa' },
+                { key: 'chairs', title: '🪑 Sillas Configuradas', capField: null, capLabel: '' },
+                { key: 'linens', title: '✨ Manteles Configurados', capField: null, capLabel: '' },
+                { key: 'tents', title: '⛺ Toldas Configuradas', capField: 'capacity', capLabel: 'Pers/Tolda' }
+            ];
+            container.innerHTML = groups.map(g => `
+                <div class="bg-white p-3 rounded-xl border border-indigo-200 space-y-2">
+                    <h5 class="font-extrabold text-xs text-indigo-950">${g.title}</h5>
+                    <div class="space-y-1.5">
+                        ${(cfg[g.key] || []).filter(i => i.id !== 'none').map(item => `
+                            <div class="flex items-center justify-between gap-2 bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-200 text-[11px]">
+                                <span class="font-bold text-slate-800 truncate flex-1">${item.name}</span>
+                                <div class="flex items-center gap-1.5 shrink-0">
+                                    ${g.capField ? `
+                                        <label class="text-[10px] text-slate-500">${g.capLabel}:
+                                            <input type="number" min="1" value="${item[g.capField] || 1}" onchange="window.app.updateCalcRuleField('${g.key}', '${item.id}', '${g.capField}', this.value)" class="w-11 px-1 py-0.5 bg-white border border-slate-300 rounded text-center font-bold">
+                                        </label>
+                                    ` : ''}
+                                    <label class="text-[10px] text-slate-500">$:
+                                        <input type="number" step="0.25" min="0" value="${Number(item.price || 0).toFixed(2)}" onchange="window.app.updateCalcRuleField('${g.key}', '${item.id}', 'price', this.value)" class="w-14 px-1 py-0.5 bg-white border border-slate-300 rounded text-center font-bold text-emerald-700">
+                                    </label>
+                                    <button type="button" onclick="window.app.deleteCalcRuleOption('${g.key}', '${item.id}')" class="text-rose-500 hover:text-rose-700 px-1">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
         // --- NUEVAS FUNCIONES: CALCULADORA DE INVITADOS CONFIGURABLE, HOJA DE CARGA, CARTERA VIP Y FIRMA DIGITAL ---
         function getMiniPhotoForCalcOption(item, fallbackCategory) {
             if (item && item.photo) return item.photo;
@@ -5293,6 +5783,7 @@ ${itemsSummary}
 
         function populateCalculatorSelects() {
             const cfg = ensureCalculatorConfig();
+            const showPrices = areClientPricesVisible();
             const chairSel = document.getElementById('calcChairSelect');
             const tableSel = document.getElementById('calcTableSelect');
             const linenSel = document.getElementById('calcLinenSelect');
@@ -5300,22 +5791,22 @@ ${itemsSummary}
 
             if (chairSel) {
                 const prev = chairSel.value;
-                chairSel.innerHTML = cfg.chairs.map(c => `<option value="${c.id}">${c.name} ${c.id !== 'none' ? `($${Number(c.price).toFixed(2)} c/u)` : ''}</option>`).join('');
+                chairSel.innerHTML = cfg.chairs.map(c => `<option value="${c.id}">${c.name} ${(c.id !== 'none' && showPrices) ? `($${Number(c.price).toFixed(2)} c/u)` : ''}</option>`).join('');
                 if (prev && cfg.chairs.some(c => c.id === prev)) chairSel.value = prev;
             }
             if (tableSel) {
                 const prev = tableSel.value;
-                tableSel.innerHTML = cfg.tables.map(t => `<option value="${t.id}">${t.name} ${t.id !== 'none' ? `• Usa ${t.seats} sillas ($${Number(t.price).toFixed(2)})` : ''}</option>`).join('');
+                tableSel.innerHTML = cfg.tables.map(t => `<option value="${t.id}">${t.name} ${t.id !== 'none' ? `• Usa ${t.seats} sillas ${showPrices ? `($${Number(t.price).toFixed(2)})` : ''}` : ''}</option>`).join('');
                 if (prev && cfg.tables.some(t => t.id === prev)) tableSel.value = prev;
             }
             if (linenSel) {
                 const prev = linenSel.value;
-                linenSel.innerHTML = cfg.linens.map(l => `<option value="${l.id}">${l.name} ${l.id !== 'none' ? `($${Number(l.price).toFixed(2)} c/u)` : ''}</option>`).join('');
+                linenSel.innerHTML = cfg.linens.map(l => `<option value="${l.id}">${l.name} ${(l.id !== 'none' && showPrices) ? `($${Number(l.price).toFixed(2)} c/u)` : ''}</option>`).join('');
                 if (prev && cfg.linens.some(l => l.id === prev)) linenSel.value = prev;
             }
             if (tentSel) {
                 const prev = tentSel.value;
-                tentSel.innerHTML = cfg.tents.map(t => `<option value="${t.id}">${t.name} ${t.id !== 'none' ? `($${Number(t.price).toFixed(2)})` : ''}</option>`).join('');
+                tentSel.innerHTML = cfg.tents.map(t => `<option value="${t.id}">${t.name} ${(t.id !== 'none' && showPrices) ? `($${Number(t.price).toFixed(2)})` : ''}</option>`).join('');
                 if (prev && cfg.tents.some(t => t.id === prev)) tentSel.value = prev;
             }
         }
@@ -5380,6 +5871,7 @@ ${itemsSummary}
             const container = document.getElementById('calcVisualCategoriesContainer');
             if (!container) return;
             const cfg = ensureCalculatorConfig();
+            const showPrices = areClientPricesVisible();
 
             const renderRuleRow = (title, selectId, items, groupKey, currentSelectedId) => `
                 <div class="space-y-1.5">
@@ -5390,10 +5882,10 @@ ${itemsSummary}
                             const isNone = opt.id === 'none';
                             const thumb = !isNone ? getMiniPhotoForCalcOption(opt, groupKey) : '';
                             const subInfo = groupKey === 'tables' && !isNone
-                                ? `Usa ${opt.seats} sillas • $${Number(opt.price).toFixed(2)}`
+                                ? `Usa ${opt.seats} sillas ${showPrices ? `• $${Number(opt.price).toFixed(2)}` : ''}`
                                 : groupKey === 'tents' && !isNone
-                                    ? `Cubre ${opt.capacity} pers. • $${Number(opt.price).toFixed(2)}`
-                                    : !isNone ? `$${Number(opt.price).toFixed(2)} c/u` : 'No incluir';
+                                    ? `Cubre ${opt.capacity} pers. ${showPrices ? `• $${Number(opt.price).toFixed(2)}` : ''}`
+                                    : !isNone ? (showPrices ? `$${Number(opt.price).toFixed(2)} c/u` : 'Disponible') : 'No incluir';
                             return `
                                 <div onclick="window.app.selectCalcOptionFromCard('${selectId}', '${opt.id}')" class="cursor-pointer p-2 rounded-xl border-2 transition flex items-center gap-2.5 ${isSelected ? 'border-indigo-600 bg-indigo-50/90 shadow-2xs' : 'border-slate-200 bg-white hover:border-indigo-300'}">
                                     ${!isNone
@@ -5432,7 +5924,7 @@ ${itemsSummary}
                                         <img src="${prod.photo}" onerror="this.src='https://placehold.co/80x80/ede9fe/6d28d9?text=Equipo'" class="w-11 h-11 rounded-lg object-cover shrink-0 border border-slate-200">
                                         <div class="min-w-0 flex-1">
                                             <p class="text-[11px] font-extrabold text-slate-900 truncate">${prod.name}</p>
-                                            <p class="text-[10px] font-bold text-brand-700">$${Number(prod.price).toFixed(2)} /día</p>
+                                            <p class="text-[10px] font-bold text-brand-700">${showPrices ? `$${Number(prod.price).toFixed(2)} /día` : 'Toca para agregar'}</p>
                                         </div>
                                     </div>
                                     <div class="flex items-center gap-1 shrink-0 bg-slate-100 rounded-lg p-0.5 border border-slate-200">
@@ -5492,527 +5984,8 @@ ${itemsSummary}
                     ? pills.join('')
                     : `<span class="text-slate-400 italic">Selecciona al menos un elemento arriba</span>`;
             }
-            if (totalEl) totalEl.textContent = `$${calc.total.toFixed(2)} /día`;
-        }
-
-        function renderAdminCalculatorRules() {
-            const container = document.getElementById('adminCalcRulesContainer');
-            if (!container) return;
-            const cfg = ensureCalculatorConfig();
-
-            const renderGroup = (title, groupKey, items) => `
-                <div class="bg-white p-3 rounded-xl border border-slate-200 space-y-2">
-                    <h5 class="font-extrabold text-slate-900 text-xs border-b border-slate-100 pb-1.5">${title}</h5>
-                    <div class="space-y-1.5">
-                        ${items.filter(i => i.id !== 'none').map((item) => {
-                            const thumb = getMiniPhotoForCalcOption(item, groupKey);
-                            return `
-                            <div class="flex items-center justify-between gap-2 bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-200">
-                                <div class="flex items-center gap-2 min-w-0 flex-1">
-                                    <img src="${thumb}" onerror="this.src='https://placehold.co/60x60/ede9fe/6d28d9?text=Foto'" class="w-8 h-8 rounded-md object-cover shrink-0 border border-slate-200">
-                                    <div class="min-w-0 flex-1">
-                                        <span class="font-bold text-slate-800 block truncate">${item.name}</span>
-                                        <span class="text-[10px] text-slate-500">
-                                            Precio: <strong>$${Number(item.price).toFixed(2)}</strong>
-                                            ${groupKey === 'tables' ? ` • Usa <strong>${item.seats} sillas</strong>` : ''}
-                                            ${groupKey === 'tents' ? ` • Cubre <strong>${item.capacity} pers.</strong>` : ''}
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-1 shrink-0">
-                                    <input type="number" step="0.25" value="${item.price}" onchange="window.app.updateCalcRuleField('${groupKey}', '${item.id}', 'price', this.value)" class="w-14 px-1.5 py-1 text-center font-bold border border-slate-300 rounded bg-white text-[11px]" title="Precio ($)">
-                                    ${groupKey === 'tables' ? `<input type="number" min="1" value="${item.seats}" onchange="window.app.updateCalcRuleField('tables', '${item.id}', 'seats', this.value)" class="w-12 px-1 py-1 text-center font-extrabold border border-indigo-300 rounded bg-indigo-50 text-indigo-900 text-[11px]" title="Sillas por mesa">` : ''}
-                                    ${groupKey === 'tents' ? `<input type="number" min="1" value="${item.capacity}" onchange="window.app.updateCalcRuleField('tents', '${item.id}', 'capacity', this.value)" class="w-12 px-1 py-1 text-center font-extrabold border border-emerald-300 rounded bg-emerald-50 text-emerald-900 text-[11px]" title="Personas que cubre">` : ''}
-                                    <button type="button" onclick="window.app.deleteCalcRuleOption('${groupKey}', '${item.id}')" class="text-rose-600 hover:bg-rose-50 px-1.5 py-1 rounded">
-                                        <i class="fa-solid fa-trash-can text-[11px]"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        `}).join('')}
-                    </div>
-                </div>
-            `;
-
-            container.innerHTML =
-                renderGroup('🍽️ Mesas y Cuántas Sillas Usa cada una ($ / Sillas)', 'tables', cfg.tables) +
-                renderGroup('🪑 Tipos y Precios de Sillas ($ c/u)', 'chairs', cfg.chairs) +
-                renderGroup('✨ Mantelería (1 por cada mesa calculada)', 'linens', cfg.linens) +
-                renderGroup('⛺ Toldas / Carpas ($ / Personas que cubre)', 'tents', cfg.tents);
-        }
-
-        function renderAdminCrmClients() {
-            const grid = document.getElementById('adminCrmClientsGrid');
-            if (!grid) return;
-
-            const mapByPhone = {};
-            state.orders.forEach(ord => {
-                const key = (ord.phone || '').replace(/\D/g, '') || ord.clientName;
-                if (!mapByPhone[key]) {
-                    mapByPhone[key] = {
-                        key,
-                        name: ord.clientName,
-                        phone: ord.phone,
-                        ordersCount: 0,
-                        totalBilled: 0,
-                        totalPaid: 0,
-                        damagesCount: 0,
-                        lastEventDate: ord.eventDate || TODAY_STR,
-                        lastItemsSummary: (ord.items || []).map(i => `${i.requested}x ${i.name}`).join(', '),
-                        eventMonths: new Set()
-                    };
-                }
-                mapByPhone[key].ordersCount += 1;
-                mapByPhone[key].totalBilled += (Number(ord.total) || 0) + (Number(ord.damagePenalty) || 0);
-                mapByPhone[key].totalPaid += Number(ord.paidAmount) || 0;
-                if (ord.eventDate && ord.eventDate >= mapByPhone[key].lastEventDate) {
-                    mapByPhone[key].lastEventDate = ord.eventDate;
-                    mapByPhone[key].lastItemsSummary = (ord.items || []).map(i => `${i.requested}x ${i.name}`).join(', ');
-                }
-                if (ord.eventDate && ord.eventDate.length >= 7) {
-                    mapByPhone[key].eventMonths.add(ord.eventDate.slice(5, 7));
-                }
-                (ord.items || []).forEach(it => {
-                    mapByPhone[key].damagesCount += Number(it.damaged) || 0;
-                });
-            });
-
-            const clients = Object.values(mapByPhone);
-
-            // Renderizar Radar de Reactivación de Cumpleaños / Eventos del Mes (Opción 8)
-            const bdayGrid = document.getElementById('adminCrmBirthdayRemindersGrid');
-            if (bdayGrid) {
-                const selMonthMode = document.getElementById('crmBirthdayMonthSelect')?.value || 'CURRENT';
-                const currentMonthTwoDigits = String(new Date().getMonth() + 1).padStart(2, '0');
-                const targetMonth = selMonthMode === 'CURRENT' ? currentMonthTwoDigits : selMonthMode;
-                const monthNamesMap = {
-                    '01': 'Enero', '02': 'Febrero', '03': 'Marzo', '04': 'Abril',
-                    '05': 'Mayo', '06': 'Junio', '07': 'Julio', '08': 'Agosto',
-                    '09': 'Septiembre', '10': 'Octubre', '11': 'Noviembre', '12': 'Diciembre'
-                };
-
-                const bdayMatches = clients.filter(c => {
-                    if (selMonthMode === 'ALL') return true;
-                    return c.eventMonths.has(targetMonth);
-                });
-
-                if (bdayMatches.length === 0) {
-                    bdayGrid.innerHTML = `
-                        <div class="col-span-full bg-white/80 p-4 rounded-xl border border-amber-200 text-center text-xs text-slate-500">
-                            No hay clientes con eventos registrados en <strong>${monthNamesMap[targetMonth] || 'este mes'}</strong>. Cambia el selector a "📅 Todos los Meses" para ver toda la cartera.
-                        </div>
-                    `;
-                } else {
-                    const couponCode = (state.settings.couponCode || 'FIESTA10').toUpperCase();
-                    const couponPct = Number(state.settings.couponDiscountPct) || 10;
-                    bdayGrid.innerHTML = bdayMatches.map(c => {
-                        const evMonthNum = (c.lastEventDate || TODAY_STR).slice(5, 7);
-                        const evMonthLabel = monthNamesMap[evMonthNum] || 'este mes';
-                        return `
-                            <div class="bg-white p-3.5 rounded-xl border border-amber-300 shadow-2xs flex flex-col justify-between gap-2.5 text-xs">
-                                <div>
-                                    <div class="flex items-start justify-between gap-2">
-                                        <span class="font-extrabold text-slate-900 text-sm truncate">🎂 ${c.name}</span>
-                                        <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 font-black text-[10px] shrink-0">Evento en ${evMonthLabel}</span>
-                                    </div>
-                                    <p class="text-[11px] text-slate-500 mt-0.5">Última fecha: <strong>${c.lastEventDate}</strong> • 📞 ${c.phone}</p>
-                                    <p class="text-[11px] text-slate-600 bg-amber-50/70 p-2 rounded-lg border border-amber-200 mt-1.5 line-clamp-2">
-                                        <strong>Alquiló:</strong> ${c.lastItemsSummary || 'Mobiliario para fiesta'}
-                                    </p>
-                                </div>
-                                <button type="button" onclick="window.app.sendBirthdayReactivationWhatsApp('${c.key}')" class="w-full py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shadow-xs transition flex items-center justify-center gap-1.5">
-                                    <i class="fa-brands fa-whatsapp text-sm"></i> Enviar Cupón VIP (${couponCode} -${couponPct}%)
-                                </button>
-                            </div>
-                        `;
-                    }).join('');
-                }
-            }
-
-            if (clients.length === 0) {
-                grid.innerHTML = `<div class="col-span-full bg-white p-6 rounded-2xl border border-slate-200 text-center text-xs text-slate-500">Aún no hay clientes registrados.</div>`;
-                return;
-            }
-
-            grid.innerHTML = clients.map(c => {
-                const tag = state.clientTags[c.key] || 'PUNTUAL';
-                const debt = Math.max(0, c.totalBilled - c.totalPaid);
-                return `
-                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between gap-3 text-xs">
-                        <div class="space-y-1.5">
-                            <div class="flex items-start justify-between gap-2">
-                                <div>
-                                    <h4 class="font-extrabold text-slate-900 text-sm">${c.name}</h4>
-                                    <span class="text-slate-500 font-mono">${c.phone}</span>
-                                </div>
-                                <select onchange="window.app.setClientCrmTag('${c.key}', this.value)" class="px-2 py-1 rounded-lg font-extrabold text-[11px] border ${tag === 'VIP' ? 'bg-amber-100 text-amber-900 border-amber-300' : tag === 'CUIDADO' ? 'bg-rose-100 text-rose-800 border-rose-300' : 'bg-emerald-100 text-emerald-800 border-emerald-300'}">
-                                    <option value="VIP" ${tag === 'VIP' ? 'selected' : ''}>⭐ Cliente VIP</option>
-                                    <option value="PUNTUAL" ${tag === 'PUNTUAL' ? 'selected' : ''}>✅ Puntual</option>
-                                    <option value="CUIDADO" ${tag === 'CUIDADO' ? 'selected' : ''}>⚠️ Cuidado (100%)</option>
-                                </select>
-                            </div>
-                            <div class="grid grid-cols-3 gap-2 pt-2 text-center">
-                                <div class="bg-slate-50 p-2 rounded-xl border border-slate-200">
-                                    <span class="text-[10px] text-slate-500 block">Eventos</span>
-                                    <strong class="text-slate-900 text-sm">${c.ordersCount}</strong>
-                                </div>
-                                <div class="bg-emerald-50 p-2 rounded-xl border border-emerald-200">
-                                    <span class="text-[10px] text-emerald-700 block">Pagado</span>
-                                    <strong class="text-emerald-900 text-sm">$${c.totalPaid.toFixed(0)}</strong>
-                                </div>
-                                <div class="bg-rose-50 p-2 rounded-xl border border-rose-200">
-                                    <span class="text-[10px] text-rose-700 block">Saldo</span>
-                                    <strong class="text-rose-900 text-sm">$${debt.toFixed(0)}</strong>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between pt-2 border-t border-slate-100">
-                            <span class="text-[11px] ${c.damagesCount > 0 ? 'text-rose-600 font-bold' : 'text-slate-400'}">
-                                ${c.damagesCount > 0 ? `⚠️ ${c.damagesCount} equipo(s) dañado(s) en historial` : 'Sin daños reportados'}
-                            </span>
-                            <a href="https://wa.me/${(c.phone||'').replace(/\D/g,'')}" target="_blank" class="text-emerald-600 font-bold hover:underline">
-                                <i class="fa-brands fa-whatsapp mr-1"></i>Escribir
-                            </a>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // Inicializador del Canvas de Firma Digital con el Dedo o Mouse
-        let sigCanvas = null;
-        let sigCtx = null;
-        let isDrawingSig = false;
-        let sigPadHasNewStrokes = false;
-        let manSigCanvas = null;
-        let manSigCtx = null;
-        let isDrawingManSig = false;
-        let manSigHasStrokes = false;
-        let fullSigCanvas = null;
-        let fullSigCtx = null;
-        let isDrawingFullSig = false;
-        let fullSigHasStrokes = false;
-        let partyAlarmRepeatTimer = null;
-
-        function initFullscreenSignaturePad() {
-            fullSigCanvas = document.getElementById('fullscreenSigCanvas');
-            if (!fullSigCanvas) return;
-            const rect = fullSigCanvas.getBoundingClientRect();
-            fullSigCanvas.width = Math.max(320, Math.floor(rect.width));
-            fullSigCanvas.height = Math.max(260, Math.floor(rect.height));
-            fullSigCtx = fullSigCanvas.getContext('2d');
-            fullSigCtx.strokeStyle = '#0f172a';
-            fullSigCtx.lineWidth = 3.2;
-            fullSigCtx.lineCap = 'round';
-            fullSigCtx.lineJoin = 'round';
-            fullSigHasStrokes = false;
-
-            const getPos = (e) => {
-                const r = fullSigCanvas.getBoundingClientRect();
-                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-                return { x: clientX - r.left, y: clientY - r.top };
-            };
-
-            fullSigCanvas.onmousedown = (e) => {
-                isDrawingFullSig = true;
-                fullSigHasStrokes = true;
-                const p = getPos(e);
-                fullSigCtx.beginPath();
-                fullSigCtx.moveTo(p.x, p.y);
-            };
-            fullSigCanvas.onmousemove = (e) => {
-                if (!isDrawingFullSig) return;
-                fullSigHasStrokes = true;
-                const p = getPos(e);
-                fullSigCtx.lineTo(p.x, p.y);
-                fullSigCtx.stroke();
-            };
-            fullSigCanvas.onmouseup = () => { isDrawingFullSig = false; };
-
-            fullSigCanvas.ontouchstart = (e) => {
-                e.preventDefault();
-                isDrawingFullSig = true;
-                fullSigHasStrokes = true;
-                const p = getPos(e);
-                fullSigCtx.beginPath();
-                fullSigCtx.moveTo(p.x, p.y);
-            };
-            fullSigCanvas.ontouchmove = (e) => {
-                e.preventDefault();
-                if (!isDrawingFullSig) return;
-                fullSigHasStrokes = true;
-                const p = getPos(e);
-                fullSigCtx.lineTo(p.x, p.y);
-                fullSigCtx.stroke();
-            };
-            fullSigCanvas.ontouchend = () => { isDrawingFullSig = false; };
-        }
-
-        function drawDataUrlIntoPreviewCanvas(canvasEl, dataUrl) {
-            if (!canvasEl || !dataUrl) return;
-            const rect = canvasEl.getBoundingClientRect();
-            if (rect.width > 0 && rect.height > 0) {
-                canvasEl.width = rect.width;
-                canvasEl.height = rect.height;
-            }
-            const ctx = canvasEl.getContext('2d');
-            const img = new Image();
-            img.onload = () => {
-                ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
-                ctx.drawImage(img, 0, 0, canvasEl.width, canvasEl.height);
-            };
-            img.src = dataUrl;
-        }
-
-        function initManualOrderSignaturePad() {
-            manSigCanvas = document.getElementById('manOrderSignatureCanvas');
-            if (!manSigCanvas) return;
-            const rect = manSigCanvas.getBoundingClientRect();
-            manSigCanvas.width = rect.width || 380;
-            manSigCanvas.height = rect.height || 112;
-            manSigCtx = manSigCanvas.getContext('2d');
-            manSigCtx.strokeStyle = '#0f172a';
-            manSigCtx.lineWidth = 2.4;
-            manSigCtx.lineCap = 'round';
-            manSigHasStrokes = false;
-
-            const getPos = (e) => {
-                const r = manSigCanvas.getBoundingClientRect();
-                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-                return { x: clientX - r.left, y: clientY - r.top };
-            };
-
-            manSigCanvas.onmousedown = (e) => { isDrawingManSig = true; manSigHasStrokes = true; const p = getPos(e); manSigCtx.beginPath(); manSigCtx.moveTo(p.x, p.y); };
-            manSigCanvas.onmousemove = (e) => { if (!isDrawingManSig) return; manSigHasStrokes = true; const p = getPos(e); manSigCtx.lineTo(p.x, p.y); manSigCtx.stroke(); };
-            window.addEventListener('mouseup', () => { isDrawingManSig = false; });
-
-            manSigCanvas.ontouchstart = (e) => { e.preventDefault(); isDrawingManSig = true; manSigHasStrokes = true; const p = getPos(e); manSigCtx.beginPath(); manSigCtx.moveTo(p.x, p.y); };
-            manSigCanvas.ontouchmove = (e) => { e.preventDefault(); if (!isDrawingManSig) return; manSigHasStrokes = true; const p = getPos(e); manSigCtx.lineTo(p.x, p.y); manSigCtx.stroke(); };
-            manSigCanvas.ontouchend = () => { isDrawingManSig = false; };
-        }
-
-        function playLoudPartyOrderFanfare() {
-            try {
-                const AudioCtx = window.AudioContext || window.webkitAudioContext;
-                if (!AudioCtx) return;
-                const ctx = new AudioCtx();
-                const notes = [523.25, 659.25, 783.99, 1046.50];
-                notes.forEach((freq, idx) => {
-                    const osc = ctx.createOscillator();
-                    const gain = ctx.createGain();
-                    osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.12);
-                    gain.gain.setValueAtTime(0.22, ctx.currentTime + idx * 0.12);
-                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.12 + 0.25);
-                    osc.connect(gain);
-                    gain.connect(ctx.destination);
-                    osc.start(ctx.currentTime + idx * 0.12);
-                    osc.stop(ctx.currentTime + idx * 0.12 + 0.25);
-                });
-            } catch (e) {}
-        }
-
-        async function updateOrderItemCounts(orderId, itemIndex, field, rawValue) {
-            const ord = state.orders.find(o => o.id === orderId);
-            if (!ord || !ord.items || !ord.items[itemIndex]) return;
-            const val = Math.max(0, parseInt(rawValue || '0', 10));
-            const it = ord.items[itemIndex];
-
-            if (field === 'delivered') {
-                it.delivered = val;
-                if ((Number(it.returned) || 0) > val) it.returned = val;
-            } else if (field === 'returned') {
-                const maxDel = Number(it.delivered) || 0;
-                it.returned = Math.min(maxDel, val);
-                if (it.returned < maxDel && it.returned > 0) {
-                    state.pendingIncompleteAlert = { orderId, itemIndex };
-                    const alertBody = document.getElementById('incompleteReturnAlertBody');
-                    if (alertBody) {
-                        const missing = maxDel - it.returned;
-                        alertBody.innerHTML = `<p>Dejaste <strong>${maxDel}x ${it.name}</strong> en casa de <strong>${ord.clientName}</strong> y estás registrando que solo retiraste <strong>${it.returned}</strong> (Faltan <strong>${missing}</strong>).</p>`;
-                    }
-                    const alertModal = document.getElementById('incompleteReturnAlertModal');
-                    if (alertModal) {
-                        alertModal.classList.remove('hidden');
-                        alertModal.classList.add('flex');
-                    }
-                }
-            } else if (field === 'damaged') {
-                it.damaged = val;
-                let totalDamageFee = 0;
-                (ord.items || []).forEach(row => {
-                    const dmgCount = Number(row.damaged) || 0;
-                    if (dmgCount > 0) {
-                        const catRef = state.catalog.find(c => c.id === row.id);
-                        const unitFee = Number(catRef?.damageFee) || 10;
-                        totalDamageFee += dmgCount * unitFee;
-                    }
-                });
-                ord.damagePenalty = totalDamageFee;
-            }
-
-            await persistOrder(ord);
-        }
-
-        async function markAllDelivered(orderId) {
-            const ord = state.orders.find(o => o.id === orderId);
-            if (!ord) return;
-            (ord.items || []).forEach(it => {
-                it.delivered = Number(it.requested) || 0;
-            });
-            ord.orderMode = 'RESERVA';
-            await persistOrder(ord);
-            showToast(`📦 Todo el mobiliario marcado como entregado a ${ord.clientName}`, 'success');
-        }
-
-        async function markAllReturned(orderId) {
-            const ord = state.orders.find(o => o.id === orderId);
-            if (!ord) return;
-            (ord.items || []).forEach(it => {
-                const del = Number(it.delivered) || Number(it.requested) || 0;
-                it.delivered = del;
-                it.returned = del;
-            });
-            await persistOrder(ord);
-            showToast(`✅ Todo el mobiliario de ${ord.clientName} fue retirado y devuelto a bodega`, 'success');
-        }
-
-        async function recordPartialPayment(orderId) {
-            const ord = state.orders.find(o => o.id === orderId);
-            if (!ord) return;
-            const inp = document.getElementById(`payInput-${orderId}`);
-            const addAmount = parseFloat(inp?.value || '0');
-            if (!addAmount || addAmount <= 0) {
-                showToast('Ingresa un monto de abono válido', 'warning');
-                return;
-            }
-            const tot = (Number(ord.total) || 0) + (Number(ord.damagePenalty) || 0);
-            ord.paidAmount = Math.min(tot, (Number(ord.paidAmount) || 0) + addAmount);
-            ord.orderMode = 'RESERVA';
-            if (inp) inp.value = '';
-            await persistOrder(ord);
-            showToast(`💵 Abono de $${addAmount.toFixed(2)} registrado en ${ord.clientName}`, 'success');
-        }
-
-        async function setPaymentPercentage(orderId, pct) {
-            const ord = state.orders.find(o => o.id === orderId);
-            if (!ord) return;
-            const tot = (Number(ord.total) || 0) + (Number(ord.damagePenalty) || 0);
-            ord.paidAmount = Number(((tot * pct) / 100).toFixed(2));
-            if (pct > 0) ord.orderMode = 'RESERVA';
-            await persistOrder(ord);
-            showToast(`Pago actualizado al ${pct}% ($${ord.paidAmount.toFixed(2)})`, 'info');
-        }
-
-        function calculateAndRenderRoute(showAllActive = false) {
-            const timelineEl = document.getElementById('routeStopsTimeline');
-            const badgeEl = document.getElementById('routeTotalDistanceBadge');
-            const routeDate = document.getElementById('routeDateInput')?.value || TODAY_STR;
-            const baseLat = Number(state.settings.baseLat) || 8.4273;
-            const baseLng = Number(state.settings.baseLng) || -82.4321;
-
-            let pool = state.orders.filter(ord => {
-                const b = classifyOrderLogicalBucket(ord);
-                if (b.isHistory) return false;
-                if (showAllActive) return true;
-                return ord.eventDate === routeDate || b.isInStreetNow;
-            });
-
-            const unvisited = [...pool];
-            const orderedStops = [];
-            let currLat = baseLat;
-            let currLng = baseLng;
-            let totalKm = 0;
-
-            while (unvisited.length > 0) {
-                let bestIdx = 0;
-                let bestDist = Infinity;
-                unvisited.forEach((candidate, idx) => {
-                    const d = haversineDistanceKm(currLat, currLng, Number(candidate.lat) || baseLat, Number(candidate.lng) || baseLng);
-                    if (d < bestDist) {
-                        bestDist = d;
-                        bestIdx = idx;
-                    }
-                });
-                const chosen = unvisited.splice(bestIdx, 1)[0];
-                totalKm += bestDist;
-                currLat = Number(chosen.lat) || baseLat;
-                currLng = Number(chosen.lng) || baseLng;
-                orderedStops.push({ order: chosen, legKm: bestDist });
-            }
-
-            if (badgeEl) badgeEl.textContent = `${totalKm.toFixed(1)} km`;
-
-            if (timelineEl) {
-                if (orderedStops.length === 0) {
-                    timelineEl.innerHTML = `<div class="p-4 text-center text-xs text-slate-500 bg-slate-50 rounded-xl">No hay paradas activas para esta fecha. Toca "Ver Todos los Activos".</div>`;
-                } else {
-                    timelineEl.innerHTML = orderedStops.map((st, i) => {
-                        const o = st.order;
-                        const gmaps = `https://www.google.com/maps/dir/?api=1&destination=${o.lat},${o.lng}`;
-                        return `
-                            <div onclick="window.app.focusStopOnMap(${o.lat}, ${o.lng})" class="cursor-pointer p-3 rounded-xl border border-slate-200 hover:border-brand-400 bg-slate-50/70 space-y-1 text-xs transition">
-                                <div class="flex items-center justify-between">
-                                    <span class="font-black text-slate-900">Parada #${i + 1}: ${o.clientName}</span>
-                                    <span class="px-2 py-0.5 rounded bg-brand-100 text-brand-800 font-bold text-[10px]">+${st.legKm.toFixed(1)} km</span>
-                                </div>
-                                <p class="text-[11px] text-slate-600 truncate">${o.address}</p>
-                                <div class="flex items-center justify-between pt-1">
-                                    <span class="text-[10px] text-slate-500">📅 ${o.eventDate} • ⏰ ${o.eventTime || '09:00'}</span>
-                                    <a href="${gmaps}" target="_blank" onclick="event.stopPropagation()" class="text-brand-600 font-extrabold hover:underline text-[11px]">Ir con GPS →</a>
-                                </div>
-                            </div>
-                        `;
-                    }).join('');
-                }
-            }
-
-            if (typeof L !== 'undefined') {
-                setTimeout(() => {
-                    const mapBox = document.getElementById('adminRouteMap');
-                    if (!mapBox) return;
-                    if (!adminRouteMap) {
-                        adminRouteMap = L.map('adminRouteMap').setView([baseLat, baseLng], 13);
-                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap' }).addTo(adminRouteMap);
-                        adminMapLayerGroup = L.layerGroup().addTo(adminRouteMap);
-                    } else {
-                        adminRouteMap.invalidateSize();
-                        adminMapLayerGroup.clearLayers();
-                    }
-
-                    const polyPoints = [[baseLat, baseLng]];
-                    const baseIcon = L.divIcon({
-                        className: '',
-                        html: `<div style="background:#0f172a;color:#facc15;width:32px;height:32px;border-radius:9999px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px;border:2px solid white;">0</div>`,
-                        iconSize: [32, 32],
-                        iconAnchor: [16, 16]
-                    });
-                    L.marker([baseLat, baseLng], { icon: baseIcon }).bindPopup('<b>Punto 0: Tu Bodega</b>').addTo(adminMapLayerGroup);
-
-                    orderedStops.forEach((st, i) => {
-                        const o = st.order;
-                        const lat = Number(o.lat) || baseLat;
-                        const lng = Number(o.lng) || baseLng;
-                        polyPoints.push([lat, lng]);
-                        const b = classifyOrderLogicalBucket(o);
-                        const bg = b.isInStreetNow ? '#e11d48' : '#7c3aed';
-                        const stopIcon = L.divIcon({
-                            className: '',
-                            html: `<div style="background:${bg};color:white;width:30px;height:30px;border-radius:9999px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px;border:2px solid white;">${i + 1}</div>`,
-                            iconSize: [30, 30],
-                            iconAnchor: [15, 15]
-                        });
-                        L.marker([lat, lng], { icon: stopIcon })
-                            .bindPopup(`<b>#${i + 1} ${o.clientName}</b><br>${o.address}<br>Debe: $${b.debt.toFixed(2)}`)
-                            .addTo(adminMapLayerGroup);
-                    });
-
-                    if (polyPoints.length > 1) {
-                        L.polyline(polyPoints, { color: '#7c3aed', weight: 4, dashArray: '6, 6' }).addTo(adminMapLayerGroup);
-                        adminRouteMap.fitBounds(polyPoints, { padding: [30, 30] });
-                    }
-                }, 120);
+            if (totalEl) {
+                totalEl.textContent = areClientPricesVisible() ? `$${calc.total.toFixed(2)} /día` : 'Cotizar Paquete';
             }
         }
 
@@ -6294,6 +6267,12 @@ ${itemsSummary}
             setChk('cfgShowScrollHint', s.showScrollHint !== false);
             setChk('cfgShowPromoPopup', s.showPromoPopup !== false);
             setVal('cfgPromoPosition', s.promoPosition || 'bottom-right');
+            setChk('cfgShowClientPrices', s.showClientPrices !== false);
+            const priceLbl = document.getElementById('cfgShowClientPricesLabel');
+            if (priceLbl) {
+                priceLbl.textContent = s.showClientPrices !== false ? 'Precios Visibles' : 'Precios Ocultos';
+                priceLbl.className = s.showClientPrices !== false ? 'font-black text-xs text-emerald-700' : 'font-black text-xs text-rose-600';
+            }
             setChk('cfgVisCatalogFirst', Boolean(s.visCatalogFirst));
             setChk('cfgVisCalcCollapsed', s.visCalcCollapsed !== false);
             setChk('cfgVisTwoColsMobile', s.visTwoColsMobile !== false);
@@ -6306,7 +6285,12 @@ ${itemsSummary}
             setChk('cfgCalcShowCatalogExtras', s.calcShowCatalogExtras !== false);
             const guestInp = document.getElementById('calcGuestCountInput');
             if (guestInp && s.calcDefaultGuests) guestInp.value = s.calcDefaultGuests;
+            setVal('cfgDepositMode', s.depositMode || 'FIXED');
+            setVal('cfgFixedDepositAmount', s.fixedDepositAmount ?? 15);
             setVal('cfgDepositPercent', s.depositPercent ?? 30);
+            if (window.app && typeof window.app.toggleDepositModeInputs === 'function') {
+                window.app.toggleDepositModeInputs();
+            }
             setVal('cfgWeekendExtraPct', s.weekendExtraPct ?? 60);
             setVal('cfgFreeKm', s.freeKm ?? 5);
             setVal('cfgExtraKmCost', s.extraKmCost ?? 1.5);
@@ -6340,6 +6324,7 @@ ${itemsSummary}
             s.showScrollHint = document.getElementById('cfgShowScrollHint')?.checked ?? true;
             s.showPromoPopup = document.getElementById('cfgShowPromoPopup')?.checked ?? true;
             s.promoPosition = document.getElementById('cfgPromoPosition')?.value || 'bottom-right';
+            s.showClientPrices = document.getElementById('cfgShowClientPrices')?.checked ?? true;
             s.visCatalogFirst = document.getElementById('cfgVisCatalogFirst')?.checked ?? false;
             s.visCalcCollapsed = document.getElementById('cfgVisCalcCollapsed')?.checked ?? true;
             s.visTwoColsMobile = document.getElementById('cfgVisTwoColsMobile')?.checked ?? true;
@@ -6353,6 +6338,8 @@ ${itemsSummary}
             const guestInp = document.getElementById('calcGuestCountInput');
             if (guestInp) guestInp.value = s.calcDefaultGuests;
             state.isCalcExpandedManual = null;
+            s.depositMode = document.getElementById('cfgDepositMode')?.value || 'FIXED';
+            s.fixedDepositAmount = Math.max(1, parseFloat(document.getElementById('cfgFixedDepositAmount')?.value || '15'));
             s.depositPercent = parseFloat(document.getElementById('cfgDepositPercent')?.value || '30');
             s.weekendExtraPct = parseFloat(document.getElementById('cfgWeekendExtraPct')?.value || '60');
             s.freeKm = parseFloat(document.getElementById('cfgFreeKm')?.value || '5');
@@ -7323,9 +7310,10 @@ ${itemsSummary}
                 const modal = document.getElementById('productDetailModal');
                 if (!modal) return;
 
+                const showPrices = areClientPricesVisible();
                 document.getElementById('pdModalImg').src = item.photo;
                 document.getElementById('pdModalName').textContent = item.name;
-                document.getElementById('pdModalPrice').textContent = `$${Number(item.price).toFixed(2)}`;
+                document.getElementById('pdModalPrice').textContent = showPrices ? `$${Number(item.price).toFixed(2)}` : 'Cotizar';
                 
                 const badge = document.getElementById('pdModalBadge');
                 if (item.isPromo) {
@@ -8272,10 +8260,11 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
                 }
                 if (sub) {
                     sub.textContent = isReserva
-                        ? `Hemos recibido tu solicitud para el día ${orderObj.eventDate}. Pronto te daremos respuesta y podrás confirmar tu abono (${pct}% = $${requiredAbono.toFixed(2)}).`
+                        ? `Hemos recibido tu solicitud para el día ${orderObj.eventDate}. Pronto te daremos respuesta y podrás confirmar tu abono de $${requiredAbono.toFixed(2)}.`
                         : `Tu cotización para el día ${orderObj.eventDate} ya fue enviada a nuestro equipo. ¡Muy pronto te daremos respuesta!`;
                 }
                 if (box) {
+                    const showPrices = areClientPricesVisible();
                     const itemsHtml = (orderObj.items || []).map(i => `• <strong>${i.requested}x ${i.name}</strong>`).join('<br>');
                     box.innerHTML = `
                         <div class="flex items-center justify-between border-b border-slate-200 pb-1.5">
@@ -8283,12 +8272,12 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
                             <span class="font-mono font-bold text-[11px] text-brand-700">Tel: ${orderObj.phone}</span>
                         </div>
                         <div class="py-1">
-                            <span class="text-[10px] font-extrabold uppercase text-slate-400 block mb-0.5">Equipos en tu Cotización:</span>
+                            <span class="text-[10px] font-extrabold uppercase text-slate-400 block mb-0.5">Equipos en tu Solicitud:</span>
                             ${itemsHtml}
                         </div>
                         <div class="flex items-center justify-between border-t border-slate-200 pt-1.5 font-extrabold text-slate-900">
-                            <span>Estado: <span class="text-indigo-700">📋 Cotización (En espera de respuesta)</span></span>
-                            <span class="text-sm text-brand-700">Total: $${Number(orderObj.total).toFixed(2)}</span>
+                            <span>Estado: <span class="text-indigo-700">${isReserva ? `🔒 Apartado con $${requiredAbono.toFixed(2)}` : '📋 En espera de respuesta'}</span></span>
+                            ${showPrices ? `<span class="text-sm text-brand-700">Total: $${Number(orderObj.total).toFixed(2)}</span>` : ''}
                         </div>
                     `;
                 }
@@ -10254,6 +10243,33 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
                 updateCartUI();
                 renderCatalog();
                 showToast(`+1 ${item.name} agregado desde Vista Rápida`, 'success');
+            },
+            async toggleShowClientPricesLive(checked) {
+                state.settings.showClientPrices = Boolean(checked);
+                const lbl = document.getElementById('cfgShowClientPricesLabel');
+                if (lbl) {
+                    lbl.textContent = checked ? 'Precios Visibles' : 'Precios Ocultos';
+                    lbl.className = checked ? 'font-black text-xs text-emerald-700' : 'font-black text-xs text-rose-600';
+                }
+                renderAllViews();
+                if (typeof fbSaveSettings === 'function') {
+                    try { await fbSaveSettings(state.settings); } catch (e) {}
+                }
+                showToast(
+                    checked
+                        ? '💲 Precios activados y visibles para los clientes'
+                        : '🔒 Precios ocultados en la página de clientes',
+                    'success'
+                );
+            },
+            toggleDepositModeInputs() {
+                const mode = document.getElementById('cfgDepositMode')?.value || 'FIXED';
+                const fixedWrap = document.getElementById('cfgFixedDepositWrap');
+                const pctWrap = document.getElementById('cfgPercentDepositWrap');
+                if (fixedWrap && pctWrap) {
+                    fixedWrap.classList.toggle('opacity-50', mode !== 'FIXED');
+                    pctWrap.classList.toggle('opacity-50', mode !== 'PERCENT');
+                }
             },
             previewCatalogVisibilityOptions() {
                 state.settings.visCatalogFirst = document.getElementById('cfgVisCatalogFirst')?.checked ?? false;
