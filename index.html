@@ -2217,6 +2217,32 @@
                         </div>
                         <div class="grid grid-cols-2 gap-2 pt-1">
                             <div>
+                                <label class="text-[10px] font-bold text-slate-600 block">Latitud GPS</label>
+                                <input id="delivLatInput" type="number" step="0.00001" value="8.42730" oninput="window.app.syncManualCoordsToMiniMap('new')" class="w-full px-2.5 py-1.5 bg-white border border-sky-300 rounded-lg font-mono text-xs font-bold">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-600 block">Longitud GPS</label>
+                                <input id="delivLngInput" type="number" step="0.00001" value="-82.43210" oninput="window.app.syncManualCoordsToMiniMap('new')" class="w-full px-2.5 py-1.5 bg-white border border-sky-300 rounded-lg font-mono text-xs font-bold">
+                            </div>
+                        </div>
+                        <!-- Cuadrito Chiquito del Mapa GPS en Modo Conductor -->
+                        <div class="relative w-full h-36 mt-1.5 rounded-xl border-2 border-sky-300 overflow-hidden shadow-inner">
+                            <div id="delivNewMiniMap" class="w-full h-full"></div>
+                            <button type="button" onclick="window.app.toggleMiniMapLayer('new')" class="absolute top-2 right-2 z-20 px-2 py-1 bg-white/90 backdrop-blur-md text-sky-950 border border-sky-200 rounded-lg shadow-md text-[10px] font-black flex items-center gap-1 cursor-pointer">
+                                <i class="fa-solid fa-layer-group"></i> Satélite
+                            </button>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between mb-1 pt-1">
+                                <label class="font-bold text-slate-700 block">Dirección o Referencia de la Casa *</label>
+                                <button type="button" id="btnVoice-delivAddressInput" onclick="window.app.startVoiceDictation('delivAddressInput')" class="px-2 py-0.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-[10px] transition flex items-center gap-1">
+                                    <i class="fa-solid fa-microphone"></i> <span>🎙️ Dictar</span>
+                                </button>
+                            </div>
+                            <input id="delivAddressInput" type="text" placeholder="Ej. Barriada San José, Casa #14 portón negro" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs font-bold">
+                        </div>
+                    </div>
+
                     <!-- Tomar Foto de la Casa donde se dejaron los equipos y Firma ANTES de guardar la factura -->
                     <div class="p-3.5 rounded-xl bg-amber-50 border-2 border-amber-400 space-y-3">
                         <div class="flex items-center justify-between">
@@ -3382,39 +3408,39 @@
         <!-- Barra Superior -->
         <div class="flex items-center justify-between gap-2 bg-slate-900 text-white px-4 py-3 rounded-2xl border border-slate-800 shrink-0">
             <div class="flex items-center gap-2.5 min-w-0">
-                <div class="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-base font-black shrink-0">
-                    <i class="fa-solid fa-signature"></i>
-                </div>
-                <div class="min-w-0">
-                    <h3 class="font-black text-sm sm:text-base text-white truncate">✍️ Firma de Conformidad en Pantalla Completa</h3>
-                    <p class="text-[11px] text-amber-300 truncate">Firme con el dedo dentro del recuadro blanco y toque "Aceptar"</p>
-                </div>
+            <!-- Barra Inferior con los 3 Botones Grandes: Limpiar, Cerrar y Aceptar -->
+            <div class="grid grid-cols-3 gap-2.5 sm:gap-4 bg-slate-900 p-3 rounded-2xl border border-slate-800 shrink-0">
+                <button type="button" onclick="window.app.clearFullscreenSignature()" class="py-3.5 px-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs sm:text-sm shadow-md transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-eraser"></i> <span>Limpiar</span>
+                </button>
+                <button type="button" onclick="window.app.closeFullscreenSignatureModal()" class="py-3.5 px-3 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-extrabold text-xs sm:text-sm shadow-md transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-xmark"></i> <span>Cerrar</span>
+                </button>
+                <button type="button" onclick="window.app.acceptFullscreenSignature()" class="py-3.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs sm:text-sm shadow-lg transition flex items-center justify-center gap-2 ring-2 ring-emerald-300">
+                    <i class="fa-solid fa-circle-check"></i> <span>Aceptar</span>
+                </button>
             </div>
-            <button type="button" onclick="window.app.closeFullscreenSignatureModal()" class="px-3.5 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-black text-xs flex items-center gap-1.5 shrink-0 shadow-md">
-                <i class="fa-solid fa-xmark"></i> <span>Cerrar</span>
-            </button>
         </div>
 
-        <!-- Área Central Gigante de Firma -->
-        <div class="relative flex-1 my-3 bg-white rounded-3xl border-4 border-indigo-500 shadow-2xl overflow-hidden flex items-center justify-center">
-            <!-- Línea guía de firma -->
-            <div class="absolute bottom-14 left-8 right-8 border-b-2 border-dashed border-slate-300 pointer-events-none flex justify-center">
-                <span class="bg-white px-3 -mb-2.5 text-[11px] font-extrabold uppercase tracking-widest text-slate-400">Firme sobre esta línea</span>
+    <!-- MODAL DE CONFIRMACIÓN SEGURA PARA BORRAR FACTURAS / PEDIDOS EQUIVOCADOS O DUPLICADOS -->
+    <div id="deleteOrderConfirmModal" onclick="if(event.target === this) window.app.closeDeleteOrderConfirmModal()" class="fixed inset-0 bg-slate-950/85 backdrop-blur-xs z-[65] hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border-4 border-rose-500 space-y-4 text-center">
+            <div class="w-14 h-14 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-2xl mx-auto font-black shadow-inner">
+                <i class="fa-solid fa-trash-can"></i>
             </div>
-            <canvas id="fullscreenSigCanvas" class="w-full h-full touch-none cursor-crosshair block"></canvas>
-        </div>
-
-        <!-- Barra Inferior con los 3 Botones Grandes: Limpiar, Cerrar y Aceptar -->
-        <div class="grid grid-cols-3 gap-2.5 sm:gap-4 bg-slate-900 p-3 rounded-2xl border border-slate-800 shrink-0">
-            <button type="button" onclick="window.app.clearFullscreenSignature()" class="py-3.5 px-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs sm:text-sm shadow-md transition flex items-center justify-center gap-2">
-                <i class="fa-solid fa-eraser"></i> <span>Limpiar</span>
-            </button>
-            <button type="button" onclick="window.app.closeFullscreenSignatureModal()" class="py-3.5 px-3 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-extrabold text-xs sm:text-sm shadow-md transition flex items-center justify-center gap-2">
-                <i class="fa-solid fa-xmark"></i> <span>Cerrar</span>
-            </button>
-            <button type="button" onclick="window.app.acceptFullscreenSignature()" class="py-3.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs sm:text-sm shadow-lg transition flex items-center justify-center gap-2 ring-2 ring-emerald-300">
-                <i class="fa-solid fa-circle-check"></i> <span>Aceptar</span>
-            </button>
+            <div class="space-y-1">
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-rose-100 text-rose-800">⚠️ Confirmar Eliminación</span>
+                <h3 class="font-black text-lg text-slate-900">¿Deseas borrar esta factura / pedido?</h3>
+                <p id="deleteOrderConfirmSummary" class="text-xs text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-200 font-semibold"></p>
+            </div>
+            <div class="grid grid-cols-2 gap-2.5 pt-1">
+                <button type="button" onclick="window.app.closeDeleteOrderConfirmModal()" class="py-3 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-extrabold text-xs transition">
+                    No, Conservar
+                </button>
+                <button type="button" onclick="window.app.confirmDeleteOrderNow()" class="py-3 px-4 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-black text-xs shadow-lg transition flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-trash-can"></i> Sí, Borrar Factura
+                </button>
+            </div>
         </div>
     </div>
 
@@ -5369,32 +5395,55 @@ ${itemsSummary}
                                     <div class="flex flex-wrap gap-1.5">${quickItemsSummary}</div>
                                 </div>
 
-                                <!-- Cuadrito de Google Maps / Ubicación GPS Siempre Visible para ir a Retirar o Entregar Implementos -->
-                                <div class="bg-sky-50/90 p-2.5 rounded-xl border-2 border-sky-300 space-y-2" onclick="event.stopPropagation()">
+                                <!-- Cuadrito de Google Maps / Waze SIEMPRE VISIBLE en el Menú de Admin (Igual que en el Chofer) para tocar e ir a Retirar Mercancía -->
+                                <div class="bg-sky-50/95 p-3 rounded-2xl border-2 border-sky-400 space-y-2.5 shadow-2xs" onclick="event.stopPropagation()">
                                     <div class="flex flex-wrap items-center justify-between gap-2">
                                         <div class="flex items-center gap-2 min-w-0">
-                                            <div class="w-8 h-8 rounded-lg bg-sky-600 text-white flex items-center justify-center shrink-0 shadow-2xs">
+                                            <div class="w-8 h-8 rounded-xl bg-sky-600 text-white flex items-center justify-center shrink-0 shadow-xs">
                                                 <i class="fa-solid fa-map-location-dot text-sm"></i>
                                             </div>
                                             <div class="min-w-0">
-                                                <span class="text-[11px] font-black text-sky-950 block truncate">📍 Ubicación GPS para Buscar / Retirar Implementos</span>
-                                                <span class="text-[10px] font-mono font-bold text-slate-600 block">Coord: ${Number(ord.lat || 8.4273).toFixed(5)}, ${Number(ord.lng || -82.4321).toFixed(5)}</span>
+                                                <span class="text-xs font-black text-sky-950 block truncate">📍 Cuadrito GPS para Retirar / Entregar Mercancía</span>
+                                                <span class="text-[10px] font-mono font-bold text-slate-600 block">Ubicación registrada: ${Number(ord.lat || 8.4273).toFixed(5)}, ${Number(ord.lng || -82.4321).toFixed(5)}</span>
                                             </div>
                                         </div>
                                         <div class="flex flex-wrap items-center gap-1.5 shrink-0">
-                                            <button type="button" onclick="window.app.toggleAdminCardMiniMap('${ord.id}', ${Number(ord.lat || 8.4273)}, ${Number(ord.lng || -82.4321)})" class="px-2.5 py-1.5 rounded-lg bg-white hover:bg-sky-100 text-sky-900 border border-sky-300 font-extrabold text-[11px] flex items-center gap-1 shadow-2xs">
-                                                <i class="fa-solid fa-map"></i> <span>Cuadrito Mapa</span>
-                                            </button>
-                                            <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-[11px] flex items-center gap-1 shadow-2xs">
+                                            <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs flex items-center gap-1.5 shadow-sm">
                                                 <i class="fa-solid fa-diamond-turn-right"></i> <span>Ir Google Maps</span>
                                             </a>
-                                            <a href="https://waze.com/ul?ll=${ord.lat},${ord.lng}&navigate=yes" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-600 text-white font-extrabold text-[11px] flex items-center gap-1 shadow-2xs">
-                                                <i class="fa-brands fa-waze"></i> <span>Waze</span>
+                                            <a href="https://waze.com/ul?ll=${ord.lat},${ord.lng}&navigate=yes" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl bg-sky-500 hover:bg-sky-600 text-white font-black text-xs flex items-center gap-1.5 shadow-sm">
+                                                <i class="fa-brands fa-waze"></i> <span>Ir con Waze</span>
                                             </a>
                                         </div>
                                     </div>
+
+                                    <!-- Cuadrito Visual del Mapa siempre presente: Al tocarlo te envía a retirar o puedes ampliar el mapa interactivo -->
+                                    <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-white p-2 rounded-xl border border-sky-300">
+                                        <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" class="sm:col-span-8 group relative h-24 rounded-lg overflow-hidden border border-sky-300 bg-gradient-to-br from-sky-100 via-emerald-50 to-indigo-100 flex items-center justify-between px-3 hover:ring-2 hover:ring-blue-500 transition" title="Toca este cuadrito de mapa para abrir la ruta de retiro en Google Maps">
+                                            <div class="z-10 space-y-0.5">
+                                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-900/85 text-amber-300 text-[10px] font-black">
+                                                    <i class="fa-solid fa-location-crosshairs"></i> Toca el Mapa para Ir a Retirar
+                                                </span>
+                                                <p class="text-xs font-black text-slate-900 truncate max-w-[230px]">${ord.address}</p>
+                                                <p class="text-[10px] font-mono font-bold text-sky-900">Pin GPS: ${Number(ord.lat || 8.4273).toFixed(5)}, ${Number(ord.lng || -82.4321).toFixed(5)}</p>
+                                            </div>
+                                            <div class="z-10 w-11 h-11 rounded-2xl bg-rose-600 group-hover:scale-110 text-white flex flex-col items-center justify-center shadow-md transition shrink-0">
+                                                <i class="fa-solid fa-location-dot text-base"></i>
+                                                <span class="text-[8px] font-black uppercase">IR GPS</span>
+                                            </div>
+                                        </a>
+                                        <div class="sm:col-span-4 flex sm:flex-col gap-1.5">
+                                            <button type="button" onclick="window.app.toggleAdminCardMiniMap('${ord.id}', ${Number(ord.lat || 8.4273)}, ${Number(ord.lng || -82.4321)})" class="flex-1 py-2 px-2.5 rounded-lg bg-sky-100 hover:bg-sky-200 text-sky-950 font-extrabold text-[11px] flex items-center justify-center gap-1 border border-sky-300 transition">
+                                                <i class="fa-solid fa-map"></i> <span>Mover Pin en Mapa</span>
+                                            </button>
+                                            <button type="button" onclick="window.app.promptDeleteOrder('${ord.id}')" class="py-2 px-2.5 rounded-lg bg-rose-50 hover:bg-rose-600 text-rose-700 hover:text-white font-extrabold text-[11px] flex items-center justify-center gap-1 border border-rose-300 transition" title="Borrar esta factura o pedido si se duplicó o te equivocaste">
+                                                <i class="fa-solid fa-trash-can"></i> <span>🗑️ Borrar Factura</span>
+                                            </button>
+                                        </div>
+                                    </div>
+
                                     <div id="adminMiniMapWrap-${ord.id}" class="hidden pt-1">
-                                        <div id="adminMiniMapCanvas-${ord.id}" class="w-full h-40 rounded-xl border border-sky-300 shadow-inner"></div>
+                                        <div id="adminMiniMapCanvas-${ord.id}" class="w-full h-44 rounded-xl border-2 border-sky-400 shadow-inner"></div>
                                     </div>
                                 </div>
 
@@ -5467,6 +5516,9 @@ ${itemsSummary}
                                     <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-2 py-1.5 bg-brand-600 hover:bg-brand-700 text-white rounded-lg font-bold text-[11px] flex items-center justify-center gap-1">
                                         <i class="fa-solid fa-diamond-turn-right"></i> GPS
                                     </a>
+                                    <button type="button" onclick="window.app.promptDeleteOrder('${ord.id}')" class="w-full sm:w-auto px-2.5 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg font-extrabold text-[11px] flex items-center justify-center gap-1 shadow-2xs">
+                                        <i class="fa-solid fa-trash-can"></i> Borrar Pedido
+                                    </button>
                                 </div>
                             </div>
                             ${ord.evidencePhotoUrl ? `
@@ -7611,7 +7663,19 @@ ${itemsSummary}
                                         <button type="button" onclick="window.app.openReceiptModal('${ord.id}'); setTimeout(() => window.app.openFullscreenSignatureModal('receipt'), 180);" class="px-2.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-black text-[11px] flex items-center gap-1 shadow-2xs">
                                             <i class="fa-solid fa-signature"></i> <span>✍️ Firmar</span>
                                         </button>
+                                        <button type="button" onclick="window.app.promptDeleteOrder('${ord.id}')" class="px-2.5 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-black text-[11px] flex items-center gap-1 shadow-2xs" title="Borrar esta factura si te equivocaste o se duplicó">
+                                            <i class="fa-solid fa-trash-can"></i> <span>🗑️ Borrar</span>
+                                        </button>
                                     </div>
+                                </div>
+                                <!-- Cuadrito Tocable Directo para Enviar a Google Maps o Waze al Retirar -->
+                                <div class="grid grid-cols-2 gap-2 pt-1">
+                                    <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" class="py-2 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs flex items-center justify-center gap-1.5 shadow-sm">
+                                        <i class="fa-solid fa-diamond-turn-right"></i> Ir a Retirar (Google Maps)
+                                    </a>
+                                    <a href="${wazeUrl}" target="_blank" rel="noopener noreferrer" class="py-2 px-3 rounded-xl bg-sky-500 hover:bg-sky-600 text-white font-black text-xs flex items-center justify-center gap-1.5 shadow-sm">
+                                        <i class="fa-brands fa-waze"></i> Ir a Retirar (Waze)
+                                    </a>
                                 </div>
                                 <!-- Mini-Mapa Interactivo Desplegable Directo en la Tarjeta Principal -->
                                 <div id="inlineMiniMapWrap-${ord.id}" class="hidden pt-1 space-y-1">
@@ -8656,6 +8720,47 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
                 this.closeQuoteSuccessModal();
                 this.closeAdminOrderCreatedModal();
                 this.closeFullscreenSignatureModal();
+                this.closeDeleteOrderConfirmModal();
+            },
+            promptDeleteOrder(orderId) {
+                const ord = state.orders.find(o => o.id === orderId);
+                if (!ord) return;
+                state.pendingDeleteOrderId = orderId;
+                const summaryEl = document.getElementById('deleteOrderConfirmSummary');
+                if (summaryEl) {
+                    const tot = (Number(ord.total) || 0) + (Number(ord.damagePenalty) || 0);
+                    summaryEl.innerHTML = `Cliente: <strong>${ord.clientName}</strong><br>Fecha: ${ord.eventDate} • Total: $${tot.toFixed(2)}<br><span class="text-rose-600">Esta acción eliminará el pedido del sistema y de la nube.</span>`;
+                }
+                const modal = document.getElementById('deleteOrderConfirmModal');
+                if (modal) {
+                    modal.classList.remove('hidden');
+                    modal.classList.add('flex');
+                }
+            },
+            closeDeleteOrderConfirmModal() {
+                const modal = document.getElementById('deleteOrderConfirmModal');
+                if (modal) {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                }
+                state.pendingDeleteOrderId = null;
+            },
+            async confirmDeleteOrderNow() {
+                const ordId = state.pendingDeleteOrderId;
+                if (!ordId) {
+                    this.closeDeleteOrderConfirmModal();
+                    return;
+                }
+                const ord = state.orders.find(o => o.id === ordId);
+                const clientName = ord ? ord.clientName : 'Pedido';
+                state.orders = state.orders.filter(o => o.id !== ordId);
+                if (typeof fbDeleteOrder === 'function') {
+                    try { await fbDeleteOrder(ordId); } catch (e) {}
+                }
+                this.closeDeleteOrderConfirmModal();
+                this.closeEditInvoiceModal();
+                renderAllViews();
+                showToast(`🗑️ Factura / pedido de "${clientName}" borrado permanentemente`, 'info');
             },
             openFullscreenSignatureModal(targetContext = 'receipt') {
                 state.fullscreenSigTarget = targetContext;
@@ -9424,8 +9529,43 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
                 const eventDate = document.getElementById('delivEventDate')?.value || TODAY_STR;
                 const pickupTime = document.getElementById('delivPickupTimeInput')?.value || '18:00';
                 const statusMode = document.getElementById('delivInitialStatus')?.value || 'ENTREGADO';
-                const addressBase = document.getElementById('delivAddressInput')?.value.trim();
+                const addressBase = document.getElementById('delivAddressInput')?.value.trim() || 'Ubicación registrada en GPS';
                 const gmapsLink = document.getElementById('delivGmapsLinkInput')?.value.trim() || '';
+                const editingExistingId = (document.getElementById('delivEditingExistingOrderId')?.value || '').trim();
+                let lat = parseFloat(document.getElementById('delivLatInput')?.value || '') || Number(state.settings.baseLat || 8.4273);
+                let lng = parseFloat(document.getElementById('delivLngInput')?.value || '') || Number(state.settings.baseLng || -82.4321);
+                const total = Math.max(0, parseFloat(document.getElementById('delivManualTotalInput')?.value || '0'));
+                const paidAmount = Math.max(0, parseFloat(document.getElementById('delivPaidTodayInput')?.value || '0'));
+
+                if (!clientName) {
+                    showToast('Escribe el nombre del cliente antes de guardar la factura', 'warning');
+                    return;
+                }
+
+                const address = (gmapsLink && !addressBase.includes('GPS:')) ? `${addressBase} - GPS: ${gmapsLink}` : addressBase;
+
+                const items = [];
+                document.querySelectorAll('[data-deliv-new-item]').forEach(inp => {
+                    const qty = Math.max(0, parseInt(inp.value || '0', 10));
+                    if (qty > 0) {
+                        const id = inp.getAttribute('data-deliv-new-item');
+                        const catItem = state.catalog.find(c => c.id === id);
+                        const priceInp = document.querySelector(`[data-deliv-unit-price="${id}"]`);
+                        const unitPrice = priceInp ? Math.max(0, parseFloat(priceInp.value || '0')) : Number(catItem?.price || 0);
+                        if (catItem) {
+                            items.push({
+                                id: catItem.id,
+                                name: catItem.name,
+                                price: unitPrice,
+                                requested: qty,
+                                delivered: statusMode === 'ENTREGADO' ? qty : 0,
+                                returned: 0,
+                                damaged: 0
+                            });
+                        }
+                    }
+                });
+
                 // Incluir también si el chofer dejó escrito un producto manual en las casillas rápidas sin tocar el botón "+ Incluir"
                 const pendingQuickFreeName = document.getElementById('delivQuickFreeName')?.value.trim();
                 const pendingQuickFreeQty = Math.max(0, parseInt(document.getElementById('delivQuickFreeQty')?.value || '0', 10));
