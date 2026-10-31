@@ -2217,90 +2217,90 @@
                         </div>
                         <div class="grid grid-cols-2 gap-2 pt-1">
                             <div>
-                                <label class="text-[10px] font-bold text-slate-500">Latitud GPS</label>
-                                <input id="delivLatInput" type="number" step="0.00001" value="8.42730" class="w-full px-2.5 py-1.5 bg-white border border-sky-300 rounded-lg font-mono text-xs font-bold">
-                            </div>
-                            <div>
-                                <label class="text-[10px] font-bold text-slate-500">Longitud GPS</label>
-                                <input id="delivLngInput" type="number" step="0.00001" value="-82.43210" class="w-full px-2.5 py-1.5 bg-white border border-sky-300 rounded-lg font-mono text-xs font-bold">
-                            </div>
-                        </div>
-                        <div class="relative w-full h-40 mt-2 rounded-xl border border-sky-300 overflow-hidden shadow-inner">
-                            <div id="delivNewMiniMap" class="w-full h-full"></div>
-                            <button type="button" onclick="window.app.toggleMiniMapLayer('new')" class="absolute top-2 right-2 z-20 px-2 py-1 bg-white/90 backdrop-blur-md text-sky-900 border border-sky-200 rounded-lg shadow-md text-[10px] font-black flex items-center gap-1 cursor-pointer">
-                                <i class="fa-solid fa-layer-group"></i> Satélite
-                            </button>
-                            <div class="absolute bottom-1 left-1 right-1 z-20 px-2 py-1 bg-black/60 text-white/90 rounded text-[9px] font-bold text-center pointer-events-none">
-                                📍 Puedes arrastrar el pin para ajustar
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex items-center justify-between mb-1">
-                                <label class="font-bold text-slate-700 block">Dirección / Color de Casa / Referencia *</label>
-                                <button type="button" id="btnVoice-delivAddressInput" onclick="window.app.startVoiceDictation('delivAddressInput')" class="px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-[10px] transition flex items-center gap-1 shadow-2xs" title="Dictar dirección hablando por el micrófono">
-                                    <i class="fa-solid fa-microphone"></i> <span>🎙️ Dictar por Voz</span>
-                                </button>
-                            </div>
-                            <input id="delivAddressInput" type="text" placeholder="Ej. Casa blanca rejas negras frente al minisúper" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs">
-                            <div class="flex flex-wrap gap-1 pt-1.5">
-                                <button type="button" onclick="window.app.appendQuickStreetNote('new', 'Rejas negras')" class="px-2 py-0.5 rounded-md bg-white hover:bg-sky-100 text-slate-700 border border-sky-200 text-[10px] font-bold">+ Rejas negras</button>
-                                <button type="button" onclick="window.app.appendQuickStreetNote('new', 'Casa de esquina')" class="px-2 py-0.5 rounded-md bg-white hover:bg-sky-100 text-slate-700 border border-sky-200 text-[10px] font-bold">+ Casa esquina</button>
-                                <button type="button" onclick="window.app.appendQuickStreetNote('new', 'Frente al parque')" class="px-2 py-0.5 rounded-md bg-white hover:bg-sky-100 text-slate-700 border border-sky-200 text-[10px] font-bold">+ Frente a parque</button>
-                                <button type="button" onclick="window.app.appendQuickStreetNote('new', 'Dejado en terraza')" class="px-2 py-0.5 rounded-md bg-white hover:bg-sky-100 text-slate-700 border border-sky-200 text-[10px] font-bold">+ En terraza</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Tomar Foto de la Casa donde se dejaron los equipos -->
-                    <div class="p-3 rounded-xl bg-amber-50 border-2 border-amber-300 space-y-2">
+                    <!-- Tomar Foto de la Casa donde se dejaron los equipos y Firma ANTES de guardar la factura -->
+                    <div class="p-3.5 rounded-xl bg-amber-50 border-2 border-amber-400 space-y-3">
                         <div class="flex items-center justify-between">
-                            <span class="font-extrabold text-amber-950"><i class="fa-solid fa-house-chimney-window text-amber-600 mr-1"></i> Fotos de la Casa (Entrega y Retiro) y Firma</span>
-                            <span class="text-[10px] font-bold text-amber-800">Comprime a ~40 KB</span>
+                            <span class="font-extrabold text-amber-950 text-xs"><i class="fa-solid fa-house-chimney-window text-amber-600 mr-1"></i> Evidencia Antes de Guardar: Foto de Casa y Firma</span>
+                            <span class="px-2 py-0.5 rounded bg-amber-200 text-amber-950 text-[10px] font-black">100% Activo</span>
                         </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                            <label for="delivHousePhotoInput" class="cursor-pointer w-full py-2.5 px-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs shadow-xs transition flex items-center justify-center gap-1.5">
-                                <i class="fa-solid fa-camera text-sm"></i> 📸 1. Foto Entrega
-                                <input id="delivHousePhotoInput" type="file" accept="image/*" capture="environment" onchange="window.app.handleDeliveryHousePhoto(event, 'new')" class="hidden">
+
+                        <!-- Botones claros para Foto de Casa (Cámara o Galería) y Foto Retiro -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <label for="delivHousePhotoInput" class="cursor-pointer w-full py-2.5 px-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs shadow-sm transition flex items-center justify-center gap-1.5 border border-amber-500">
+                                <i class="fa-solid fa-camera text-sm"></i> 📸 1. Poner Foto de la Casa (Entrega)
+                                <input id="delivHousePhotoInput" type="file" accept="image/*" onchange="window.app.handleDeliveryHousePhoto(event, 'new')" class="hidden">
                             </label>
-                            <label for="delivReturnPhotoInput" class="cursor-pointer w-full py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-black text-xs shadow-xs transition flex items-center justify-center gap-1.5">
-                                <i class="fa-solid fa-camera-rotate text-sm"></i> 📸 2. Foto Retiro
-                                <input id="delivReturnPhotoInput" type="file" accept="image/*" capture="environment" onchange="window.app.handleDeliveryHousePhoto(event, 'new-return')" class="hidden">
+                            <label for="delivReturnPhotoInput" class="cursor-pointer w-full py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-black text-xs shadow-sm transition flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-camera-rotate text-sm"></i> 📸 2. Foto al Retirar (Opcional)
+                                <input id="delivReturnPhotoInput" type="file" accept="image/*" onchange="window.app.handleDeliveryHousePhoto(event, 'new-return')" class="hidden">
                             </label>
-                            <button type="button" onclick="window.app.openFullscreenSignatureModal('deliv-new')" class="w-full py-2.5 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs shadow-xs transition flex items-center justify-center gap-1.5">
-                                <i class="fa-solid fa-signature text-sm"></i> ✍️ Firmar Pantalla Completa
-                            </button>
                         </div>
+
+                        <!-- Lienzo de Firma Directo + Botón Pantalla Completa ANTES de guardar -->
+                        <div class="bg-white p-2.5 rounded-xl border-2 border-indigo-300 space-y-2">
+                            <div class="flex flex-wrap items-center justify-between gap-1">
+                                <span class="font-extrabold text-indigo-950 text-[11px]">✍️ Firma del Cliente (Dibuja aquí o abre pantalla completa):</span>
+                                <div class="flex items-center gap-1.5">
+                                    <button type="button" onclick="window.app.openFullscreenSignatureModal('deliv-new')" class="px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-black text-[10px] flex items-center gap-1 shadow-2xs">
+                                        <i class="fa-solid fa-expand"></i> Pantalla Completa
+                                    </button>
+                                    <button type="button" onclick="window.app.clearNewDeliverySignature()" class="px-2 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-[10px]">
+                                        Limpiar
+                                    </button>
+                                </div>
+                            </div>
+                            <canvas id="delivNewInlineSigCanvas" class="w-full h-28 bg-slate-50 border-2 border-dashed border-indigo-300 rounded-xl touch-none cursor-crosshair block"></canvas>
+                        </div>
+
+                        <!-- Vista previa inmediata de Foto de Casa y Firma antes de guardar la factura -->
                         <div id="delivHousePhotoPreviewBox" class="hidden pt-1 grid grid-cols-3 gap-2">
-                            <div class="relative">
-                                <img id="delivHousePhotoPreviewImg" src="" class="w-full h-20 object-cover rounded-lg border border-amber-400">
-                                <span class="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-black/70 text-white text-[9px] font-bold">Entrega</span>
+                            <div id="delivHousePhotoThumbWrap" class="hidden relative">
+                                <img id="delivHousePhotoPreviewImg" src="" class="w-full h-20 object-cover rounded-lg border-2 border-amber-500">
+                                <span class="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-black/75 text-white text-[9px] font-bold">✅ Casa</span>
                             </div>
                             <div id="delivReturnPhotoPreviewWrap" class="hidden relative">
-                                <img id="delivReturnPhotoPreviewImg" src="" class="w-full h-20 object-cover rounded-lg border border-slate-500">
-                                <span class="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-black/70 text-white text-[9px] font-bold">Retiro</span>
+                                <img id="delivReturnPhotoPreviewImg" src="" class="w-full h-20 object-cover rounded-lg border-2 border-slate-500">
+                                <span class="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-black/75 text-white text-[9px] font-bold">✅ Retiro</span>
                             </div>
-                            <div id="delivNewSigPreviewWrap" class="hidden relative bg-white rounded-lg border border-indigo-400 p-1">
+                            <div id="delivNewSigPreviewWrap" class="hidden relative bg-white rounded-lg border-2 border-emerald-500 p-1">
                                 <img id="delivNewSigPreviewImg" src="" class="w-full h-18 object-contain">
-                                <span class="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-indigo-600 text-white text-[9px] font-bold">Firma Lista</span>
+                                <span class="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-emerald-600 text-white text-[9px] font-bold">✅ Firma Lista</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Selección de Productos y Cantidades a Facturar + Productos Libres -->
-                    <div class="space-y-2">
+                    <!-- Selección de Productos y Cantidades a Facturar + Productos Manuales Fuera de Inventario -->
+                    <div class="space-y-2.5">
                         <div class="flex items-center justify-between">
-                            <label class="font-extrabold text-slate-800">Mobiliario de Inventario:</label>
-                            <span class="text-[10px] text-slate-500">Puedes ajustar precio o cantidad</span>
+                            <label class="font-extrabold text-slate-800">1. Mobiliario de Inventario:</label>
+                            <span class="text-[10px] font-bold text-emerald-700">Precio ($) y Cantidad editables</span>
                         </div>
                         <div id="delivFormItemsList" class="space-y-1.5 max-h-48 overflow-y-auto p-2 bg-slate-50 rounded-xl border border-slate-200"></div>
 
-                        <!-- Bloque Exclusivo Admin/Chofer: Agregar Producto Libre (Fuera de Inventario) -->
-                        <div class="p-2.5 rounded-xl bg-indigo-50/80 border border-indigo-200 space-y-2">
+                        <!-- Bloque Directo y Siempre Visible para Agregar Producto Manual (No en Inventario) en Modo Conductor -->
+                        <div class="p-3 rounded-xl bg-indigo-50 border-2 border-indigo-300 space-y-2.5">
                             <div class="flex items-center justify-between">
-                                <span class="text-[11px] font-extrabold text-indigo-950"><i class="fa-solid fa-wand-magic-sparkles text-indigo-600 mr-1"></i> Producto Libre (No en inventario - Solo Admin):</span>
-                                <button type="button" onclick="window.app.addCustomFreeItemRow('deliv')" class="px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-black text-[10px] flex items-center gap-1 shadow-2xs">
-                                    <i class="fa-solid fa-plus"></i> Agregar Producto Libre
-                                </button>
+                                <span class="text-xs font-extrabold text-indigo-950"><i class="fa-solid fa-plus-circle text-indigo-600 mr-1"></i> 2. Agregar Producto Manual (Fuera de Inventario):</span>
+                                <span class="px-2 py-0.5 rounded bg-indigo-600 text-white font-black text-[9px] uppercase">Venta en Calle</span>
+                            </div>
+                            <div class="grid grid-cols-12 gap-1.5 items-end bg-white p-2 rounded-xl border border-indigo-200">
+                                <div class="col-span-6">
+                                    <label class="text-[10px] font-bold text-slate-600 block mb-0.5">Nombre del Producto / Extra</label>
+                                    <input id="delivQuickFreeName" type="text" placeholder="Ej. Hielera grande / Mantel extra" class="w-full px-2 py-1.5 border border-slate-300 rounded-lg font-bold text-slate-900 text-xs">
+                                </div>
+                                <div class="col-span-2">
+                                    <label class="text-[10px] font-bold text-slate-600 block mb-0.5">Cant.</label>
+                                    <input id="delivQuickFreeQty" type="number" min="1" value="1" class="w-full px-1.5 py-1.5 border border-slate-300 rounded-lg text-center font-black text-xs">
+                                </div>
+                                <div class="col-span-4">
+                                    <label class="text-[10px] font-bold text-emerald-800 block mb-0.5">Precio Unit. ($)</label>
+                                    <input id="delivQuickFreePrice" type="number" step="0.5" min="0" placeholder="Ej. 10.00" class="w-full px-2 py-1.5 border border-emerald-400 bg-emerald-50/40 rounded-lg text-center font-black text-emerald-900 text-xs">
+                                </div>
+                                <div class="col-span-12 pt-1">
+                                    <button type="button" onclick="window.app.addQuickFreeProductToDelivery()" class="w-full py-2 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs shadow-sm transition flex items-center justify-center gap-1.5">
+                                        <i class="fa-solid fa-cart-plus"></i> + Incluir este Producto Manual en la Factura
+                                    </button>
+                                </div>
                             </div>
                             <div id="delivCustomFreeItemsContainer" class="space-y-1.5"></div>
                         </div>
@@ -2312,23 +2312,35 @@
                     <div class="p-3 rounded-xl bg-slate-900 text-white space-y-2.5">
                         <div class="grid grid-cols-2 gap-2.5">
                             <div>
-                                <label class="text-[10px] font-bold text-amber-300 block mb-1">Monto Total Factura ($)</label>
+                                <label class="text-[10px] font-bold text-amber-300 block mb-1">1. Monto Total Factura ($)</label>
                                 <input id="delivManualTotalInput" type="number" step="0.5" value="0.00" oninput="window.app.updateDeliveryFormDebtPreview()" class="w-full px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-600 text-white font-black text-sm">
                             </div>
                             <div>
-                                <label class="text-[10px] font-bold text-emerald-300 block mb-1">Abono Recibido Hoy ($)</label>
+                                <label class="text-[10px] font-bold text-emerald-300 block mb-1">2. Menos Abono Recibido (-$)</label>
                                 <input id="delivPaidTodayInput" type="number" step="0.5" value="0.00" oninput="window.app.updateDeliveryFormDebtPreview()" class="w-full px-3 py-1.5 rounded-lg bg-slate-800 border border-emerald-500 text-emerald-300 font-black text-sm">
                             </div>
                         </div>
-                        <div class="flex items-center justify-between text-xs pt-1 border-t border-slate-800">
-                            <span class="text-slate-300">Deuda / Saldo Pendiente del Cliente:</span>
-                            <strong id="delivPendingDebtPreview" class="text-sm font-black text-rose-400">$0.00</strong>
+                        <div class="bg-slate-950/90 p-2.5 rounded-xl border border-slate-700 space-y-1 text-xs">
+                            <div class="flex items-center justify-between text-slate-300">
+                                <span>Fórmula Inteligente (Total - Abono):</span>
+                                <span id="delivFormulaBreakdownText" class="font-mono font-bold text-amber-300">$0.00 - $0.00</span>
+                            </div>
+                            <div class="flex items-center justify-between pt-1 border-t border-slate-800">
+                                <span class="font-extrabold text-white">Resta por Cobrar (Deuda Cliente):</span>
+                                <strong id="delivPendingDebtPreview" class="text-base font-black text-rose-400">$0.00</strong>
+                            </div>
                         </div>
                     </div>
 
-                    <button type="button" onclick="window.app.createInvoiceFromDeliveriesView()" class="w-full py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs sm:text-sm shadow-lg transition flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-floppy-disk"></i> Guardar Factura de Entrega, Foto y GPS
-                    </button>
+                    <input type="hidden" id="delivEditingExistingOrderId" value="">
+                    <div class="flex items-center gap-2">
+                        <button type="button" id="btnCancelInlineDelivEdit" onclick="window.app.cancelInlineDeliveryEdit()" class="hidden px-3.5 py-3.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-extrabold text-xs shrink-0">
+                            Cancelar Edición
+                        </button>
+                        <button type="button" id="btnSubmitDeliveryInvoice" onclick="window.app.createInvoiceFromDeliveriesView()" class="flex-1 py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs sm:text-sm shadow-lg transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-floppy-disk"></i> <span id="btnSubmitDeliveryInvoiceText">Guardar Factura de Entrega, Foto y GPS</span>
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -2551,21 +2563,27 @@
                     </div>
                 </div>
 
-                <!-- Editar Monto Total Facturado, Abono Pagado, Cargos por Daño y Notas -->
+                <!-- Editar Monto Total Facturado, Descuento Inteligente de Abono y Saldo Restante -->
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-amber-50/90 p-3.5 rounded-2xl border-2 border-amber-300">
                     <div>
-                        <label class="font-extrabold text-slate-800 block mb-1">💵 Monto Total Factura ($)</label>
+                        <label class="font-extrabold text-slate-800 block mb-1">1. 💵 Total de la Factura ($)</label>
                         <input id="editInvTotalAmount" type="number" step="0.5" oninput="window.app.updateEditModalDebtPreview()" class="w-full px-3 py-2 bg-white border border-amber-400 rounded-xl font-black text-sm text-slate-900">
+                        <span class="text-[10px] text-slate-500 block mt-0.5">Valor total del alquiler (No suma el abono)</span>
                     </div>
                     <div>
-                        <label class="font-extrabold text-emerald-800 block mb-1">✅ Total Abonado / Pagado ($)</label>
+                        <label class="font-extrabold text-emerald-800 block mb-1">2. ✅ Menos Abono Pagado (-$)</label>
                         <input id="editInvPaidAmount" type="number" step="0.5" oninput="window.app.updateEditModalDebtPreview()" class="w-full px-3 py-2 bg-white border border-emerald-400 rounded-xl font-black text-sm text-emerald-700">
+                        <div class="flex items-center gap-1 mt-1">
+                            <input id="editInvAddAbonoInput" type="number" step="0.5" placeholder="+ Abono hoy $" class="w-full px-2 py-1 bg-white border border-emerald-300 rounded-lg text-[11px] font-bold">
+                            <button type="button" onclick="window.app.applyAdditionalAbonoInEditModal()" class="px-2 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-black text-[10px] shrink-0">Descontar</button>
+                        </div>
                     </div>
                     <div>
-                        <label class="font-extrabold text-rose-800 block mb-1">💰 Saldo / Deuda Pendiente</label>
+                        <label class="font-extrabold text-rose-800 block mb-1">3. 💰 Resta por Cobrar (Saldo)</label>
                         <div id="editInvDebtPreviewBox" class="w-full px-3 py-2 bg-rose-100 border border-rose-300 rounded-xl font-black text-sm text-rose-700 text-center">
                             $0.00
                         </div>
+                        <span id="editInvFormulaHelper" class="text-[10px] font-bold text-slate-600 block text-center mt-1">Total $0.00 - Abono $0.00 = $0.00</span>
                     </div>
                     <div class="sm:col-span-3">
                         <div class="flex items-center justify-between mb-1">
@@ -2925,25 +2943,74 @@
                     <div class="grid grid-cols-2 gap-2">
                         <div>
                             <label class="text-[10px] font-bold text-slate-500">Latitud</label>
-                            <input id="manLatHidden" type="number" step="0.00001" placeholder="8.42730" class="w-full px-2.5 py-1 bg-white border border-slate-300 rounded-lg font-mono text-[11px] font-bold">
+                            <input id="manLatHidden" type="number" step="0.00001" oninput="window.app.syncManualCoordsToMiniMap('manual')" placeholder="8.42730" class="w-full px-2.5 py-1 bg-white border border-slate-300 rounded-lg font-mono text-[11px] font-bold">
                         </div>
                         <div>
                             <label class="text-[10px] font-bold text-slate-500">Longitud</label>
-                            <input id="manLngHidden" type="number" step="0.00001" placeholder="-82.43210" class="w-full px-2.5 py-1 bg-white border border-slate-300 rounded-lg font-mono text-[11px] font-bold">
+                            <input id="manLngHidden" type="number" step="0.00001" oninput="window.app.syncManualCoordsToMiniMap('manual')" placeholder="-82.43210" class="w-full px-2.5 py-1 bg-white border border-slate-300 rounded-lg font-mono text-[11px] font-bold">
+                        </div>
+                    </div>
+                    <!-- Cuadrito Chiquito del Mapa GPS para Verificar la Ubicación Marcada -->
+                    <div class="relative w-full h-36 mt-1.5 rounded-xl border-2 border-sky-300 overflow-hidden shadow-inner">
+                        <div id="manOrderMiniMap" class="w-full h-full"></div>
+                        <button type="button" onclick="window.app.toggleMiniMapLayer('manual')" class="absolute top-2 right-2 z-20 px-2 py-1 bg-white/90 backdrop-blur-md text-sky-900 border border-sky-200 rounded-lg shadow-md text-[10px] font-black flex items-center gap-1 cursor-pointer">
+                            <i class="fa-solid fa-layer-group"></i> Satélite
+                        </button>
+                        <div class="absolute bottom-1 left-1 right-1 z-20 px-2 py-0.5 bg-black/65 text-white/95 rounded text-[9px] font-bold text-center pointer-events-none">
+                            📍 Verifica aquí que el pin esté en la ubicación correcta (Puedes arrastrarlo)
                         </div>
                     </div>
                 </div>
                 <div>
-                    <label class="font-bold text-slate-700 block mb-1">Cantidades de Equipos de Inventario:</label>
-                    <div id="manItemsChecklist" class="space-y-1.5 max-h-40 overflow-y-auto p-2 bg-slate-50 rounded-xl border border-slate-200"></div>
+                    <div class="flex items-center justify-between mb-1">
+                        <label class="font-bold text-slate-700 block">Cantidades y Precios Editables de Inventario:</label>
+                        <span class="text-[10px] font-extrabold text-brand-600">Puedes modificar el monto ($) al instante</span>
+                    </div>
+                    <div id="manItemsChecklist" class="space-y-1.5 max-h-44 overflow-y-auto p-2 bg-slate-50 rounded-xl border border-slate-200"></div>
+                </div>
+                <!-- Resumen Inteligente de Total Menos Abono en Pedido Manual -->
+                <div class="p-3 rounded-xl bg-slate-900 text-white space-y-2">
+                    <div class="grid grid-cols-3 gap-2 text-center">
+                        <div class="bg-slate-800 p-2 rounded-lg border border-slate-700">
+                            <span class="text-[10px] text-amber-300 font-bold block">1. Total Factura</span>
+                            <input id="manTotalCalculatedInput" type="number" step="0.5" value="0.00" oninput="window.app.updateManualOrderLiveMath()" class="w-full bg-transparent text-center font-black text-sm text-white focus:outline-none">
+                        </div>
+                        <div class="bg-slate-800 p-2 rounded-lg border border-emerald-500/50">
+                            <span class="text-[10px] text-emerald-300 font-bold block">2. Menos Abono</span>
+                            <strong id="manAbonoPreviewText" class="text-sm font-black text-emerald-400">-$0.00</strong>
+                        </div>
+                        <div class="bg-slate-800 p-2 rounded-lg border border-rose-500/50">
+                            <span class="text-[10px] text-rose-300 font-bold block">3. Resta por Cobrar</span>
+                            <strong id="manDebtPreviewText" class="text-sm font-black text-rose-400">$0.00</strong>
+                        </div>
+                    </div>
                 </div>
                 <!-- Bloque Exclusivo Admin: Producto Libre que no está en inventario -->
-                <div class="p-3 rounded-xl bg-indigo-50/80 border border-indigo-200 space-y-2">
+                <div class="p-3 rounded-xl bg-indigo-50/80 border-2 border-indigo-300 space-y-2">
                     <div class="flex items-center justify-between">
-                        <span class="font-extrabold text-indigo-950 text-[11px]"><i class="fa-solid fa-wand-magic-sparkles text-indigo-600 mr-1"></i> Producto Libre (Fuera de inventario - Solo Admin):</span>
+                        <span class="font-extrabold text-indigo-950 text-[11px]"><i class="fa-solid fa-wand-magic-sparkles text-indigo-600 mr-1"></i> Producto Manual (Fuera de inventario):</span>
                         <button type="button" onclick="window.app.addCustomFreeItemRow('manual')" class="px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-black text-[10px] flex items-center gap-1 shadow-2xs">
-                            <i class="fa-solid fa-plus"></i> Agregar Producto Libre
+                            <i class="fa-solid fa-plus"></i> + Otra Fila Libre
                         </button>
+                    </div>
+                    <div class="grid grid-cols-12 gap-1.5 items-end bg-white p-2 rounded-xl border border-indigo-200">
+                        <div class="col-span-6">
+                            <label class="text-[10px] font-bold text-slate-600 block mb-0.5">Nombre del Producto Manual</label>
+                            <input id="manQuickFreeName" type="text" placeholder="Ej. Hielera / Generador / Extra" class="w-full px-2 py-1.5 border border-slate-300 rounded-lg font-bold text-slate-900 text-xs">
+                        </div>
+                        <div class="col-span-2">
+                            <label class="text-[10px] font-bold text-slate-600 block mb-0.5">Cant.</label>
+                            <input id="manQuickFreeQty" type="number" min="1" value="1" class="w-full px-1.5 py-1.5 border border-slate-300 rounded-lg text-center font-black text-xs">
+                        </div>
+                        <div class="col-span-4">
+                            <label class="text-[10px] font-bold text-emerald-800 block mb-0.5">Precio Unit. ($)</label>
+                            <input id="manQuickFreePrice" type="number" step="0.5" min="0" placeholder="Ej. 10.00" class="w-full px-2 py-1.5 border border-emerald-400 bg-emerald-50/40 rounded-lg text-center font-black text-emerald-900 text-xs">
+                        </div>
+                        <div class="col-span-12 pt-1">
+                            <button type="button" onclick="window.app.addQuickFreeProductToManual()" class="w-full py-2 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs shadow-sm transition flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-cart-plus"></i> + Incluir Producto Manual al Pedido
+                            </button>
+                        </div>
                     </div>
                     <div id="manCustomFreeItemsContainer" class="space-y-1.5"></div>
                     <div id="manOverbookingLiveBanner" class="hidden mt-2 p-2.5 rounded-xl bg-amber-50 border-2 border-amber-400 text-[11px] text-amber-950 font-semibold"></div>
@@ -3151,10 +3218,13 @@
             </div>
             <div id="adminCreatedModalSummary" class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 text-left text-xs space-y-1 text-slate-700"></div>
             <div class="grid grid-cols-1 gap-2 pt-1">
-                <button type="button" onclick="window.app.shareOrDownloadReceiptPng(window.app.getLastCreatedOrderId())" class="w-full py-3 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs sm:text-sm shadow-md transition flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-image text-base"></i> 📲 Guardar o Compartir Imagen PNG
+                <button type="button" onclick="window.app.editOrderRightAfterCreation()" class="w-full py-3 px-4 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs sm:text-sm shadow-md transition flex items-center justify-center gap-2 border-2 border-amber-500">
+                    <i class="fa-solid fa-file-pen text-base"></i> ✏️ Editar esta Factura Ahí Mismo (Sin Duplicar)
                 </button>
-                <button type="button" onclick="window.app.printThermalViaRawBT(window.app.getLastCreatedOrderId())" class="w-full py-3 px-4 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs sm:text-sm shadow-md transition flex items-center justify-center gap-2">
+                <button type="button" onclick="window.app.shareOrDownloadReceiptPng(window.app.getLastCreatedOrderId())" class="w-full py-3 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs sm:text-sm shadow-md transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-image text-base"></i> 📲 Guardar o Compartir Imagen PNG (Con Cuadrito GPS)
+                </button>
+                <button type="button" onclick="window.app.printThermalViaRawBT(window.app.getLastCreatedOrderId())" class="w-full py-3 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-amber-300 font-black text-xs sm:text-sm shadow-md transition flex items-center justify-center gap-2">
                     <i class="fa-brands fa-bluetooth-b text-base"></i> 🖨️ Imprimir Recibo Térmico (RawBT)
                 </button>
                 <div class="grid grid-cols-2 gap-2">
@@ -3373,11 +3443,16 @@
         let editInvMiniMarker = null;
         let editInvTileMode = 'street';
         let editInvTileLayer = null;
+        let manOrderMiniMap = null;
+        let manOrderMiniMarker = null;
+        let manOrderTileMode = 'street';
+        let manOrderTileLayer = null;
         let delivOverviewMap = null;
         let delivOverviewLayerGroup = null;
         let delivOverviewTileMode = 'street';
         let delivOverviewTileLayer = null;
         const inlineCardMiniMaps = {};
+        let isSavingOrderLock = false;
 
         let sigCanvas = null;
         let sigCtx = null;
@@ -3394,27 +3469,50 @@
         let isDrawingFullSig = false;
         let fullSigHasStrokes = false;
 
+        let delivInlineSigCanvas = null;
+        let delivInlineSigCtx = null;
+        let isDrawingDelivInlineSig = false;
+        let delivInlineSigHasStrokes = false;
+
         let partyAlarmRepeatTimer = null;
 
-        function playLoudPartyOrderFanfare() {
-            try {
-                const AudioCtx = window.AudioContext || window.webkitAudioContext;
-                if (!AudioCtx) return;
-                const ctx = new AudioCtx();
-                const notes = [523.25, 659.25, 783.99, 1046.50];
-                notes.forEach((freq, i) => {
-                    const osc = ctx.createOscillator();
-                    const gain = ctx.createGain();
-                    osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.12);
-                    gain.gain.setValueAtTime(0.25, ctx.currentTime + i * 0.12);
-                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.12 + 0.25);
-                    osc.connect(gain);
-                    gain.connect(ctx.destination);
-                    osc.start(ctx.currentTime + i * 0.12);
-                    osc.stop(ctx.currentTime + i * 0.12 + 0.26);
-                });
-            } catch (e) {}
+        function initDelivNewInlineSignaturePad() {
+            delivInlineSigCanvas = document.getElementById('delivNewInlineSigCanvas');
+            if (!delivInlineSigCanvas) return;
+            const rect = delivInlineSigCanvas.getBoundingClientRect();
+            delivInlineSigCanvas.width = Math.max(260, rect.width || 340);
+            delivInlineSigCanvas.height = Math.max(96, rect.height || 112);
+            delivInlineSigCtx = delivInlineSigCanvas.getContext('2d');
+            delivInlineSigCtx.strokeStyle = '#0f172a';
+            delivInlineSigCtx.lineWidth = 2.6;
+            delivInlineSigCtx.lineCap = 'round';
+
+            const syncInlineSigToTempState = () => {
+                if (!delivInlineSigHasStrokes || !delivInlineSigCanvas) return;
+                const dataUrl = delivInlineSigCanvas.toDataURL('image/png');
+                state.tempNewDeliverySignatureDataUrl = dataUrl;
+                const box = document.getElementById('delivHousePhotoPreviewBox');
+                const wrap = document.getElementById('delivNewSigPreviewWrap');
+                const img = document.getElementById('delivNewSigPreviewImg');
+                if (img) img.src = dataUrl;
+                if (box) box.classList.remove('hidden');
+                if (wrap) wrap.classList.remove('hidden');
+            };
+
+            const getPos = (e) => {
+                const r = delivInlineSigCanvas.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                return { x: clientX - r.left, y: clientY - r.top };
+            };
+
+            delivInlineSigCanvas.onmousedown = (e) => { isDrawingDelivInlineSig = true; delivInlineSigHasStrokes = true; const p = getPos(e); delivInlineSigCtx.beginPath(); delivInlineSigCtx.moveTo(p.x, p.y); };
+            delivInlineSigCanvas.onmousemove = (e) => { if (!isDrawingDelivInlineSig) return; delivInlineSigHasStrokes = true; const p = getPos(e); delivInlineSigCtx.lineTo(p.x, p.y); delivInlineSigCtx.stroke(); };
+            delivInlineSigCanvas.onmouseup = () => { if (isDrawingDelivInlineSig) { isDrawingDelivInlineSig = false; syncInlineSigToTempState(); } };
+
+            delivInlineSigCanvas.ontouchstart = (e) => { e.preventDefault(); isDrawingDelivInlineSig = true; delivInlineSigHasStrokes = true; const p = getPos(e); delivInlineSigCtx.beginPath(); delivInlineSigCtx.moveTo(p.x, p.y); };
+            delivInlineSigCanvas.ontouchmove = (e) => { e.preventDefault(); if (!isDrawingDelivInlineSig) return; delivInlineSigHasStrokes = true; const p = getPos(e); delivInlineSigCtx.lineTo(p.x, p.y); delivInlineSigCtx.stroke(); };
+            delivInlineSigCanvas.ontouchend = () => { if (isDrawingDelivInlineSig) { isDrawingDelivInlineSig = false; syncInlineSigToTempState(); } };
         }
 
         function initManualOrderSignaturePad() {
@@ -3836,13 +3934,23 @@
 
         // --- PERSISTENCE HELPERS (Dual Local + Firestore) ---
         async function persistOrder(orderObj) {
-            const idx = state.orders.findIndex(o => o.id === orderObj.id);
-            if (idx >= 0) {
-                const prev = state.orders[idx];
+            if (!orderObj || !orderObj.id) return;
+            orderObj.id = String(orderObj.id).trim();
+
+            // Garantizar que el total y el abono sean números limpios y que el abono NUNCA se sume al total
+            orderObj.total = Math.max(0, Number(orderObj.total) || 0);
+            orderObj.paidAmount = Math.max(0, Number(orderObj.paidAmount) || 0);
+
+            // Eliminar cualquier posible duplicado previo con el mismo ID antes de guardar
+            const existingIdx = state.orders.findIndex(o => String(o.id).trim() === orderObj.id);
+            if (existingIdx >= 0) {
+                const prev = state.orders[existingIdx];
                 if (!orderObj.signatureDataUrl && prev.signatureDataUrl) orderObj.signatureDataUrl = prev.signatureDataUrl;
                 if (!orderObj.evidencePhotoUrl && prev.evidencePhotoUrl) orderObj.evidencePhotoUrl = prev.evidencePhotoUrl;
                 if (!orderObj.returnPhotoUrl && prev.returnPhotoUrl) orderObj.returnPhotoUrl = prev.returnPhotoUrl;
-                state.orders[idx] = orderObj;
+                state.orders[existingIdx] = orderObj;
+                // Limpiar duplicados accidentales si existieran en el arreglo local
+                state.orders = state.orders.filter((o, i) => String(o.id).trim() !== orderObj.id || i === existingIdx);
             } else {
                 state.orders.unshift(orderObj);
             }
@@ -5261,6 +5369,35 @@ ${itemsSummary}
                                     <div class="flex flex-wrap gap-1.5">${quickItemsSummary}</div>
                                 </div>
 
+                                <!-- Cuadrito de Google Maps / Ubicación GPS Siempre Visible para ir a Retirar o Entregar Implementos -->
+                                <div class="bg-sky-50/90 p-2.5 rounded-xl border-2 border-sky-300 space-y-2" onclick="event.stopPropagation()">
+                                    <div class="flex flex-wrap items-center justify-between gap-2">
+                                        <div class="flex items-center gap-2 min-w-0">
+                                            <div class="w-8 h-8 rounded-lg bg-sky-600 text-white flex items-center justify-center shrink-0 shadow-2xs">
+                                                <i class="fa-solid fa-map-location-dot text-sm"></i>
+                                            </div>
+                                            <div class="min-w-0">
+                                                <span class="text-[11px] font-black text-sky-950 block truncate">📍 Ubicación GPS para Buscar / Retirar Implementos</span>
+                                                <span class="text-[10px] font-mono font-bold text-slate-600 block">Coord: ${Number(ord.lat || 8.4273).toFixed(5)}, ${Number(ord.lng || -82.4321).toFixed(5)}</span>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-wrap items-center gap-1.5 shrink-0">
+                                            <button type="button" onclick="window.app.toggleAdminCardMiniMap('${ord.id}', ${Number(ord.lat || 8.4273)}, ${Number(ord.lng || -82.4321)})" class="px-2.5 py-1.5 rounded-lg bg-white hover:bg-sky-100 text-sky-900 border border-sky-300 font-extrabold text-[11px] flex items-center gap-1 shadow-2xs">
+                                                <i class="fa-solid fa-map"></i> <span>Cuadrito Mapa</span>
+                                            </button>
+                                            <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-[11px] flex items-center gap-1 shadow-2xs">
+                                                <i class="fa-solid fa-diamond-turn-right"></i> <span>Ir Google Maps</span>
+                                            </a>
+                                            <a href="https://waze.com/ul?ll=${ord.lat},${ord.lng}&navigate=yes" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-600 text-white font-extrabold text-[11px] flex items-center gap-1 shadow-2xs">
+                                                <i class="fa-brands fa-waze"></i> <span>Waze</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div id="adminMiniMapWrap-${ord.id}" class="hidden pt-1">
+                                        <div id="adminMiniMapCanvas-${ord.id}" class="w-full h-40 rounded-xl border border-sky-300 shadow-inner"></div>
+                                    </div>
+                                </div>
+
                                 ${(ord.signatureDataUrl || ord.evidencePhotoUrl) ? `
                                 <div class="flex flex-wrap items-center justify-between gap-2 bg-emerald-50/70 px-3 py-2 rounded-xl border border-emerald-200 text-xs" onclick="event.stopPropagation()">
                                     <div class="flex items-center gap-2.5">
@@ -5415,10 +5552,10 @@ ${itemsSummary}
                                 <!-- Quick Payment Actions -->
                                 <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
                                     <div class="flex items-center gap-1.5">
-                                        <span class="text-[11px] font-semibold text-slate-500">Sumar abono ($):</span>
-                                        <input type="number" id="payInput-${ord.id}" placeholder="Ej. 10" class="w-20 px-2.5 py-1 bg-white border border-slate-300 rounded-lg text-xs font-bold" onclick="event.stopPropagation()">
-                                        <button onclick="window.app.recordPartialPayment('${ord.id}')" class="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-bold transition">
-                                            + Abonar
+                                        <span class="text-[11px] font-semibold text-slate-500">Abono recibido ($):</span>
+                                        <input type="number" id="payInput-${ord.id}" placeholder="Ej. 42" class="w-20 px-2.5 py-1 bg-white border border-slate-300 rounded-lg text-xs font-bold" onclick="event.stopPropagation()">
+                                        <button onclick="window.app.recordPartialPayment('${ord.id}')" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-extrabold transition" title="Descuenta este abono del total de la factura">
+                                            ✓ Descontar de Factura
                                         </button>
                                     </div>
                                     <div class="flex items-center gap-1">
@@ -5571,16 +5708,19 @@ ${itemsSummary}
             const ord = state.orders.find(o => o.id === orderId);
             if (!ord) return;
             const inp = document.getElementById(`payInput-${orderId}`);
-            const addAmt = parseFloat(inp?.value || '0');
-            if (!addAmt || addAmt <= 0) {
-                showToast('Ingresa un monto de abono válido mayor a $0', 'warning');
+            const enteredAbono = parseFloat(inp?.value || '0');
+            if (isNaN(enteredAbono) || enteredAbono < 0) {
+                showToast('Ingresa un monto de abono válido', 'warning');
                 return;
             }
             const tot = (Number(ord.total) || 0) + (Number(ord.damagePenalty) || 0);
-            ord.paidAmount = Math.min(tot, (Number(ord.paidAmount) || 0) + addAmt);
+            // Descuento inteligente: el monto ingresado se registra como el abono y se descuenta del total de la factura (NUNCA se suma al total)
+            ord.paidAmount = Math.min(tot, enteredAbono);
+            const remainingDebt = Math.max(0, tot - ord.paidAmount);
+            ord.paymentNotes = `Factura Total: $${tot.toFixed(2)} | Abonó: $${ord.paidAmount.toFixed(2)} | Resta por cobrar: $${remainingDebt.toFixed(2)}.`;
             if (inp) inp.value = '';
             await persistOrder(ord);
-            showToast(`💵 Abono de $${addAmt.toFixed(2)} registrado en ${ord.clientName}`, 'success');
+            showToast(`✅ Abono de $${ord.paidAmount.toFixed(2)} descontado de los $${tot.toFixed(2)}. Resta por cobrar: $${remainingDebt.toFixed(2)}`, 'success');
         }
 
         async function setPaymentPercentage(orderId, pct) {
@@ -5588,8 +5728,10 @@ ${itemsSummary}
             if (!ord) return;
             const tot = (Number(ord.total) || 0) + (Number(ord.damagePenalty) || 0);
             ord.paidAmount = Number(((tot * pct) / 100).toFixed(2));
+            const remainingDebt = Math.max(0, tot - ord.paidAmount);
+            ord.paymentNotes = `Factura Total: $${tot.toFixed(2)} | Abonó: $${ord.paidAmount.toFixed(2)} | Resta por cobrar: $${remainingDebt.toFixed(2)}.`;
             await persistOrder(ord);
-            showToast(pct === 100 ? `✅ Cuenta de ${ord.clientName} marcada 100% pagada` : `Pago ajustado al ${pct}%`, 'success');
+            showToast(pct === 100 ? `✅ Cuenta de ${ord.clientName} marcada 100% pagada ($0.00 pendiente)` : `Abono ajustado a $${ord.paidAmount.toFixed(2)} (Resta: $${remainingDebt.toFixed(2)})`, 'success');
         }
 
         function calculateAndRenderRoute(showAllActive = false) {
@@ -6640,14 +6782,21 @@ ${itemsSummary}
 
         function openNewManualOrderModal() {
             document.getElementById('manDate').value = TODAY_STR;
+            if (document.getElementById('manInitialPaid')) {
+                document.getElementById('manInitialPaid').value = '0';
+                document.getElementById('manInitialPaid').oninput = () => window.app.updateManualOrderLiveMath();
+            }
             if (document.getElementById('manStatus')) document.getElementById('manStatus').value = 'PENDIENTE';
             if (document.getElementById('manGmapsLink')) document.getElementById('manGmapsLink').value = '';
-            if (document.getElementById('manLatHidden')) document.getElementById('manLatHidden').value = '';
-            if (document.getElementById('manLngHidden')) document.getElementById('manLngHidden').value = '';
+            const defaultLat = Number(state.settings.baseLat || 8.4273).toFixed(5);
+            const defaultLng = Number(state.settings.baseLng || -82.4321).toFixed(5);
+            if (document.getElementById('manLatHidden')) document.getElementById('manLatHidden').value = defaultLat;
+            if (document.getElementById('manLngHidden')) document.getElementById('manLngHidden').value = defaultLng;
             const customBox = document.getElementById('manCustomFreeItemsContainer');
             if (customBox) customBox.innerHTML = '';
             state.tempManualOrderPhotoDataUrl = null;
             state.tempManualOrderSignatureDataUrl = null;
+            state.editingManualOrderId = null;
             document.getElementById('manOrderPhotoPreviewBox')?.classList.add('hidden');
             document.getElementById('btnClearManPhoto')?.classList.add('hidden');
             const hintOverlay = document.getElementById('manOrderSigOverlayHint');
@@ -6658,21 +6807,29 @@ ${itemsSummary}
             if (photoInp) photoInp.value = '';
             const list = document.getElementById('manItemsChecklist');
             list.innerHTML = state.catalog.map(item => `
-                <div class="flex items-center justify-between bg-white px-3 py-1.5 rounded-lg border border-slate-200">
-                    <span class="text-xs font-semibold text-slate-800 truncate pr-2">${item.name} ($${item.price})</span>
-                    <input type="number" min="0" value="0" data-man-item="${item.id}" oninput="window.app.checkManualOrderOverbookingLive()" class="w-16 px-2 py-1 border border-slate-300 rounded-md text-xs font-bold text-center">
+                <div class="flex items-center justify-between gap-2 bg-white px-2.5 py-1.5 rounded-lg border border-slate-200">
+                    <span class="text-xs font-semibold text-slate-800 truncate flex-1">${item.name}</span>
+                    <div class="flex items-center gap-1 shrink-0">
+                        <span class="text-[10px] text-slate-400 font-bold">$:</span>
+                        <input type="number" step="0.25" min="0" value="${Number(item.price).toFixed(2)}" data-man-price="${item.id}" oninput="window.app.checkManualOrderOverbookingLive()" class="w-16 px-1.5 py-1 border border-amber-300 bg-amber-50/40 rounded-md text-xs font-extrabold text-amber-950 text-center" title="Precio unitario editable para esta venta">
+                        <span class="text-[10px] text-slate-400 font-bold ml-1">Cant:</span>
+                        <input type="number" min="0" value="0" data-man-item="${item.id}" oninput="window.app.checkManualOrderOverbookingLive()" class="w-14 px-1.5 py-1 border border-slate-300 rounded-md text-xs font-black text-center">
+                    </div>
                 </div>
             `).join('');
             document.getElementById('manOverbookingLiveBanner')?.classList.add('hidden');
+            window.app.updateManualOrderLiveMath(true);
             const modal = document.getElementById('manualOrderModal');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
-            setTimeout(() => initManualOrderSignaturePad(), 100);
+            setTimeout(() => {
+                initManualOrderSignaturePad();
+                initOrUpdateDeliveryMiniMap('manual');
+            }, 100);
         }
 
         function checkManualOrderOverbookingLive() {
             const liveBanner = document.getElementById('manOverbookingLiveBanner');
-            if (!liveBanner) return;
             const eventDate = document.getElementById('manDate')?.value || TODAY_STR;
             const tempItems = [];
             document.querySelectorAll('[data-man-item]').forEach(inp => {
@@ -6680,13 +6837,16 @@ ${itemsSummary}
                 const id = inp.getAttribute('data-man-item');
                 if (qty > 0 && id) tempItems.push({ id, requested: qty });
             });
-            const conflicts = inspectOverbookingConflicts(tempItems, eventDate);
-            if (conflicts.length > 0) {
-                liveBanner.classList.remove('hidden');
-                liveBanner.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-amber-600 mr-1"></i> <strong>Aviso de Stock (${eventDate}):</strong> ${conflicts.map(c => `${c.name} (Pides ${c.requestedQty}, libres en 1 turno: ${c.freeInSingleShift})`).join(' • ')}. Podrás guardarlo igual si es doble turno.`;
-            } else {
-                liveBanner.classList.add('hidden');
+            if (liveBanner) {
+                const conflicts = inspectOverbookingConflicts(tempItems, eventDate, state.editingManualOrderId || null);
+                if (conflicts.length > 0) {
+                    liveBanner.classList.remove('hidden');
+                    liveBanner.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-amber-600 mr-1"></i> <strong>Aviso de Stock (${eventDate}):</strong> ${conflicts.map(c => `${c.name} (Pides ${c.requestedQty}, libres en 1 turno: ${c.freeInSingleShift})`).join(' • ')}. Podrás guardarlo igual si es doble turno.`;
+                } else {
+                    liveBanner.classList.add('hidden');
+                }
             }
+            window.app.updateManualOrderLiveMath(true);
         }
 
         function closeManualOrderModal() {
@@ -6696,10 +6856,11 @@ ${itemsSummary}
         }
 
         async function saveManualOrder() {
+            if (isSavingOrderLock) return;
             const clientName = document.getElementById('manClient').value.trim();
             const phone = document.getElementById('manPhone').value.trim();
             const eventDate = document.getElementById('manDate').value || TODAY_STR;
-            const paidAmount = parseFloat(document.getElementById('manInitialPaid').value || '0');
+            const paidAmount = Math.max(0, parseFloat(document.getElementById('manInitialPaid').value || '0'));
             const addressBase = document.getElementById('manAddress').value.trim();
             const gmapsLink = document.getElementById('manGmapsLink')?.value.trim();
             const statusMode = document.getElementById('manStatus')?.value || 'PENDIENTE';
@@ -6709,20 +6870,23 @@ ${itemsSummary}
                 return;
             }
 
-            const address = gmapsLink ? `${addressBase} - GPS: ${gmapsLink}` : addressBase;
+            const address = (gmapsLink && !addressBase.includes('GPS:')) ? `${addressBase} - GPS: ${gmapsLink}` : addressBase;
 
             const selectedItems = [];
-            let total = 0;
+            let calculatedItemsTotal = 0;
             document.querySelectorAll('[data-man-item]').forEach(inp => {
                 const qty = parseInt(inp.value || '0', 10);
                 if (qty > 0) {
-                    const catItem = state.catalog.find(c => c.id === inp.getAttribute('data-man-item'));
+                    const itemId = inp.getAttribute('data-man-item');
+                    const catItem = state.catalog.find(c => c.id === itemId);
+                    const priceInp = document.querySelector(`[data-man-price="${itemId}"]`);
+                    const customUnitPrice = priceInp ? Math.max(0, parseFloat(priceInp.value || '0')) : Number(catItem?.price || 0);
                     if (catItem) {
-                        total += qty * Number(catItem.price);
+                        calculatedItemsTotal += qty * customUnitPrice;
                         selectedItems.push({
                             id: catItem.id,
                             name: catItem.name,
-                            price: Number(catItem.price),
+                            price: customUnitPrice,
                             requested: qty,
                             delivered: statusMode === 'ENTREGADO' ? qty : 0,
                             returned: 0
@@ -6737,7 +6901,7 @@ ${itemsSummary}
                 const freeQty = Math.max(0, parseInt(row.querySelector('[data-free-qty]')?.value || '0', 10));
                 const freePrice = Math.max(0, parseFloat(row.querySelector('[data-free-price]')?.value || '0'));
                 if (freeName && freeQty > 0) {
-                    total += freeQty * freePrice;
+                    calculatedItemsTotal += freeQty * freePrice;
                     selectedItems.push({
                         id: 'custom-free-' + Date.now() + '-' + Math.floor(Math.random() * 1000),
                         name: `${freeName} (Extra)`,
@@ -6756,8 +6920,13 @@ ${itemsSummary}
                 return;
             }
 
-            let lat = parseFloat(document.getElementById('manLatHidden')?.value || '') || (Number(state.settings.baseLat) + (Math.random() - 0.5) * 0.03);
-            let lng = parseFloat(document.getElementById('manLngHidden')?.value || '') || (Number(state.settings.baseLng) + (Math.random() - 0.5) * 0.03);
+            const manualTotalInp = document.getElementById('manTotalCalculatedInput');
+            const total = manualTotalInp && parseFloat(manualTotalInp.value) > 0
+                ? Math.max(0, parseFloat(manualTotalInp.value))
+                : calculatedItemsTotal;
+
+            let lat = parseFloat(document.getElementById('manLatHidden')?.value || '') || Number(state.settings.baseLat || 8.4273);
+            let lng = parseFloat(document.getElementById('manLngHidden')?.value || '') || Number(state.settings.baseLng || -82.4321);
 
             if (gmapsLink) {
                 const match = gmapsLink.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/) || gmapsLink.match(/(?:q|ll|place\/)=(-?\d+\.\d+),(-?\d+\.\d+)/);
@@ -6768,38 +6937,49 @@ ${itemsSummary}
             }
 
             const finalizeManualOrderSave = async (hasDoubleShiftWarning) => {
-                const capturedSignature = state.tempManualOrderSignatureDataUrl
-                    || ((manSigCanvas && manSigHasStrokes) ? manSigCanvas.toDataURL('image/png') : null);
-                const capturedPhoto = state.tempManualOrderPhotoDataUrl || null;
+                if (isSavingOrderLock) return;
+                isSavingOrderLock = true;
+                try {
+                    const capturedSignature = state.tempManualOrderSignatureDataUrl
+                        || ((manSigCanvas && manSigHasStrokes) ? manSigCanvas.toDataURL('image/png') : null);
+                    const capturedPhoto = state.tempManualOrderPhotoDataUrl || null;
+                    const cleanPaid = Math.min(total, paidAmount);
+                    const remainingDebt = Math.max(0, total - cleanPaid);
+                    const targetOrderId = state.editingManualOrderId || ('ord-' + Date.now());
 
-                const ord = {
-                    id: 'ord-' + Date.now(),
-                    clientName,
-                    phone: phone || 'Sin teléfono',
-                    eventDate,
-                    eventTime: '09:00',
-                    address,
-                    gmapsLink: gmapsLink || '',
-                    lat: Number(lat.toFixed(5)),
-                    lng: Number(lng.toFixed(5)),
-                    total,
-                    paidAmount,
-                    signatureDataUrl: capturedSignature,
-                    evidencePhotoUrl: capturedPhoto,
-                    items: selectedItems,
-                    paymentNotes: (paidAmount > 0 ? `Abono inicial de $${paidAmount.toFixed(2)}.` : 'Pendiente de cobro.') + (hasDoubleShiftWarning ? ' 🔄 [Doble Turno / Sobre-Alquiler Autorizado]' : '')
-                };
+                    const ord = {
+                        id: targetOrderId,
+                        clientName,
+                        phone: phone || 'Sin teléfono',
+                        eventDate,
+                        eventTime: '09:00',
+                        address,
+                        gmapsLink: gmapsLink || '',
+                        lat: Number(lat.toFixed(5)),
+                        lng: Number(lng.toFixed(5)),
+                        orderMode: 'RESERVA',
+                        total,
+                        paidAmount: cleanPaid,
+                        signatureDataUrl: capturedSignature,
+                        evidencePhotoUrl: capturedPhoto,
+                        items: selectedItems,
+                        paymentNotes: `Total Factura: $${total.toFixed(2)} | Abonó: $${cleanPaid.toFixed(2)} | Resta por cobrar: $${remainingDebt.toFixed(2)}.` + (hasDoubleShiftWarning ? ' 🔄 [Doble Turno / Sobre-Alquiler Autorizado]' : '')
+                    };
 
-                await persistOrder(ord);
-                state.tempManualOrderPhotoDataUrl = null;
-                state.tempManualOrderSignatureDataUrl = null;
-                manSigHasStrokes = false;
-                closeManualOrderModal();
-                window.app.showAdminOrderCreatedModal(ord);
-                showToast('✅ Pedido guardado con éxito', 'success');
+                    await persistOrder(ord);
+                    state.tempManualOrderPhotoDataUrl = null;
+                    state.tempManualOrderSignatureDataUrl = null;
+                    state.editingManualOrderId = null;
+                    manSigHasStrokes = false;
+                    closeManualOrderModal();
+                    window.app.showAdminOrderCreatedModal(ord);
+                    showToast(`✅ Factura guardada: Total $${total.toFixed(2)} - Abono $${cleanPaid.toFixed(2)} = Resta $${remainingDebt.toFixed(2)}`, 'success');
+                } finally {
+                    setTimeout(() => { isSavingOrderLock = false; }, 400);
+                }
             };
 
-            const conflicts = inspectOverbookingConflicts(selectedItems.filter(i => !i.isCustomFree), eventDate);
+            const conflicts = inspectOverbookingConflicts(selectedItems.filter(i => !i.isCustomFree), eventDate, state.editingManualOrderId || null);
             if (conflicts.length > 0) {
                 triggerOverbookingConfirmModal(conflicts, eventDate, () => finalizeManualOrderSave(true));
                 return;
@@ -7109,6 +7289,30 @@ ${itemsSummary}
                         editInvMiniMap.setView([lat, lng], 16);
                         editInvMiniMarker.setLatLng([lat, lng]);
                     }
+                } else if (target === 'manual') {
+                    const box = document.getElementById('manOrderMiniMap');
+                    if (!box) return;
+                    const lat = parseFloat(document.getElementById('manLatHidden')?.value || state.settings.baseLat || 8.4273);
+                    const lng = parseFloat(document.getElementById('manLngHidden')?.value || state.settings.baseLng || -82.4321);
+                    if (!manOrderMiniMap) {
+                        manOrderMiniMap = L.map('manOrderMiniMap').setView([lat, lng], 16);
+                        manOrderTileLayer = L.tileLayer(getTileUrlByMode(manOrderTileMode), { attribution: '&copy; Maps' }).addTo(manOrderMiniMap);
+                        manOrderMiniMarker = L.marker([lat, lng], { draggable: true }).addTo(manOrderMiniMap);
+                        manOrderMiniMarker.on('dragend', (e) => {
+                            const p = e.target.getLatLng();
+                            document.getElementById('manLatHidden').value = p.lat.toFixed(5);
+                            document.getElementById('manLngHidden').value = p.lng.toFixed(5);
+                        });
+                        manOrderMiniMap.on('click', (e) => {
+                            manOrderMiniMarker.setLatLng(e.latlng);
+                            document.getElementById('manLatHidden').value = e.latlng.lat.toFixed(5);
+                            document.getElementById('manLngHidden').value = e.latlng.lng.toFixed(5);
+                        });
+                    } else {
+                        manOrderMiniMap.invalidateSize();
+                        manOrderMiniMap.setView([lat, lng], 16);
+                        manOrderMiniMarker.setLatLng([lat, lng]);
+                    }
                 } else if (target === 'overview') {
                     const box = document.getElementById('delivAllHousesOverviewMap');
                     if (!box) return;
@@ -7171,18 +7375,20 @@ ${itemsSummary}
             const dateInp = document.getElementById('delivEventDate');
             if (dateInp && !dateInp.value) dateInp.value = TODAY_STR;
 
-            // Renderizar selector de equipos para nueva factura en calle si está vacío o al actualizar catálogo
+            // Renderizar selector de equipos para nueva factura en calle con Precio ($) y Cantidad editables al instante
             const formItemsEl = document.getElementById('delivFormItemsList');
             if (formItemsEl && formItemsEl.children.length !== state.catalog.length) {
                 formItemsEl.innerHTML = state.catalog.map(item => `
                     <div class="flex items-center justify-between gap-2 bg-white px-2.5 py-1.5 rounded-lg border border-slate-200">
                         <div class="min-w-0 flex-1">
                             <span class="font-bold text-slate-800 block truncate">${item.name}</span>
-                            <span class="text-[10px] text-emerald-700 font-bold">$${Number(item.price).toFixed(2)} c/u</span>
+                            <span class="text-[10px] text-slate-400">Stock: ${item.stock} uds</span>
                         </div>
                         <div class="flex items-center gap-1.5 shrink-0">
-                            <span class="text-[10px] text-slate-400">Cant:</span>
-                            <input type="number" min="0" value="0" data-deliv-new-item="${item.id}" data-deliv-price="${item.price}" oninput="window.app.recalcNewDeliveryFormTotal()" class="w-14 px-2 py-1 border border-slate-300 rounded-lg text-center font-black text-xs">
+                            <span class="text-[10px] text-amber-800 font-bold">$:</span>
+                            <input type="number" step="0.25" min="0" value="${Number(item.price).toFixed(2)}" data-deliv-unit-price="${item.id}" oninput="window.app.recalcNewDeliveryFormTotal()" class="w-16 px-1.5 py-1 border border-amber-300 bg-amber-50/50 rounded-lg text-center font-extrabold text-amber-950 text-xs" title="Modificar precio unitario para esta venta en la calle">
+                            <span class="text-[10px] text-slate-500 font-bold">Cant:</span>
+                            <input type="number" min="0" value="0" data-deliv-new-item="${item.id}" oninput="window.app.recalcNewDeliveryFormTotal()" class="w-14 px-2 py-1 border border-slate-300 rounded-lg text-center font-black text-xs">
                         </div>
                     </div>
                 `).join('');
@@ -7382,6 +7588,41 @@ ${itemsSummary}
                                 <div class="flex flex-wrap gap-1.5">${itemsPills}</div>
                             </div>
 
+                            <!-- Cuadrito de Mapa GPS y Acciones Rápidas (Foto Casa + Firma + Producto Extra) SIEMPRE VISIBLES en Modo Conductor -->
+                            <div class="bg-sky-50/90 p-2.5 rounded-xl border-2 border-sky-300 space-y-2" onclick="event.stopPropagation()">
+                                <div class="flex flex-wrap items-center justify-between gap-2">
+                                    <div class="flex items-center gap-2 min-w-0">
+                                        <div class="w-8 h-8 rounded-lg bg-sky-600 text-white flex items-center justify-center shrink-0">
+                                            <i class="fa-solid fa-map-location-dot text-sm"></i>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <span class="text-[11px] font-black text-sky-950 block truncate">📍 Mapa GPS para Ir a Buscar / Retirar Equipos</span>
+                                            <span class="text-[10px] font-mono font-bold text-slate-600 block">GPS: ${Number(ord.lat || 8.4273).toFixed(5)}, ${Number(ord.lng || -82.4321).toFixed(5)}</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-wrap items-center gap-1.5">
+                                        <button type="button" onclick="window.app.toggleInlineOrderMiniMap('${ord.id}', ${Number(ord.lat || 8.4273)}, ${Number(ord.lng || -82.4321)})" class="px-2.5 py-1.5 rounded-lg bg-white hover:bg-sky-100 text-sky-950 border border-sky-400 font-black text-[11px] flex items-center gap-1 shadow-2xs">
+                                            <i class="fa-solid fa-map text-sky-600"></i> <span>Ver Cuadrito GPS</span>
+                                        </button>
+                                        <label class="cursor-pointer px-2.5 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-[11px] flex items-center gap-1 shadow-2xs">
+                                            <i class="fa-solid fa-camera"></i> <span>📸 Foto Casa</span>
+                                            <input type="file" accept="image/*" onchange="window.app.quickAttachHousePhotoToOrder('${ord.id}', event, 'delivery')" class="hidden">
+                                        </label>
+                                        <button type="button" onclick="window.app.openReceiptModal('${ord.id}'); setTimeout(() => window.app.openFullscreenSignatureModal('receipt'), 180);" class="px-2.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-black text-[11px] flex items-center gap-1 shadow-2xs">
+                                            <i class="fa-solid fa-signature"></i> <span>✍️ Firmar</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Mini-Mapa Interactivo Desplegable Directo en la Tarjeta Principal -->
+                                <div id="inlineMiniMapWrap-${ord.id}" class="hidden pt-1 space-y-1">
+                                    <div class="flex items-center justify-between text-[10px] text-sky-900 font-bold px-1">
+                                        <span>📍 Punto exacto para retirar/entregar sillas, mesas e implementos (Puedes mover el pin):</span>
+                                        <button type="button" onclick="window.app.toggleInlineOrderMiniMap('${ord.id}', ${Number(ord.lat || 8.4273)}, ${Number(ord.lng || -82.4321)})" class="text-rose-600 font-extrabold">Cerrar ✕</button>
+                                    </div>
+                                    <div id="inlineMiniMapCanvas-${ord.id}" class="w-full h-44 rounded-xl border border-sky-300 shadow-inner"></div>
+                                </div>
+                            </div>
+
                             ${(ord.signatureDataUrl || ord.evidencePhotoUrl) ? `
                             <div class="flex flex-wrap items-center justify-between gap-2 bg-emerald-50/80 px-3 py-2 rounded-xl border border-emerald-300 text-xs" onclick="event.stopPropagation()">
                                 <div class="flex items-center gap-2">
@@ -7430,7 +7671,7 @@ ${itemsSummary}
                                         <label class="cursor-pointer w-24 h-24 rounded-xl bg-amber-50 hover:bg-amber-100 border-2 border-dashed border-amber-300 flex flex-col items-center justify-center text-center p-1.5">
                                             <i class="fa-solid fa-camera text-amber-600 text-sm"></i>
                                             <span class="text-[9px] font-extrabold text-amber-900 mt-1">1. Foto Casa</span>
-                                            <input type="file" accept="image/*" capture="environment" onchange="window.app.quickAttachHousePhotoToOrder('${ord.id}', event, 'delivery')" class="hidden">
+                                            <input type="file" accept="image/*" onchange="window.app.quickAttachHousePhotoToOrder('${ord.id}', event, 'delivery')" class="hidden">
                                         </label>
                                     `}
                                     ${ord.returnPhotoUrl ? `
@@ -7442,7 +7683,7 @@ ${itemsSummary}
                                         <label class="cursor-pointer w-20 h-24 rounded-xl bg-slate-100 hover:bg-slate-200 border-2 border-dashed border-slate-300 flex flex-col items-center justify-center text-center p-1.5">
                                             <i class="fa-solid fa-camera-rotate text-slate-600 text-sm"></i>
                                             <span class="text-[9px] font-bold text-slate-700 mt-1">2. Foto Retiro</span>
-                                            <input type="file" accept="image/*" capture="environment" onchange="window.app.quickAttachHousePhotoToOrder('${ord.id}', event, 'return')" class="hidden">
+                                            <input type="file" accept="image/*" onchange="window.app.quickAttachHousePhotoToOrder('${ord.id}', event, 'return')" class="hidden">
                                         </label>
                                     `}
                                 </div>
@@ -7639,6 +7880,7 @@ ${itemsSummary}
                     document.getElementById('clientPromoFloatingAlert')?.classList.add('hidden');
                     renderAllViews();
                     initOrUpdateDeliveryMiniMap('new');
+                    setTimeout(() => initDelivNewInlineSignaturePad(), 120);
                 } else {
                     vAdmin?.classList.remove('hidden');
                     adminHeader?.classList.remove('hidden');
@@ -7668,6 +7910,7 @@ ${itemsSummary}
                     colList?.classList.add('hidden', 'lg:block');
                     mapBlock?.classList.add('hidden');
                     initOrUpdateDeliveryMiniMap('new');
+                    setTimeout(() => initDelivNewInlineSignaturePad(), 100);
                 } else if (subTab === 'map') {
                     mapBlock?.classList.remove('hidden');
                     initOrUpdateDeliveryMiniMap('overview');
@@ -7687,6 +7930,10 @@ ${itemsSummary}
                     editInvTileMode = editInvTileMode === 'street' ? 'sat' : 'street';
                     editInvMiniMap.removeLayer(editInvTileLayer);
                     editInvTileLayer = L.tileLayer(getTileUrlByMode(editInvTileMode)).addTo(editInvMiniMap);
+                } else if (target === 'manual' && manOrderMiniMap && manOrderTileLayer) {
+                    manOrderTileMode = manOrderTileMode === 'street' ? 'sat' : 'street';
+                    manOrderMiniMap.removeLayer(manOrderTileLayer);
+                    manOrderTileLayer = L.tileLayer(getTileUrlByMode(manOrderTileMode)).addTo(manOrderMiniMap);
                 } else if (target === 'overview' && delivOverviewMap && delivOverviewTileLayer) {
                     delivOverviewTileMode = delivOverviewTileMode === 'street' ? 'sat' : 'street';
                     delivOverviewMap.removeLayer(delivOverviewTileLayer);
@@ -7696,6 +7943,52 @@ ${itemsSummary}
             syncManualCoordsToMiniMap(target) {
                 initOrUpdateDeliveryMiniMap(target);
             },
+            updateManualOrderLiveMath(recalcTotalFromItems = false) {
+                if (recalcTotalFromItems) {
+                    let sum = 0;
+                    document.querySelectorAll('[data-man-item]').forEach(inp => {
+                        const qty = Math.max(0, parseInt(inp.value || '0', 10));
+                        const itemId = inp.getAttribute('data-man-item');
+                        const priceInp = document.querySelector(`[data-man-price="${itemId}"]`);
+                        const unitPrice = priceInp ? Math.max(0, parseFloat(priceInp.value || '0')) : 0;
+                        sum += qty * unitPrice;
+                    });
+                    document.querySelectorAll('#manCustomFreeItemsContainer [data-free-item-row]').forEach(row => {
+                        const q = Math.max(0, parseInt(row.querySelector('[data-free-qty]')?.value || '0', 10));
+                        const p = Math.max(0, parseFloat(row.querySelector('[data-free-price]')?.value || '0'));
+                        sum += q * p;
+                    });
+                    const totInp = document.getElementById('manTotalCalculatedInput');
+                    if (totInp) totInp.value = sum.toFixed(2);
+                }
+                const tot = Math.max(0, parseFloat(document.getElementById('manTotalCalculatedInput')?.value || '0'));
+                const abono = Math.max(0, parseFloat(document.getElementById('manInitialPaid')?.value || '0'));
+                const debt = Math.max(0, tot - abono);
+                const abonoEl = document.getElementById('manAbonoPreviewText');
+                const debtEl = document.getElementById('manDebtPreviewText');
+                if (abonoEl) abonoEl.textContent = `-$${abono.toFixed(2)}`;
+                if (debtEl) debtEl.textContent = `$${debt.toFixed(2)}`;
+            },
+            editOrderRightAfterCreation() {
+                const ordId = this.getLastCreatedOrderId();
+                this.closeAdminOrderCreatedModal();
+                if (!ordId) return;
+                this.openEditInvoiceModal(ordId);
+            },
+            cancelInlineDeliveryEdit() {
+                const hid = document.getElementById('delivEditingExistingOrderId');
+                if (hid) hid.value = '';
+                document.getElementById('btnCancelInlineDelivEdit')?.classList.add('hidden');
+                const btnTxt = document.getElementById('btnSubmitDeliveryInvoiceText');
+                if (btnTxt) btnTxt.textContent = 'Guardar Factura de Entrega, Foto y GPS';
+                document.getElementById('delivClientName').value = '';
+                document.getElementById('delivClientPhone').value = '';
+                document.getElementById('delivAddressInput').value = '';
+                document.getElementById('delivManualTotalInput').value = '0.00';
+                document.getElementById('delivPaidTodayInput').value = '0.00';
+                document.querySelectorAll('[data-deliv-new-item]').forEach(i => { i.value = 0; });
+                this.updateDeliveryFormDebtPreview();
+            },
             toggleInlineOrderMiniMap(orderId, lat, lng) {
                 const wrap = document.getElementById(`inlineMiniMapWrap-${orderId}`);
                 if (!wrap) return;
@@ -7703,10 +7996,12 @@ ${itemsSummary}
                 if (!isHidden && typeof L !== 'undefined') {
                     setTimeout(() => {
                         const canvasId = `inlineMiniMapCanvas-${orderId}`;
+                        const safeLat = Number(lat) || Number(state.settings.baseLat) || 8.4273;
+                        const safeLng = Number(lng) || Number(state.settings.baseLng) || -82.4321;
                         if (!inlineCardMiniMaps[orderId]) {
-                            const m = L.map(canvasId).setView([lat, lng], 16);
+                            const m = L.map(canvasId).setView([safeLat, safeLng], 16);
                             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(m);
-                            const marker = L.marker([lat, lng], { draggable: true }).addTo(m);
+                            const marker = L.marker([safeLat, safeLng], { draggable: true }).addTo(m);
                             marker.on('dragend', async (ev) => {
                                 const pos = ev.target.getLatLng();
                                 const ord = state.orders.find(o => o.id === orderId);
@@ -7720,10 +8015,119 @@ ${itemsSummary}
                             inlineCardMiniMaps[orderId] = { map: m, marker };
                         } else {
                             inlineCardMiniMaps[orderId].map.invalidateSize();
-                            inlineCardMiniMaps[orderId].map.setView([lat, lng], 16);
+                            inlineCardMiniMaps[orderId].map.setView([safeLat, safeLng], 16);
                         }
                     }, 120);
                 }
+            },
+            toggleAdminCardMiniMap(orderId, lat, lng) {
+                const wrap = document.getElementById(`adminMiniMapWrap-${orderId}`);
+                if (!wrap) return;
+                const isHidden = wrap.classList.toggle('hidden');
+                if (!isHidden && typeof L !== 'undefined') {
+                    setTimeout(() => {
+                        const mapKey = `adm-${orderId}`;
+                        const canvasId = `adminMiniMapCanvas-${orderId}`;
+                        const safeLat = Number(lat) || Number(state.settings.baseLat) || 8.4273;
+                        const safeLng = Number(lng) || Number(state.settings.baseLng) || -82.4321;
+                        if (!inlineCardMiniMaps[mapKey]) {
+                            const m = L.map(canvasId).setView([safeLat, safeLng], 16);
+                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(m);
+                            const marker = L.marker([safeLat, safeLng], { draggable: true }).addTo(m);
+                            marker.on('dragend', async (ev) => {
+                                const pos = ev.target.getLatLng();
+                                const ord = state.orders.find(o => o.id === orderId);
+                                if (ord) {
+                                    ord.lat = Number(pos.lat.toFixed(5));
+                                    ord.lng = Number(pos.lng.toFixed(5));
+                                    await persistOrder(ord);
+                                    showToast(`📍 Ubicación GPS de ${ord.clientName} actualizada`, 'success');
+                                }
+                            });
+                            inlineCardMiniMaps[mapKey] = { map: m, marker };
+                        } else {
+                            inlineCardMiniMaps[mapKey].map.invalidateSize();
+                            inlineCardMiniMaps[mapKey].map.setView([safeLat, safeLng], 16);
+                        }
+                    }, 120);
+                }
+            },
+            clearNewDeliverySignature() {
+                state.tempNewDeliverySignatureDataUrl = null;
+                delivInlineSigHasStrokes = false;
+                if (delivInlineSigCanvas && delivInlineSigCtx) {
+                    delivInlineSigCtx.clearRect(0, 0, delivInlineSigCanvas.width, delivInlineSigCanvas.height);
+                }
+                document.getElementById('delivNewSigPreviewWrap')?.classList.add('hidden');
+                showToast('Firma limpiada', 'info');
+            },
+            addQuickFreeProductToDelivery() {
+                const nameInp = document.getElementById('delivQuickFreeName');
+                const qtyInp = document.getElementById('delivQuickFreeQty');
+                const priceInp = document.getElementById('delivQuickFreePrice');
+                const name = (nameInp?.value || '').trim();
+                const qty = Math.max(1, parseInt(qtyInp?.value || '1', 10));
+                const price = Math.max(0, parseFloat(priceInp?.value || '0'));
+
+                if (!name) {
+                    showToast('Escribe el nombre del producto manual que deseas agregar', 'warning');
+                    nameInp?.focus();
+                    return;
+                }
+
+                const container = document.getElementById('delivCustomFreeItemsContainer');
+                if (!container) return;
+                const row = document.createElement('div');
+                row.setAttribute('data-free-item-row', '1');
+                row.className = 'grid grid-cols-12 items-center gap-1.5 bg-white p-2 rounded-xl border-2 border-indigo-300 text-xs shadow-2xs';
+                row.innerHTML = `
+                    <input type="text" data-free-name value="${name.replace(/"/g, '&quot;')}" class="col-span-6 px-2 py-1 border border-slate-300 rounded-lg font-bold text-slate-900 text-xs">
+                    <input type="number" data-free-qty min="1" value="${qty}" oninput="window.app.recalcNewDeliveryFormTotal()" class="col-span-2 px-1.5 py-1 border border-slate-300 rounded-lg text-center font-black text-xs">
+                    <input type="number" data-free-price step="0.5" min="0" value="${price.toFixed(2)}" oninput="window.app.recalcNewDeliveryFormTotal()" class="col-span-3 px-1.5 py-1 border border-emerald-400 rounded-lg text-center font-black text-emerald-700 text-xs">
+                    <button type="button" onclick="this.parentElement.remove(); window.app.recalcNewDeliveryFormTotal();" class="col-span-1 text-rose-600 hover:bg-rose-50 py-1 rounded flex items-center justify-center">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                `;
+                container.appendChild(row);
+                if (nameInp) nameInp.value = '';
+                if (qtyInp) qtyInp.value = '1';
+                if (priceInp) priceInp.value = '';
+                this.recalcNewDeliveryFormTotal();
+                showToast(`✅ "${qty}x ${name}" ($${price.toFixed(2)} c/u) incluido en la factura`, 'success');
+            },
+            addQuickFreeProductToManual() {
+                const nameInp = document.getElementById('manQuickFreeName');
+                const qtyInp = document.getElementById('manQuickFreeQty');
+                const priceInp = document.getElementById('manQuickFreePrice');
+                const name = (nameInp?.value || '').trim();
+                const qty = Math.max(1, parseInt(qtyInp?.value || '1', 10));
+                const price = Math.max(0, parseFloat(priceInp?.value || '0'));
+
+                if (!name) {
+                    showToast('Escribe el nombre del producto manual a incluir', 'warning');
+                    nameInp?.focus();
+                    return;
+                }
+
+                const container = document.getElementById('manCustomFreeItemsContainer');
+                if (!container) return;
+                const row = document.createElement('div');
+                row.setAttribute('data-free-item-row', '1');
+                row.className = 'grid grid-cols-12 items-center gap-1.5 bg-white p-2 rounded-xl border-2 border-indigo-300 text-xs shadow-2xs';
+                row.innerHTML = `
+                    <input type="text" data-free-name value="${name.replace(/"/g, '&quot;')}" class="col-span-6 px-2 py-1 border border-slate-300 rounded-lg font-bold text-slate-900 text-xs">
+                    <input type="number" data-free-qty min="1" value="${qty}" oninput="window.app.updateManualOrderLiveMath(true)" class="col-span-2 px-1.5 py-1 border border-slate-300 rounded-lg text-center font-black text-xs">
+                    <input type="number" data-free-price step="0.5" min="0" value="${price.toFixed(2)}" oninput="window.app.updateManualOrderLiveMath(true)" class="col-span-3 px-1.5 py-1 border border-emerald-400 rounded-lg text-center font-black text-emerald-700 text-xs">
+                    <button type="button" onclick="this.parentElement.remove(); window.app.updateManualOrderLiveMath(true);" class="col-span-1 text-rose-600 hover:bg-rose-50 py-1 rounded flex items-center justify-center">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                `;
+                container.appendChild(row);
+                if (nameInp) nameInp.value = '';
+                if (qtyInp) qtyInp.value = '1';
+                if (priceInp) priceInp.value = '';
+                this.updateManualOrderLiveMath(true);
+                showToast(`✅ "${qty}x ${name}" incluido en el pedido`, 'success');
             },
             appendQuickStreetNote(targetMode, noteText) {
                 const inputId = targetMode === 'edit' ? 'editInvNotes' : 'delivAddressInput';
@@ -8317,6 +8721,8 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
                     }
                 } else if (target === 'deliv-new') {
                     state.tempNewDeliverySignatureDataUrl = dataUrl;
+                    delivInlineSigHasStrokes = true;
+                    drawDataUrlIntoPreviewCanvas(document.getElementById('delivNewInlineSigCanvas'), dataUrl);
                     const box = document.getElementById('delivHousePhotoPreviewBox');
                     const wrap = document.getElementById('delivNewSigPreviewWrap');
                     const img = document.getElementById('delivNewSigPreviewImg');
@@ -8418,16 +8824,18 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
                 const row = document.createElement('div');
                 row.setAttribute('data-free-item-row', '1');
                 row.className = 'grid grid-cols-12 items-center gap-1.5 bg-white p-2 rounded-xl border border-indigo-200 text-xs';
+                const liveHandler = contextMode === 'deliv' ? 'window.app.recalcNewDeliveryFormTotal()' : 'window.app.updateManualOrderLiveMath(true)';
                 row.innerHTML = `
                     <input type="text" data-free-name placeholder="Nombre producto libre..." class="col-span-6 px-2 py-1 border border-slate-300 rounded-lg font-bold text-slate-900 text-xs">
-                    <input type="number" data-free-qty min="1" value="1" oninput="${contextMode === 'deliv' ? 'window.app.recalcNewDeliveryFormTotal()' : ''}" placeholder="Cant" class="col-span-2 px-1.5 py-1 border border-slate-300 rounded-lg text-center font-black text-xs" title="Cantidad">
-                    <input type="number" data-free-price step="0.5" min="0" value="5.00" oninput="${contextMode === 'deliv' ? 'window.app.recalcNewDeliveryFormTotal()' : ''}" placeholder="Precio $" class="col-span-3 px-1.5 py-1 border border-slate-300 rounded-lg text-center font-bold text-emerald-700 text-xs" title="Precio unitario ($)">
-                    <button type="button" onclick="this.parentElement.remove(); ${contextMode === 'deliv' ? 'window.app.recalcNewDeliveryFormTotal()' : ''}" class="col-span-1 text-rose-600 hover:bg-rose-50 py-1 rounded flex items-center justify-center">
+                    <input type="number" data-free-qty min="1" value="1" oninput="${liveHandler}" placeholder="Cant" class="col-span-2 px-1.5 py-1 border border-slate-300 rounded-lg text-center font-black text-xs" title="Cantidad">
+                    <input type="number" data-free-price step="0.5" min="0" value="5.00" oninput="${liveHandler}" placeholder="Precio $" class="col-span-3 px-1.5 py-1 border border-slate-300 rounded-lg text-center font-bold text-emerald-700 text-xs" title="Precio unitario ($)">
+                    <button type="button" onclick="this.parentElement.remove(); ${liveHandler}" class="col-span-1 text-rose-600 hover:bg-rose-50 py-1 rounded flex items-center justify-center">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 `;
                 container.appendChild(row);
                 if (contextMode === 'deliv') this.recalcNewDeliveryFormTotal();
+                else this.updateManualOrderLiveMath(true);
             },
             parseGmapsLinkInput(urlVal, latInputId, lngInputId, mapMode) {
                 const str = String(urlVal || '').trim();
@@ -8441,7 +8849,9 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
                         const lngEl = document.getElementById(lngInputId);
                         if (latEl) latEl.value = lat.toFixed(5);
                         if (lngEl) lngEl.value = lng.toFixed(5);
-                        if (mapMode === 'new') initOrUpdateDeliveryMiniMap('new');
+                        if (mapMode === 'new' || mapMode === 'manual' || mapMode === 'edit') {
+                            initOrUpdateDeliveryMiniMap(mapMode);
+                        }
                         showToast(`📍 Coordenadas extraídas del link: ${lat.toFixed(4)}, ${lng.toFixed(4)}`, 'success');
                     }
                 }
@@ -8468,7 +8878,8 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
                         st.textContent = '✅ GPS Detectado';
                         st.className = 'text-[10px] font-extrabold text-emerald-700';
                     }
-                    showToast(`📍 Ubicación autodetectada: ${lat}, ${lng}`, 'success');
+                    initOrUpdateDeliveryMiniMap('manual');
+                    showToast(`📍 Ubicación autodetectada en el cuadrito de mapa: ${lat}, ${lng}`, 'success');
                 }, () => {
                     if (st) st.textContent = 'Usa link de Maps';
                     showToast('No se pudo autodetectar el GPS. Pega el link de Google Maps.', 'warning');
@@ -8846,8 +9257,9 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
                 const tempItems = [];
                 document.querySelectorAll('[data-deliv-new-item]').forEach(inp => {
                     const qty = Math.max(0, parseInt(inp.value || '0', 10));
-                    const price = parseFloat(inp.getAttribute('data-deliv-price') || '0');
                     const id = inp.getAttribute('data-deliv-new-item');
+                    const priceInp = document.querySelector(`[data-deliv-unit-price="${id}"]`);
+                    const price = priceInp ? Math.max(0, parseFloat(priceInp.value || '0')) : 0;
                     sum += qty * price;
                     if (qty > 0) tempItems.push({ id, requested: qty });
                 });
@@ -8864,7 +9276,8 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
                 const liveBanner = document.getElementById('delivOverbookingLiveBanner');
                 if (liveBanner) {
                     const eventDate = document.getElementById('delivEventDate')?.value || TODAY_STR;
-                    const conflicts = inspectOverbookingConflicts(tempItems, eventDate);
+                    const editingId = document.getElementById('delivEditingExistingOrderId')?.value || null;
+                    const conflicts = inspectOverbookingConflicts(tempItems, eventDate, editingId);
                     if (conflicts.length > 0) {
                         liveBanner.classList.remove('hidden');
                         liveBanner.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-amber-600 mr-1"></i> <strong>Aviso de Doble Turno (${eventDate}):</strong> ${conflicts.map(c => `${c.name} (Pides ${c.requestedQty}, libres en 1 turno: ${c.freeInSingleShift})`).join(' • ')}. Podrás facturarlo igual si es rotación mañana/noche.`;
@@ -8874,9 +9287,13 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
                 }
             },
             updateDeliveryFormDebtPreview() {
-                const tot = parseFloat(document.getElementById('delivManualTotalInput')?.value || '0');
-                const paid = parseFloat(document.getElementById('delivPaidTodayInput')?.value || '0');
+                const tot = Math.max(0, parseFloat(document.getElementById('delivManualTotalInput')?.value || '0'));
+                const paid = Math.max(0, parseFloat(document.getElementById('delivPaidTodayInput')?.value || '0'));
                 const debt = Math.max(0, tot - paid);
+                const formulaEl = document.getElementById('delivFormulaBreakdownText');
+                if (formulaEl) {
+                    formulaEl.textContent = `$${tot.toFixed(2)} - $${paid.toFixed(2)} = $${debt.toFixed(2)}`;
+                }
                 const el = document.getElementById('delivPendingDebtPreview');
                 if (el) el.textContent = `$${debt.toFixed(2)}`;
             },
@@ -8962,11 +9379,13 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
                         } else {
                             state.tempNewDeliveryHousePhoto = compressed;
                             const box = document.getElementById('delivHousePhotoPreviewBox');
+                            const thumbWrap = document.getElementById('delivHousePhotoThumbWrap');
                             const preview = document.getElementById('delivHousePhotoPreviewImg');
                             if (preview) preview.src = compressed;
                             if (box) box.classList.remove('hidden');
+                            if (thumbWrap) thumbWrap.classList.remove('hidden');
                         }
-                        showToast('📸 Foto comprimida (~40 KB) y lista', 'success');
+                        showToast('📸 Foto de la casa lista para guardarse en la factura', 'success');
                     };
                     img.src = e.target.result;
                 };
@@ -8999,6 +9418,7 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
                 reader.readAsDataURL(file);
             },
             async createInvoiceFromDeliveriesView() {
+                if (isSavingOrderLock) return;
                 const clientName = document.getElementById('delivClientName')?.value.trim();
                 const phone = document.getElementById('delivClientPhone')?.value.trim() || 'Sin teléfono';
                 const eventDate = document.getElementById('delivEventDate')?.value || TODAY_STR;
@@ -9006,38 +9426,24 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
                 const statusMode = document.getElementById('delivInitialStatus')?.value || 'ENTREGADO';
                 const addressBase = document.getElementById('delivAddressInput')?.value.trim();
                 const gmapsLink = document.getElementById('delivGmapsLinkInput')?.value.trim() || '';
-                const lat = parseFloat(document.getElementById('delivLatInput')?.value || state.settings.baseLat);
-                const lng = parseFloat(document.getElementById('delivLngInput')?.value || state.settings.baseLng);
-                const total = Math.max(0, parseFloat(document.getElementById('delivManualTotalInput')?.value || '0'));
-                const paidAmount = Math.max(0, parseFloat(document.getElementById('delivPaidTodayInput')?.value || '0'));
-
-                if (!clientName || !addressBase) {
-                    showToast('Ingresa el nombre del cliente y la referencia/dirección de la casa', 'warning');
-                    return;
+                // Incluir también si el chofer dejó escrito un producto manual en las casillas rápidas sin tocar el botón "+ Incluir"
+                const pendingQuickFreeName = document.getElementById('delivQuickFreeName')?.value.trim();
+                const pendingQuickFreeQty = Math.max(0, parseInt(document.getElementById('delivQuickFreeQty')?.value || '0', 10));
+                const pendingQuickFreePrice = Math.max(0, parseFloat(document.getElementById('delivQuickFreePrice')?.value || '0'));
+                if (pendingQuickFreeName && pendingQuickFreeQty > 0) {
+                    items.push({
+                        id: 'custom-free-' + Date.now() + '-q',
+                        name: `${pendingQuickFreeName} (Extra)`,
+                        price: pendingQuickFreePrice,
+                        requested: pendingQuickFreeQty,
+                        delivered: statusMode === 'ENTREGADO' ? pendingQuickFreeQty : 0,
+                        returned: 0,
+                        damaged: 0,
+                        isCustomFree: true
+                    });
                 }
 
-                const address = gmapsLink ? `${addressBase} - GPS: ${gmapsLink}` : addressBase;
-
-                const items = [];
-                document.querySelectorAll('[data-deliv-new-item]').forEach(inp => {
-                    const qty = Math.max(0, parseInt(inp.value || '0', 10));
-                    if (qty > 0) {
-                        const catItem = state.catalog.find(c => c.id === inp.getAttribute('data-deliv-new-item'));
-                        if (catItem) {
-                            items.push({
-                                id: catItem.id,
-                                name: catItem.name,
-                                price: Number(catItem.price),
-                                requested: qty,
-                                delivered: statusMode === 'ENTREGADO' ? qty : 0,
-                                returned: 0,
-                                damaged: 0
-                            });
-                        }
-                    }
-                });
-
-                // Incluir también cualquier Producto Libre agregado en la entrega
+                // Incluir también cualquier Producto Libre agregado en la lista de filas
                 document.querySelectorAll('#delivCustomFreeItemsContainer [data-free-item-row]').forEach(row => {
                     const freeName = row.querySelector('[data-free-name]')?.value.trim();
                     const freeQty = Math.max(0, parseInt(row.querySelector('[data-free-qty]')?.value || '0', 10));
@@ -9057,61 +9463,85 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
                 });
 
                 if (items.length === 0) {
-                    showToast('Selecciona al menos 1 producto del inventario o agrega 1 Producto Libre', 'warning');
+                    showToast('Selecciona al menos 1 producto del inventario o escribe 1 Producto Manual', 'warning');
                     return;
                 }
 
+                // Recalcular total si estaba en 0 pero se agregaron productos
+                let finalTotal = total;
+                if (finalTotal <= 0) {
+                    finalTotal = items.reduce((acc, it) => acc + ((Number(it.requested) || 0) * (Number(it.price) || 0)), 0);
+                }
+
                 const finalizeCreateDeliveryInvoice = async (isDoubleShift) => {
-                    const debt = Math.max(0, total - paidAmount);
-                    const newOrd = {
-                        id: 'ord-' + Date.now(),
-                        clientName,
-                        phone,
-                        eventDate,
-                        eventTime: new Date().toTimeString().slice(0, 5),
-                        pickupTime,
-                        address,
-                        gmapsLink,
-                        lat: Number(lat.toFixed(5)),
-                        lng: Number(lng.toFixed(5)),
-                        orderMode: 'RESERVA',
-                        total,
-                        paidAmount,
-                        damagePenalty: 0,
-                        signatureDataUrl: state.tempNewDeliverySignatureDataUrl || null,
-                        evidencePhotoUrl: state.tempNewDeliveryHousePhoto || null,
-                        returnPhotoUrl: state.tempNewDeliveryReturnPhoto || null,
-                        paymentNotes: `Facturado en entrega. Total $${total.toFixed(2)} | Abonó $${paidAmount.toFixed(2)} | Debe $${debt.toFixed(2)}.` + (isDoubleShift ? ' 🔄 [Doble Turno Mañana/Noche]' : ''),
-                        items
-                    };
+                    if (isSavingOrderLock) return;
+                    isSavingOrderLock = true;
+                    try {
+                        // Capturar firma dibujada en el lienzo en vivo si aún no estaba sincronizada
+                        if (!state.tempNewDeliverySignatureDataUrl && delivInlineSigCanvas && delivInlineSigHasStrokes) {
+                            state.tempNewDeliverySignatureDataUrl = delivInlineSigCanvas.toDataURL('image/png');
+                        }
+                        // El abono NUNCA se suma al total; se descuenta directamente del total de la factura
+                        const cleanPaid = Math.min(finalTotal, paidAmount);
+                        const debt = Math.max(0, finalTotal - cleanPaid);
+                        const targetId = editingExistingId || ('ord-' + Date.now());
+                        const existingOrd = editingExistingId ? state.orders.find(o => o.id === editingExistingId) : null;
 
-                    await persistOrder(newOrd);
+                        const newOrd = {
+                            id: targetId,
+                            clientName,
+                            phone,
+                            eventDate,
+                            eventTime: existingOrd?.eventTime || new Date().toTimeString().slice(0, 5),
+                            pickupTime,
+                            address,
+                            gmapsLink,
+                            lat: Number(lat.toFixed(5)),
+                            lng: Number(lng.toFixed(5)),
+                            orderMode: 'RESERVA',
+                            total: finalTotal,
+                            paidAmount: cleanPaid,
+                            damagePenalty: existingOrd?.damagePenalty || 0,
+                            signatureDataUrl: state.tempNewDeliverySignatureDataUrl || existingOrd?.signatureDataUrl || null,
+                            evidencePhotoUrl: state.tempNewDeliveryHousePhoto || existingOrd?.evidencePhotoUrl || null,
+                            returnPhotoUrl: state.tempNewDeliveryReturnPhoto || existingOrd?.returnPhotoUrl || null,
+                            paymentNotes: `Total Factura: $${finalTotal.toFixed(2)} | Abonó: $${cleanPaid.toFixed(2)} | Resta por cobrar: $${debt.toFixed(2)}.` + (isDoubleShift ? ' 🔄 [Doble Turno Mañana/Noche]' : ''),
+                            items
+                        };
 
-                    // Limpiar formulario de entrega
-                    document.getElementById('delivClientName').value = '';
-                    document.getElementById('delivClientPhone').value = '';
-                    document.getElementById('delivAddressInput').value = '';
-                    if (document.getElementById('delivGmapsLinkInput')) document.getElementById('delivGmapsLinkInput').value = '';
-                    const freeBox = document.getElementById('delivCustomFreeItemsContainer');
-                    if (freeBox) freeBox.innerHTML = '';
-                    document.getElementById('delivManualTotalInput').value = '0.00';
-                    document.getElementById('delivPaidTodayInput').value = '0.00';
-                    document.querySelectorAll('[data-deliv-new-item]').forEach(i => { i.value = 0; });
-                    document.getElementById('delivOverbookingLiveBanner')?.classList.add('hidden');
-                    state.tempNewDeliveryHousePhoto = null;
-                    state.tempNewDeliveryReturnPhoto = null;
-                    state.tempNewDeliverySignatureDataUrl = null;
-                    document.getElementById('delivHousePhotoPreviewBox')?.classList.add('hidden');
-                    document.getElementById('delivReturnPhotoPreviewWrap')?.classList.add('hidden');
-                    document.getElementById('delivNewSigPreviewWrap')?.classList.add('hidden');
-                    this.updateDeliveryFormDebtPreview();
-                    this.switchDeliveriesSubTab('list');
+                        await persistOrder(newOrd);
 
-                    this.showAdminOrderCreatedModal(newOrd);
-                    showToast(`✅ Factura de ${clientName} creada y guardada`, 'success');
+                        // Limpiar formulario de entrega
+                        this.cancelInlineDeliveryEdit();
+                        if (document.getElementById('delivGmapsLinkInput')) document.getElementById('delivGmapsLinkInput').value = '';
+                        if (document.getElementById('delivQuickFreeName')) document.getElementById('delivQuickFreeName').value = '';
+                        if (document.getElementById('delivQuickFreeQty')) document.getElementById('delivQuickFreeQty').value = '1';
+                        if (document.getElementById('delivQuickFreePrice')) document.getElementById('delivQuickFreePrice').value = '';
+                        const freeBox = document.getElementById('delivCustomFreeItemsContainer');
+                        if (freeBox) freeBox.innerHTML = '';
+                        document.getElementById('delivOverbookingLiveBanner')?.classList.add('hidden');
+                        state.tempNewDeliveryHousePhoto = null;
+                        state.tempNewDeliveryReturnPhoto = null;
+                        state.tempNewDeliverySignatureDataUrl = null;
+                        delivInlineSigHasStrokes = false;
+                        if (delivInlineSigCanvas && delivInlineSigCtx) {
+                            delivInlineSigCtx.clearRect(0, 0, delivInlineSigCanvas.width, delivInlineSigCanvas.height);
+                        }
+                        document.getElementById('delivHousePhotoPreviewBox')?.classList.add('hidden');
+                        document.getElementById('delivHousePhotoThumbWrap')?.classList.add('hidden');
+                        document.getElementById('delivReturnPhotoPreviewWrap')?.classList.add('hidden');
+                        document.getElementById('delivNewSigPreviewWrap')?.classList.add('hidden');
+                        this.updateDeliveryFormDebtPreview();
+                        this.switchDeliveriesSubTab('list');
+
+                        this.showAdminOrderCreatedModal(newOrd);
+                        showToast(`✅ Factura de ${clientName} guardada con foto/firma (Total $${finalTotal.toFixed(2)} - Abono $${cleanPaid.toFixed(2)} = Resta $${debt.toFixed(2)})`, 'success');
+                    } finally {
+                        setTimeout(() => { isSavingOrderLock = false; }, 400);
+                    }
                 };
 
-                const conflicts = inspectOverbookingConflicts(items.filter(i => !i.isCustomFree), eventDate);
+                const conflicts = inspectOverbookingConflicts(items.filter(i => !i.isCustomFree), eventDate, editingExistingId || null);
                 if (conflicts.length > 0) {
                     triggerOverbookingConfirmModal(conflicts, eventDate, () => finalizeCreateDeliveryInvoice(true));
                     return;
@@ -9247,21 +9677,45 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
                 if (totEl) totEl.value = sum.toFixed(2);
                 this.updateEditModalDebtPreview();
             },
+            applyAdditionalAbonoInEditModal() {
+                const addInp = document.getElementById('editInvAddAbonoInput');
+                const paidInp = document.getElementById('editInvPaidAmount');
+                const totInp = document.getElementById('editInvTotalAmount');
+                if (!addInp || !paidInp || !totInp) return;
+                const addVal = Math.max(0, parseFloat(addInp.value || '0'));
+                if (addVal <= 0) {
+                    showToast('Escribe cuánto abonó hoy para descontarlo de la factura', 'warning');
+                    return;
+                }
+                const currentPaid = Math.max(0, parseFloat(paidInp.value || '0'));
+                const totalFactura = Math.max(0, parseFloat(totInp.value || '0'));
+                const newPaid = Math.min(totalFactura, currentPaid + addVal);
+                paidInp.value = newPaid.toFixed(2);
+                addInp.value = '';
+                this.updateEditModalDebtPreview();
+                const resta = Math.max(0, totalFactura - newPaid);
+                showToast(`✅ Se descontaron $${addVal.toFixed(2)} de la factura de $${totalFactura.toFixed(2)}. Resta por cobrar: $${resta.toFixed(2)}`, 'success');
+            },
             updateEditModalDebtPreview() {
-                const tot = parseFloat(document.getElementById('editInvTotalAmount')?.value || '0');
-                const paid = parseFloat(document.getElementById('editInvPaidAmount')?.value || '0');
+                const tot = Math.max(0, parseFloat(document.getElementById('editInvTotalAmount')?.value || '0'));
+                const paid = Math.max(0, parseFloat(document.getElementById('editInvPaidAmount')?.value || '0'));
                 const debt = Math.max(0, tot - paid);
                 const box = document.getElementById('editInvDebtPreviewBox');
+                const helper = document.getElementById('editInvFormulaHelper');
+                if (helper) {
+                    helper.textContent = `Total $${tot.toFixed(2)} - Abono $${paid.toFixed(2)} = Resta $${debt.toFixed(2)}`;
+                }
                 if (box) {
-                    box.textContent = debt > 0 ? `Debe $${debt.toFixed(2)}` : '¡Pagado ($0.00)!';
+                    box.textContent = debt > 0 ? `Resta $${debt.toFixed(2)}` : '¡Pagado ($0.00)!';
                     box.className = debt > 0
                         ? 'w-full px-3 py-2 bg-rose-100 border border-rose-300 rounded-xl font-black text-sm text-rose-700 text-center'
                         : 'w-full px-3 py-2 bg-emerald-100 border border-emerald-300 rounded-xl font-black text-sm text-emerald-800 text-center';
                 }
             },
             async saveEditedInvoiceChanges() {
-                const ordId = document.getElementById('editInvOrderId')?.value;
-                const ord = state.orders.find(o => o.id === ordId);
+                if (isSavingOrderLock) return;
+                const ordId = (document.getElementById('editInvOrderId')?.value || '').trim();
+                const ord = state.orders.find(o => String(o.id).trim() === ordId);
                 if (!ord) return;
 
                 ord.clientName = document.getElementById('editInvClientName')?.value.trim() || ord.clientName;
@@ -9274,9 +9728,11 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
                 ord.address = document.getElementById('editInvAddress')?.value.trim() || ord.address;
                 ord.lat = parseFloat(document.getElementById('editInvLat')?.value || ord.lat);
                 ord.lng = parseFloat(document.getElementById('editInvLng')?.value || ord.lng);
-                ord.total = Math.max(0, parseFloat(document.getElementById('editInvTotalAmount')?.value || '0'));
-                ord.paidAmount = Math.max(0, parseFloat(document.getElementById('editInvPaidAmount')?.value || '0'));
-                ord.paymentNotes = document.getElementById('editInvNotes')?.value.trim() || '';
+                const cleanTotal = Math.max(0, parseFloat(document.getElementById('editInvTotalAmount')?.value || '0'));
+                const cleanPaid = Math.min(cleanTotal, Math.max(0, parseFloat(document.getElementById('editInvPaidAmount')?.value || '0')));
+                ord.total = cleanTotal;
+                ord.paidAmount = cleanPaid;
+                ord.paymentNotes = document.getElementById('editInvNotes')?.value.trim() || `Total Factura: $${cleanTotal.toFixed(2)} | Abonó: $${cleanPaid.toFixed(2)} | Resta: $${Math.max(0, cleanTotal - cleanPaid).toFixed(2)}`;
 
                 if (state.tempEditDeliveryHousePhoto) {
                     ord.evidencePhotoUrl = state.tempEditDeliveryHousePhoto;
@@ -9309,13 +9765,20 @@ ${ord.evidencePhotoUrl ? `\n📸 *Foto de entrega tomada y registrada en sistema
                 });
 
                 const finalizeEditInvoiceSave = async (isDoubleShift) => {
-                    ord.items = updatedItems;
-                    if (isDoubleShift && !ord.paymentNotes.includes('[Doble Turno')) {
-                        ord.paymentNotes = (ord.paymentNotes ? ord.paymentNotes + ' ' : '') + '🔄 [Doble Turno Autorizado]';
+                    if (isSavingOrderLock) return;
+                    isSavingOrderLock = true;
+                    try {
+                        ord.items = updatedItems;
+                        if (isDoubleShift && !ord.paymentNotes.includes('[Doble Turno')) {
+                            ord.paymentNotes = (ord.paymentNotes ? ord.paymentNotes + ' ' : '') + '🔄 [Doble Turno Autorizado]';
+                        }
+                        await persistOrder(ord);
+                        this.closeEditInvoiceModal();
+                        const remaining = Math.max(0, ord.total - ord.paidAmount);
+                        showToast(`✅ Factura actualizada sin duplicar: Total $${ord.total.toFixed(2)} - Abono $${ord.paidAmount.toFixed(2)} = Resta $${remaining.toFixed(2)}`, 'success');
+                    } finally {
+                        setTimeout(() => { isSavingOrderLock = false; }, 400);
                     }
-                    await persistOrder(ord);
-                    this.closeEditInvoiceModal();
-                    showToast(`✅ Factura de ${ord.clientName} actualizada en montos, cantidades y stock en calle`, 'success');
                 };
 
                 const conflicts = inspectOverbookingConflicts(updatedItems, ord.eventDate, ord.id);
@@ -10300,46 +10763,7 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
                 // Cabecera de Tabla de Equipos
                 let y = 262;
                 ctx.fillStyle = '#0f172a';
-                ctx.fillRect(32, y, width - 64, 36);
-                ctx.fillStyle = '#ffffff';
-                ctx.font = '800 13px Inter, sans-serif';
-                ctx.fillText('EQUIPO / MOBILIARIO', 46, y + 23);
-                ctx.fillText('PED', 440, y + 23);
-                ctx.fillText('DEJ', 505, y + 23);
-                ctx.fillText('RET', 570, y + 23);
-                ctx.textAlign = 'right';
-                ctx.fillText('SUBTOTAL', width - 46, y + 23);
-                ctx.textAlign = 'left';
-                y += 36;
-
-                items.forEach((it, idx) => {
-                    ctx.fillStyle = idx % 2 === 0 ? '#ffffff' : '#f1f5f9';
-                    ctx.fillRect(32, y, width - 64, rowH);
-                    ctx.strokeStyle = '#e2e8f0';
-                    ctx.strokeRect(32, y, width - 64, rowH);
-
-                    const req = Number(it.requested) || 0;
-                    const del = Number(it.delivered) || 0;
-                    const ret = Number(it.returned) || 0;
-                    const sub = (req * (Number(it.price) || 0)).toFixed(2);
-
-                    ctx.fillStyle = '#0f172a';
-                    ctx.font = '700 14px Inter, sans-serif';
-                    ctx.fillText(String(it.name || '').slice(0, 38), 46, y + 26);
-                    ctx.fillText(String(req), 448, y + 26);
-                    ctx.fillStyle = '#e11d48';
-                    ctx.fillText(String(del), 513, y + 26);
-                    ctx.fillStyle = '#059669';
-                    ctx.fillText(String(ret), 578, y + 26);
-                    ctx.fillStyle = '#0f172a';
-                    ctx.textAlign = 'right';
-                    ctx.font = '800 14px Inter, sans-serif';
-                    ctx.fillText(`$${sub}`, width - 46, y + 26);
-                    ctx.textAlign = 'left';
-                    y += rowH;
-                });
-
-                // Resumen Financiero
+                // Resumen Financiero Inteligente (Total Factura - Abono = Resta por Cobrar)
                 y += 18;
                 ctx.fillStyle = '#fffbeb';
                 ctx.fillRect(32, y, width - 64, 96);
@@ -10350,7 +10774,7 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
                 ctx.font = '800 16px Inter, sans-serif';
                 ctx.fillText(`Total Factura: $${grandTotal.toFixed(2)}`, 48, y + 32);
                 ctx.fillStyle = '#047857';
-                ctx.fillText(`Abonado / Pagado: $${paid.toFixed(2)}`, 48, y + 60);
+                ctx.fillText(`Menos Abono Recibido: -$${paid.toFixed(2)}`, 48, y + 60);
                 ctx.fillStyle = '#475569';
                 ctx.font = '700 12px Inter, sans-serif';
                 ctx.fillText(`Yappy: ${state.settings.yappyInfo || '6000-0000'} | ACH: ${state.settings.bankInfo || 'Banco General'}`, 48, y + 84);
@@ -10358,18 +10782,18 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
                 ctx.textAlign = 'right';
                 ctx.fillStyle = debt > 0 ? '#dc2626' : '#059669';
                 ctx.font = '900 22px Inter, sans-serif';
-                ctx.fillText(debt > 0 ? `SALDO PENDIENTE: $${debt.toFixed(2)}` : 'CUENTA PAZ Y SALVO ($0.00)', width - 48, y + 48);
+                ctx.fillText(debt > 0 ? `RESTA POR COBRAR: $${debt.toFixed(2)}` : 'CUENTA PAZ Y SALVO ($0.00)', width - 48, y + 48);
                 ctx.textAlign = 'left';
 
-                // Firma Digital del Cliente + Foto de Evidencia de Entrega lado a lado en el PNG
+                // Firma Digital + Foto de Evidencia + Cuadrito Chiquito del Mapa GPS Verificado en la Imagen PNG
                 y += 116;
                 ctx.fillStyle = '#334155';
-                ctx.font = '800 13px Inter, sans-serif';
-                ctx.fillText('✍️ Firma de Conformidad del Cliente:', 48, y + 18);
+                ctx.font = '800 12px Inter, sans-serif';
+                ctx.fillText('✍️ Firma del Cliente:', 36, y + 18);
                 ctx.strokeStyle = '#94a3b8';
                 ctx.fillStyle = '#ffffff';
-                ctx.fillRect(48, y + 26, 310, 120);
-                ctx.strokeRect(48, y + 26, 310, 120);
+                ctx.fillRect(36, y + 26, 225, 120);
+                ctx.strokeRect(36, y + 26, 225, 120);
 
                 const sigSourceUrl = (sigPadHasNewStrokes && sigCanvas) ? sigCanvas.toDataURL('image/png') : ord.signatureDataUrl;
                 if (sigSourceUrl) {
@@ -10378,21 +10802,21 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
                         sImg.crossOrigin = 'anonymous';
                         sImg.src = sigSourceUrl;
                         await new Promise((res) => { sImg.onload = res; sImg.onerror = res; });
-                        ctx.drawImage(sImg, 56, y + 32, 294, 108);
+                        ctx.drawImage(sImg, 42, y + 32, 213, 108);
                     } catch (e) {}
                 } else {
                     ctx.fillStyle = '#94a3b8';
-                    ctx.font = '600 12px Inter, sans-serif';
-                    ctx.fillText('Pendiente de firma', 145, y + 90);
+                    ctx.font = '600 11px Inter, sans-serif';
+                    ctx.fillText('Pendiente de firma', 95, y + 90);
                 }
 
                 ctx.fillStyle = '#334155';
-                ctx.font = '800 13px Inter, sans-serif';
-                ctx.fillText('📸 Evidencia de Entrega / Ubicación:', 390, y + 18);
+                ctx.font = '800 12px Inter, sans-serif';
+                ctx.fillText('📸 Foto Evidencia:', 276, y + 18);
                 ctx.strokeStyle = '#94a3b8';
                 ctx.fillStyle = '#f8fafc';
-                ctx.fillRect(390, y + 26, 322, 120);
-                ctx.strokeRect(390, y + 26, 322, 120);
+                ctx.fillRect(276, y + 26, 215, 120);
+                ctx.strokeRect(276, y + 26, 215, 120);
 
                 const evidenceUrl = state.tempEvidencePhotoDataUrl || ord.evidencePhotoUrl;
                 if (evidenceUrl) {
@@ -10401,13 +10825,52 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
                         evImg.crossOrigin = 'anonymous';
                         evImg.src = evidenceUrl;
                         await new Promise((res) => { evImg.onload = res; evImg.onerror = res; });
-                        ctx.drawImage(evImg, 394, y + 30, 314, 112);
+                        ctx.drawImage(evImg, 280, y + 30, 207, 112);
                     } catch (e) {}
                 } else {
                     ctx.fillStyle = '#94a3b8';
-                    ctx.font = '600 12px Inter, sans-serif';
-                    ctx.fillText('Sin foto adjunta', 505, y + 90);
+                    ctx.font = '600 11px Inter, sans-serif';
+                    ctx.fillText('Sin foto adjunta', 340, y + 90);
                 }
+
+                // Cuadrito Chiquito del GPS (Radar / Mapa de Verificación con Coordenadas Exactas)
+                ctx.fillStyle = '#0369a1';
+                ctx.font = '800 12px Inter, sans-serif';
+                ctx.fillText('📍 Ubicación GPS Marcada:', 506, y + 18);
+                ctx.fillStyle = '#e0f2fe';
+                ctx.fillRect(506, y + 26, 222, 120);
+                ctx.strokeStyle = '#0284c7';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(506, y + 26, 222, 120);
+                ctx.lineWidth = 1;
+
+                // Cuadrícula de calles estilo mini-mapa para verificar visualmente el pin GPS en la imagen
+                ctx.strokeStyle = '#bae6fd';
+                for (let gx = 526; gx < 720; gx += 28) {
+                    ctx.beginPath(); ctx.moveTo(gx, y + 28); ctx.lineTo(gx, y + 144); ctx.stroke();
+                }
+                for (let gy = y + 44; gy < y + 140; gy += 24) {
+                    ctx.beginPath(); ctx.moveTo(508, gy); ctx.lineTo(726, gy); ctx.stroke();
+                }
+                // Avenidas cruzadas y Pin Rojo GPS en el centro del cuadrito
+                ctx.strokeStyle = '#7dd3fc';
+                ctx.lineWidth = 3;
+                ctx.beginPath(); ctx.moveTo(508, y + 82); ctx.lineTo(726, y + 68); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(615, y + 28); ctx.lineTo(605, y + 144); ctx.stroke();
+                ctx.lineWidth = 1;
+
+                ctx.fillStyle = 'rgba(225, 29, 72, 0.22)';
+                ctx.beginPath(); ctx.arc(612, y + 76, 20, 0, Math.PI * 2); ctx.fill();
+                ctx.fillStyle = '#e11d48';
+                ctx.beginPath(); ctx.arc(612, y + 76, 7, 0, Math.PI * 2); ctx.fill();
+
+                ctx.fillStyle = '#0f172a';
+                ctx.fillRect(512, y + 112, 210, 28);
+                ctx.fillStyle = '#38bdf8';
+                ctx.font = '800 10px monospace';
+                const latNum = Number(ord.lat || state.settings.baseLat || 8.4273).toFixed(5);
+                const lngNum = Number(ord.lng || state.settings.baseLng || -82.4321).toFixed(5);
+                ctx.fillText(`GPS: ${latNum}, ${lngNum}`, 520, y + 130);
 
                 y += 168;
                 ctx.fillStyle = '#475569';
@@ -11124,33 +11587,38 @@ Queremos regalarte un *Cupón VIP del ${couponPct}% de Descuento* con el código
                             }
                             isFirstOrdersSnapshot = false;
                         } else {
-                            const loadedOrders = [];
+                            const uniqueOrdersMap = new Map();
                             let newlyArrivedOrder = null;
 
                             snapshot.forEach(d => {
                                 const raw = d.data();
+                                if (!raw || !raw.id) return;
+                                const cleanId = String(raw.id).trim();
                                 let parsedItems = [];
                                 try {
                                     parsedItems = raw.itemsJson ? JSON.parse(raw.itemsJson) : (raw.items || []);
                                 } catch (e) { parsedItems = []; }
-                                const existingLocal = state.orders.find(o => o.id === raw.id);
+                                const existingLocal = state.orders.find(o => String(o.id).trim() === cleanId);
                                 const fullOrd = {
                                     ...raw,
+                                    id: cleanId,
+                                    total: Math.max(0, Number(raw.total) || 0),
+                                    paidAmount: Math.max(0, Number(raw.paidAmount) || 0),
                                     items: parsedItems,
                                     signatureDataUrl: raw.signatureDataUrl || existingLocal?.signatureDataUrl || null,
                                     evidencePhotoUrl: raw.evidencePhotoUrl || existingLocal?.evidencePhotoUrl || null,
                                     returnPhotoUrl: raw.returnPhotoUrl || existingLocal?.returnPhotoUrl || null
                                 };
-                                loadedOrders.push(fullOrd);
+                                uniqueOrdersMap.set(cleanId, fullOrd);
 
-                                if (!isFirstOrdersSnapshot && !knownCloudOrderIds.has(fullOrd.id)) {
+                                if (!isFirstOrdersSnapshot && !knownCloudOrderIds.has(cleanId)) {
                                     newlyArrivedOrder = fullOrd;
                                 }
-                                knownCloudOrderIds.add(fullOrd.id);
+                                knownCloudOrderIds.add(cleanId);
                             });
 
                             isFirstOrdersSnapshot = false;
-                            state.orders = loadedOrders;
+                            state.orders = Array.from(uniqueOrdersMap.values());
                             renderAllViews();
 
                             if (newlyArrivedOrder && window.app && typeof window.app.triggerNewOrderPartyNotification === 'function') {
